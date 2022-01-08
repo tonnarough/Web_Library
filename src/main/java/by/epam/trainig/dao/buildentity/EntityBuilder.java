@@ -12,5 +12,4 @@ public interface EntityBuilder<T extends Entity> {
 
     void buildResultSetByEntity(PreparedStatement preparedStatement, T entity) throws SQLException;
 
-
 }

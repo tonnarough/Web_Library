@@ -16,7 +16,7 @@ public class BuilderFactory implements EntityBuilderFactory {
         EntityBuilder<T> builder = null;
 
         if (User.class.isAssignableFrom(type)) {
-            if(userBuilder == null){
+            if (userBuilder == null) {
                 userBuilder = new UserBuilder();
             }
             builder = (EntityBuilder<T>) userBuilder;

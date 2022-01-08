@@ -19,4 +19,5 @@ public interface QueryOperation {
     <T extends Entity> void create(List<String> entityColumns, Table table, T entity, Class<T> type);
 
     <T extends Entity> Optional<T> findBy(Table table, String column, String value, Class<T> type);
+
 }

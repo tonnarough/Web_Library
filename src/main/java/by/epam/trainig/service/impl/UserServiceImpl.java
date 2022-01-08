@@ -9,13 +9,8 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private DAOFactory daoFactory = DAOFactory.getInstance();
-
-    public UserServiceImpl() {
-    }
-
     @Override
     public List<User> getAllUsers() throws SQLException {
-        return daoFactory.entityDAO(User.class).findAll();
+        return null;
     }
 }

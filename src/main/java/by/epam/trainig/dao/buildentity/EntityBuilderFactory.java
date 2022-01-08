@@ -6,7 +6,7 @@ public interface EntityBuilderFactory {
 
     <T extends Entity> EntityBuilder<T> entityBuild(Class<T> type);
 
-    static BuilderFactory getInstance(){
+    static BuilderFactory getInstance() {
         return BuilderFactory.getInstance();
     }
 

@@ -17,13 +17,13 @@ public final class QueryOperationImpl implements QueryOperation {
     private String query;
     private final EntityBuilderFactory entityBuilderFactory = EntityBuilderFactory.getInstance();
 
-    private QueryOperationImpl(){
+    private QueryOperationImpl() {
     }
 
     @Override
     public void update(Table table, String column1, Object value1, String column2, Object value2) {
 
-        query = QueryOperator.UPDATE + " " + table.tableName() + " " + QueryOperator.SET + " " + column1 +
+        query = QueryOperator.UPDATE + " " + table.name() + " " + QueryOperator.SET + " " + column1 +
                 " = '" + value1 + "' " + QueryOperator.WHERE + " " + column2 + " = '" + value2 + "' ";
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
@@ -39,7 +39,7 @@ public final class QueryOperationImpl implements QueryOperation {
     public <T extends Entity> List<T> findAll(Table table, Class<T> type) throws SQLException {
 
         final List<T> entityList = new ArrayList<>();
-        query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.tableName();
+        query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name();
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final Statement statement = connection.createStatement();
@@ -59,7 +59,7 @@ public final class QueryOperationImpl implements QueryOperation {
     @Override
     public void delete(Table table, String column, Object values) {
 
-        query = QueryOperator.DELETE + " " + QueryOperator.FROM + " " + table.tableName() + " "
+        query = QueryOperator.DELETE + " " + QueryOperator.FROM + " " + table.name() + " "
                 + QueryOperator.WHERE + " " + column + " = " + values;
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
@@ -84,7 +84,7 @@ public final class QueryOperationImpl implements QueryOperation {
         subquery.replace(subquery.lastIndexOf(","), subquery.length(), " )");
         numberOfValues.replace(numberOfValues.lastIndexOf(","), numberOfValues.length(), " )");
 
-        query = QueryOperator.INSERT + " " + QueryOperator.INTO + " " + table.tableName() +
+        query = QueryOperator.INSERT + " " + QueryOperator.INTO + " " + table.name() +
                 " ( " + subquery + " " + QueryOperator.VALUES + " ( " + numberOfValues;
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
@@ -102,7 +102,7 @@ public final class QueryOperationImpl implements QueryOperation {
 
         Optional<T> entityOptional = null;
 
-        query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.tableName() +
+        query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() +
                 " " + QueryOperator.WHERE + " " + column + " = " + value;
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
@@ -119,11 +119,11 @@ public final class QueryOperationImpl implements QueryOperation {
         return entityOptional;
     }
 
-    public static QueryOperationImpl getInstance(){
+    public static QueryOperationImpl getInstance() {
         return Holder.INSTANCE;
     }
 
-    private static class Holder{
+    private static class Holder {
         public final static QueryOperationImpl INSTANCE = new QueryOperationImpl();
     }
 }

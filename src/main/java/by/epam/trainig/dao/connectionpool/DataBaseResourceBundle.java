@@ -5,20 +5,20 @@ import java.util.ResourceBundle;
 
 public final class DataBaseResourceBundle {
 
-    private static DataBaseResourceBundle dataBaseResourceBundle = new DataBaseResourceBundle();
-
-    private ResourceBundle resourceBundle = ResourceBundle.getBundle("database");
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("database");
 
     private DataBaseResourceBundle() {
     }
 
-    public static DataBaseResourceBundle getDataBaseResourceBundle(){
-        return dataBaseResourceBundle;
+    public static DataBaseResourceBundle getDataBaseResourceBundle() {
+        return Holder.INSTANCE;
     }
 
-    public String getValue(String propertiesName){
+    public String getValue(String propertiesName) {
         return resourceBundle.getString(propertiesName);
     }
 
-
+    private static class Holder {
+        private static final DataBaseResourceBundle INSTANCE = new DataBaseResourceBundle();
+    }
 }

@@ -35,14 +35,13 @@ public final class MethodUserDAO implements UserDAO {
     public void delete(String column, Object values) {
 
         queryOperation.delete(tableName, column, values);
-
     }
 
     @Override
     public void create(User user) {
 
-       queryOperation.create(databaseEntityContext.getDatabaseContext(tableName.tableName()),
-               tableName, user, User.class);
+        queryOperation.create(databaseEntityContext.getDatabaseContext(tableName.name()),
+                tableName, user, User.class);
     }
 
 
@@ -50,13 +49,13 @@ public final class MethodUserDAO implements UserDAO {
     public Optional<User> findUserById(Integer id) {
 
         return queryOperation.findBy(tableName, databaseEntityContext
-                .getDatabaseContext(tableName.tableName()).get(0), id.toString(), User.class);
+                .getDatabaseContext(tableName.name()).get(0), id.toString(), User.class);
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
 
         return queryOperation.findBy(tableName, databaseEntityContext
-                .getDatabaseContext(tableName.tableName()).get(3), email.toString(), User.class);
+                .getDatabaseContext(tableName.name()).get(3), email.toString(), User.class);
     }
 }

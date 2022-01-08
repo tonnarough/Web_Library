@@ -6,7 +6,7 @@ import by.epam.trainig.entity.Entity;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface EntityDAO <T extends Entity>{
+public interface EntityDAO<T extends Entity> {
 
     void update(String column1, Object value1, String column2, Object value2);
 

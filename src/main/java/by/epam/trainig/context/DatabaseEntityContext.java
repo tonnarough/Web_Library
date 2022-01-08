@@ -30,7 +30,7 @@ public class DatabaseEntityContext {
         for (int i = 0; i < classArray.length; i++) {
             Class clazz = classArray[i];
             Table tableAnnotation = (Table) clazz.getAnnotation(Table.class);
-            tableName = tableAnnotation.tableName();
+            tableName = tableAnnotation.name();
             List<String> collect = Arrays.stream(clazz.getDeclaredFields()).map(field -> {
                 Column columnAnnotation = field.getAnnotation(Column.class);
                 return columnAnnotation.name();

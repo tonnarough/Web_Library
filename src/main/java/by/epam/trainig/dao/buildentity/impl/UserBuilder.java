@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public final class UserBuilder implements EntityBuilder <User> {
+public final class UserBuilder implements EntityBuilder<User> {
 
     private List<String> userColumns = DatabaseEntityContext.getDatabaseEntityContext()
             .getDatabaseContext("users");

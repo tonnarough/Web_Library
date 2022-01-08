@@ -1,11 +1,10 @@
 package by.epam.trainig.dao;
 
-import by.epam.trainig.dao.buildentity.EntityBuilder;
 import by.epam.trainig.dao.impl.MethodUserDAO;
 import by.epam.trainig.entity.Entity;
 import by.epam.trainig.entity.user.User;
 
-public class DAOFactory implements EntityDAOFactory{
+public class DAOFactory implements EntityDAOFactory {
 
     private EntityDAO<User> userDAO;
 
@@ -17,7 +16,7 @@ public class DAOFactory implements EntityDAOFactory{
         EntityDAO<T> entityDAO = null;
 
         if (User.class.isAssignableFrom(type)) {
-            if(userDAO == null){
+            if (userDAO == null) {
                 userDAO = new MethodUserDAO();
             }
             entityDAO = (EntityDAO<T>) userDAO;
@@ -25,11 +24,11 @@ public class DAOFactory implements EntityDAOFactory{
         return entityDAO;
     }
 
-    public static DAOFactory getInstance(){
+    public static DAOFactory getInstance() {
         return Holder.INSTANCE;
     }
 
-    private static class Holder{
+    private static class Holder {
         private static final DAOFactory INSTANCE = new DAOFactory();
     }
 }

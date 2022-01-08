@@ -6,7 +6,8 @@ public interface EntityDAOFactory {
 
     <T extends Entity> EntityDAO<T> entityDAO(Class<T> type);
 
-    static DAOFactory getInstance(){
+    static DAOFactory getInstance() {
         return DAOFactory.getInstance();
     }
+
 }

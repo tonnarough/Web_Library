@@ -7,7 +7,7 @@ import by.epam.trainig.annotation.Table;
 import java.sql.Date;
 import java.util.Objects;
 
-@Table(tableName = "users")
+@Table(name = "users")
 public class User implements Entity {
 
     @Column(name = "usersId")
