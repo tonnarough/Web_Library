@@ -7,13 +7,231 @@
   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
   http://www.liquibase.org/xml/ns/pro
   http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-    <changeSet context="legacy" author="Anton" id="202201100220">
-        <createTable tableName="test1">
+    <changeSet author="Anton" id="202201100220">
+        <createTable tableName="test">
             <column autoIncrement="true" name="id" type="SERIAL">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ids"/>
             </column>
             <column name="user_name" type="VARCHAR(255)"/>
             <column name="preferences" type="TEXT"/>
         </createTable>
+
+        <!--TABLE ROLES-->
+        <createTable tableName="roles">
+            <column name="id"
+                    type="INT"
+                    autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_ROLES_ID"
+                             unique="true"/>
+            </column>
+
+            <column name="title"
+                    type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!--TABLE USERS-->
+        <createTable tableName="users">
+            <column name="id"
+                    type="INT"
+                    autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_USERS_ID"
+                             unique="true"/>
+            </column>
+
+            <column name="role_id"
+                    type="INT">
+                <constraints foreignKeyName="FK_ROLE_ID"/>
+            </column>
+
+            <column name="user_details_id"
+                    type="INT">
+                <constraints foreignKeyName="FK_USER_DETAILS_ID"/>
+            </column>
+
+            <column name="login"
+                    type="VARCHAR(255)"/>
+
+            <column name="password"
+                    type="VARCHAR(255)"/>
+        </createTable>
+
+        <!--TABLE USER DETAILS-->
+        <createTable tableName="user_details">
+            <column name="id"
+                    type="INT"
+                    autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_USER_DETAILS_ID"
+                             unique="true"/>
+            </column>
+
+            <column name="last_name"
+                    type="VARCHAR(20)"/>
+
+            <column name="first_name"
+                    type="VARCHAR(20)"/>
+
+            <column name="father_name"
+                    type="VARCHAR(20)">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="email"
+                    type="VARCHAR(255)"/>
+
+            <column name="birthday"
+                    type="DATETIME"/>
+        </createTable>
+
+        <!--TABLE SUBSCRIPTION TYPES-->
+        <createTable tableName="subscription_types">
+            <column name="id"
+                    type="INT"
+                    autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_SUBSCRIPTION_TYPES_ID"
+                             unique="true"/>
+            </column>
+
+            <column name="description"
+                    type="VARCHAR(255)"/>
+
+            <column name="price"
+                    type="DECIMAL(4,2)"/>
+        </createTable>
+
+        <!--TABLE SUBSCRIPTION-->
+        <createTable tableName="subscriptions">
+            <column name="id"
+                    type="INT"
+                    autoIncrement="true">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="PK_SUBSCRIPTION_ID"
+                             unique="true"/>
+            </column>
+
+            <column name="user_id"
+                    type="INT">
+                <constraints foreignKeyName="FK_USER_ID"/>
+            </column>
+
+            <column name="subscription_type_id"
+                    type="INT">
+                <constraints foreignKeyName="FK_SUBSCRIPTION_TYPES_ID"/>
+            </column>
+
+            <column name="expired"
+                    type="TINYINT"/>
+
+            <column name="start_date"
+                    type="DATETIME"/>
+
+            <column name="end_date"
+                    type="DATETIME"/>
+        </createTable>
+
+        <!--DATABASE INDEXES - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!--USERS INDEX-->
+        <createIndex tableName="users"
+                     indexName="IX_LOGIN">
+
+            <column name="login">
+                <constraints unique="true"/>
+            </column>
+        </createIndex>
+
+        <createIndex tableName="users"
+                     indexName="FK_ROLE_ID">
+
+            <column name="role_id"/>
+        </createIndex>
+
+        <createIndex tableName="users"
+                     indexName="FK_USER_DETAILS_ID">
+
+            <column name="user_details_id"/>
+        </createIndex>
+
+        <!--USER DETAILS INDEX-->
+        <createIndex tableName="user_details"
+                     indexName="IX_EMAIL">
+
+            <column name="email">
+                <constraints unique="true"/>
+            </column>
+        </createIndex>
+
+        <createIndex tableName="user_details"
+                     indexName="IX_FL_NAME">
+
+            <column name="last_name"/>
+            <column name="first_name"/>
+        </createIndex>
+
+        <!--SUBSCRIPTION TYPES INDEX-->
+        <createIndex tableName="subscription_types"
+                     indexName="IX_DESCRIPTION_PRICE">
+
+            <column name="description">
+                <constraints unique="true"/>
+            </column>
+            <column name="price">
+                <constraints unique="true"/>
+            </column>
+        </createIndex>
+
+        <!--SUBSCRIPTION INDEX-->
+        <createIndex tableName="subscriptions"
+                     indexName="IX_EXPIRED">
+
+            <column name="expired"/>
+        </createIndex>
+
+        <createIndex tableName="subscriptions"
+                     indexName="FK_SUBSCRIPTION_TYPES_ID">
+
+            <column name="subscription_type_id"/>
+        </createIndex>
+
+        <createIndex tableName="subscriptions"
+                     indexName="FK_USERS_ID">
+
+            <column name="user_id"/>
+        </createIndex>
+
+        <!--DATABASE REFERENCES - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="role_id"
+                                 constraintName="FK_ROLE_ID"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="users"
+                                 baseColumnNames="user_details_id"
+                                 constraintName="FK_USER_DETAILS_ID"
+                                 referencedTableName="user_details"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="subscriptions"
+                                 baseColumnNames="subscription_type_id"
+                                 constraintName="FK_SUBSCRIPTION_TYPES_ID"
+                                 referencedTableName="subscription_types"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="subscriptions"
+                                 baseColumnNames="user_id"
+                                 constraintName="FK_USERS_ID"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
     </changeSet>
 </databaseChangeLog>
