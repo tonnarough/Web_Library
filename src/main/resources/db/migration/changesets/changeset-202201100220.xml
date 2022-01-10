@@ -86,6 +86,9 @@
             <column name="email"
                     type="VARCHAR(255)"/>
 
+            <column name="mobile"
+                    type="VARCHAR(13)"/>
+
             <column name="birthday"
                     type="DATETIME"/>
         </createTable>
@@ -175,6 +178,14 @@
 
             <column name="last_name"/>
             <column name="first_name"/>
+        </createIndex>
+
+        <createIndex tableName="user_details"
+                     indexName="IX_MOBILE">
+
+            <column name="mobile">
+                <constraints unique="true"/>
+            </column>
         </createIndex>
 
         <!--SUBSCRIPTION TYPES INDEX-->
