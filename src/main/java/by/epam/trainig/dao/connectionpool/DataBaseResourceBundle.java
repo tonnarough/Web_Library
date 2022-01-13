@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 
 public final class DataBaseResourceBundle {
 
-    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("database");
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("liquibase");
 
     private DataBaseResourceBundle() {
     }

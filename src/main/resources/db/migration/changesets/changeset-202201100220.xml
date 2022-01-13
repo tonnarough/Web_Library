@@ -161,7 +161,9 @@
         <createIndex tableName="users"
                      indexName="FK_USER_DETAILS_ID">
 
-            <column name="user_details_id"/>
+            <column name="user_details_id">
+                <constraints unique="true"/>
+            </column>
         </createIndex>
 
         <!--USER DETAILS INDEX-->
@@ -224,7 +226,7 @@
                                  baseColumnNames="role_id"
                                  constraintName="FK_ROLE_ID"
                                  referencedTableName="roles"
-                                 referencedColumnNames="id"/>
+                                 referencedColumnNames=" id"/>
 
         <addForeignKeyConstraint baseTableName="users"
                                  baseColumnNames="user_details_id"

@@ -7,7 +7,7 @@ import by.epam.trainig.entity.user.User;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DatabaseEntityContext {
+public class  DatabaseEntityContext {
 
     private Class[] classArray = {User.class};
     private Map<String, List<String>> entityDatabaseMap = new HashMap<>();

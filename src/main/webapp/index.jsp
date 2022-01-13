@@ -1,5 +1,8 @@
 <html>
+<head>
+    <title>My awesome app!</title>
+</head>
 <body>
-<h2>Hello World!</h2>
+<jsp:forward page="/WEB-INF/jsp/main_unauth.jsp" />
 </body>
 </html>

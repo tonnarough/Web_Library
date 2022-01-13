@@ -9,7 +9,6 @@ import java.util.List;
 public final class ConnectionPool {
 
     DataBaseResourceBundle dataBaseResourceBundle = DataBaseResourceBundle.getDataBaseResourceBundle();
-    private final String driver = dataBaseResourceBundle.getValue(DataBaseProperties.DRIVER);
     private final String url = dataBaseResourceBundle.getValue(DataBaseProperties.URL);
     private final String user = dataBaseResourceBundle.getValue(DataBaseProperties.USER);
     private final String password = dataBaseResourceBundle.getValue(DataBaseProperties.PASSWORD);
@@ -32,11 +31,12 @@ public final class ConnectionPool {
     private void initConnectionPool() {
         for (int i = 0; i < poolSize; i++) {
             try {
+                DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
                 Connection connection = ProxyConnection.getProxyConnection(DriverManager
                         .getConnection(url, user, password));
                 availableConnections.add(connection);
             } catch (SQLException e) {
-                //TODO logger
+                e.printStackTrace();
             }
         }
     }

@@ -3,5 +3,12 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>Library</servlet-name>
+    <servlet-class>by.epam.trainig.controller.Controller</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Library</servlet-name>
+    <url-pattern>/controller</url-pattern>
+  </servlet-mapping>
 </web-app>

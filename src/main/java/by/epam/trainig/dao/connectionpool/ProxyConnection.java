@@ -7,7 +7,7 @@ import java.util.concurrent.Executor;
 
 public final class ProxyConnection implements Connection {
 
-    private Connection connection;
+    private final Connection connection;
     private static ProxyConnection proxyConnection;
 
     private ProxyConnection(Connection connection) {

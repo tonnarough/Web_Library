@@ -60,7 +60,7 @@ public final class QueryOperationImpl implements QueryOperation {
     public void delete(Table table, String column, Object values) {
 
         query = QueryOperator.DELETE + " " + QueryOperator.FROM + " " + table.name() + " "
-                + QueryOperator.WHERE + " " + column + " = " + values;
+                + QueryOperator.WHERE + " " + column + " = '" + values + "'";
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final PreparedStatement prepareStatement = connection.prepareStatement(query)) {
@@ -98,25 +98,25 @@ public final class QueryOperationImpl implements QueryOperation {
     }
 
     @Override
-    public <T extends Entity> Optional<T> findBy(Table table, String column, String value, Class<T> type) {
-
-        Optional<T> entityOptional = null;
+    public <T extends Entity> Optional<T> findBy(Table table, String column,
+                                                 String value, Class<T> type) {
 
         query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() +
-                " " + QueryOperator.WHERE + " " + column + " = " + value;
+                " " + QueryOperator.WHERE + " " + column + " = '" + value + "'";
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final Statement statement = connection.createStatement();
              final ResultSet resultSet = statement.executeQuery(query)) {
 
-            while (resultSet.next()) {
-                T entity = entityBuilderFactory.entityBuild(type).buildEntity(resultSet);
-                entityOptional = Optional.ofNullable(entity);
-            }
-        } catch (SQLException e) {
+            return resultSet.next()
+                    ? Optional.ofNullable(entityBuilderFactory
+                    .entityBuild(type).buildEntity(resultSet))
+                    : Optional.empty();
+        } catch (
+                SQLException e) {
             //TODO logger
         }
-        return entityOptional;
+        return Optional.empty();
     }
 
     public static QueryOperationImpl getInstance() {

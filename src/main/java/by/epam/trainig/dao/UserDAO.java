@@ -9,6 +9,6 @@ public interface UserDAO extends EntityDAO<User> {
 
     Optional<User> findUserById(Integer id);
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByLogin(String login);
 
 }

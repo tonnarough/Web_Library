@@ -53,9 +53,9 @@ public final class MethodUserDAO implements UserDAO {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByLogin(String login) {
 
         return queryOperation.findBy(tableName, databaseEntityContext
-                .getDatabaseContext(tableName.name()).get(3), email.toString(), User.class);
+                .getDatabaseContext(tableName.name()).get(3), login, User.class);
     }
 }
