@@ -45,7 +45,8 @@
             </column>
 
             <column name="role_id"
-                    type="INT">
+                    type="INT"
+                    defaultValue="1">
                 <constraints foreignKeyName="FK_ROLE_ID"/>
             </column>
 
