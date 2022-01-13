@@ -1,0 +1,19 @@
+body{
+    background-color: coral;
+}
+.singIn #login_id
+{
+    width: 300px;
+    background-color: indianred;
+    height: 100px;
+    outline: none;
+    border: none;
+}
+.singIn #password_id
+{
+    width: 300px;
+    background-color: indianred;
+    height: 100px;
+    outline: none;
+    border: none;
+}
