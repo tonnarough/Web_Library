@@ -18,6 +18,12 @@
             <input type="hidden" name="command" value="registration">
             <input type="text" required placeholder="login" name="login">
             <input type="password" required placeholder="password" name="password"><br>
+            <input type="text" required placeholder="last name" name="last name"><br>
+            <input type="text" required placeholder="first name" name="first name"><br>
+            <input type="text" required placeholder="father name" name="father name"><br>
+            <input type="text" required placeholder="email" name="email"><br>
+            <input type="text" required placeholder="mobile" name="mobile"><br>
+            <input type="text" required placeholder="birthday" name="birthday"><br>
             <input class="button" type="submit" value="Registration"><br>
         </label><br>
     </form>
