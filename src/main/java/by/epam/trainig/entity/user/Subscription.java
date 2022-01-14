@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Table(name = "subscriptions")
-public class Subscriptions implements Entity {
+public class Subscription implements Entity {
 
     @Column(name = "id")
     private int id;
@@ -23,10 +23,10 @@ public class Subscriptions implements Entity {
     @Column(name = "end_date")
     private Date endDate;
 
-    public Subscriptions() {
+    public Subscription() {
     }
 
-    public Subscriptions(int id, int userId, int subscriptionTypeId,
+    public Subscription(int id, int userId, int subscriptionTypeId,
                          boolean expired, Date startDate, Date endDate) {
         this.id = id;
         this.userId = userId;
@@ -88,7 +88,7 @@ public class Subscriptions implements Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Subscriptions that = (Subscriptions) o;
+        Subscription that = (Subscription) o;
         return id == that.id && userId == that.userId && subscriptionTypeId == that.subscriptionTypeId &&
                 expired == that.expired && startDate.equals(that.startDate) && endDate.equals(that.endDate);
     }
@@ -110,3 +110,4 @@ public class Subscriptions implements Entity {
                 '}';
     }
 }
+
