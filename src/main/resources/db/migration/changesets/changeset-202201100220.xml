@@ -91,7 +91,7 @@
                     type="VARCHAR(13)"/>
 
             <column name="birthday"
-                    type="DATETIME"/>
+                    type="DATE"/>
         </createTable>
 
         <!--TABLE SUBSCRIPTION TYPES-->
