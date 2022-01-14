@@ -2,14 +2,14 @@ package by.epam.trainig.context;
 
 import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
-import by.epam.trainig.entity.user.User;
+import by.epam.trainig.entity.user.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class  DatabaseEntityContext {
 
-    private Class[] classArray = {User.class};
+    private Class[] classArray = {User.class, UserDetail.class, Subscriptions.class, SubscribtionType.class, Role.class};
     private Map<String, List<String>> entityDatabaseMap = new HashMap<>();
     private List<String> entityColumns = new ArrayList<>();
     private static DatabaseEntityContext databaseEntityContext;
