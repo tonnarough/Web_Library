@@ -3,9 +3,9 @@ package by.epam.trainig.dao.buildentity.impl;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.buildentity.EntityBuilder;
-import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +33,6 @@ public class UserDetailsBuilder implements EntityBuilder<UserDetail> {
 
     @Override
     public void buildResultSetByEntity(PreparedStatement preparedStatement, UserDetail entity) throws SQLException {
-        preparedStatement.setInt(1, entity.getId());
         preparedStatement.setString(2, entity.getLastName());
         preparedStatement.setString(3, entity.getFirstName());
         preparedStatement.setString(4, entity.getFatherName());
