@@ -1,5 +1,6 @@
 package by.epam.trainig.controller;
 
+import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.controller.command.Command;
 import by.epam.trainig.controller.command.CommandProvider;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
@@ -22,6 +23,7 @@ public class Controller extends HttpServlet {
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
         ConnectionPool.getConnectionPool().getConnection();
+        DatabaseEntityContext.getDatabaseEntityContext();
         super.service(req, res);
     }
 
