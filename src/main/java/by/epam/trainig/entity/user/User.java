@@ -23,11 +23,8 @@ public class User implements Entity {
     public User() {
     }
 
-    public User(int id, int roleId, int userDetailsId, String login,
+    public User(String login,
                 String password) {
-        this.id = id;
-        this.roleId = roleId;
-        this.userDetailsId = userDetailsId;
         this.login = login;
         this.password = password;
     }
