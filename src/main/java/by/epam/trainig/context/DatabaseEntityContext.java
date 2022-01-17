@@ -9,9 +9,8 @@ import java.util.stream.Collectors;
 
 public class  DatabaseEntityContext {
 
-    private Class[] classArray = {User.class, UserDetail.class, Subscriptions.class, SubscribtionType.class, Role.class};
-    private Map<String, List<String>> entityDatabaseMap = new HashMap<>();
-    private List<String> entityColumns = new ArrayList<>();
+    private final Class[] classArray = {User.class, UserDetail.class, Subscription.class, SubscribtionType.class, Role.class};
+    private final Map<String, List<String>> entityDatabaseMap = new HashMap<>();
     private static DatabaseEntityContext databaseEntityContext;
 
     private DatabaseEntityContext() {
@@ -27,8 +26,7 @@ public class  DatabaseEntityContext {
 
     private void initDatabaseContext() {
         String tableName;
-        for (int i = 0; i < classArray.length; i++) {
-            Class clazz = classArray[i];
+        for (Class clazz : classArray) {
             Table tableAnnotation = (Table) clazz.getAnnotation(Table.class);
             tableName = tableAnnotation.name();
             List<String> collect = Arrays.stream(clazz.getDeclaredFields()).map(field -> {
@@ -40,8 +38,7 @@ public class  DatabaseEntityContext {
     }
 
     public List<String> getDatabaseContext(String tableName) {
-        entityColumns = entityDatabaseMap.get(tableName);
-        return entityColumns;
+        return entityDatabaseMap.get(tableName);
     }
 
 }

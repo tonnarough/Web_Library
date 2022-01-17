@@ -22,7 +22,6 @@ public final class CommandProvider{
     }
 
     public Command getCommand(String commandName){
-        Command command = commands.get(commandName);
-        return command;
+        return commands.get(commandName);
     }
 }

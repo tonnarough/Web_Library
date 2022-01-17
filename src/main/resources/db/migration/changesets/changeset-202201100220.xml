@@ -46,7 +46,7 @@
 
             <column name="role_id"
                     type="INT"
-                    defaultValue="1">
+                    defaultValue="2">
                 <constraints foreignKeyName="FK_ROLE_ID"/>
             </column>
 
@@ -113,7 +113,7 @@
         </createTable>
 
         <!--TABLE SUBSCRIPTION-->
-        <createTable tableName="subscriptions">
+        <createTable tableName="subscription">
             <column name="id"
                     type="INT"
                     autoIncrement="true">
@@ -204,19 +204,19 @@
         </createIndex>
 
         <!--SUBSCRIPTION INDEX-->
-        <createIndex tableName="subscriptions"
+        <createIndex tableName="subscription"
                      indexName="IX_EXPIRED">
 
             <column name="expired"/>
         </createIndex>
 
-        <createIndex tableName="subscriptions"
+        <createIndex tableName="subscription"
                      indexName="FK_SUBSCRIPTION_TYPES_ID">
 
             <column name="subscription_type_id"/>
         </createIndex>
 
-        <createIndex tableName="subscriptions"
+        <createIndex tableName="subscription"
                      indexName="FK_USERS_ID">
 
             <column name="user_id"/>
@@ -235,13 +235,13 @@
                                  referencedTableName="user_details"
                                  referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint baseTableName="subscriptions"
+        <addForeignKeyConstraint baseTableName="subscription"
                                  baseColumnNames="subscription_type_id"
                                  constraintName="FK_SUBSCRIPTION_TYPES_ID"
                                  referencedTableName="subscription_types"
                                  referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint baseTableName="subscriptions"
+        <addForeignKeyConstraint baseTableName="subscription"
                                  baseColumnNames="user_id"
                                  constraintName="FK_USERS_ID"
                                  referencedTableName="users"

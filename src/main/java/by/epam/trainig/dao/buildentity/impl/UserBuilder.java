@@ -14,7 +14,7 @@ public final class UserBuilder implements EntityBuilder<User> {
 
     private final Class<User> entityClass = User.class;
     private final Table tableName = entityClass.getAnnotation(Table.class);
-    private List<String> userColumns = DatabaseEntityContext.getDatabaseEntityContext()
+    private final List<String> userColumns = DatabaseEntityContext.getDatabaseEntityContext()
             .getDatabaseContext(tableName.name());
 
     @Override

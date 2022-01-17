@@ -89,7 +89,6 @@ public final class QueryOperationImpl implements QueryOperation {
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              PreparedStatement prepareStatement = connection.prepareStatement(query)) {
-//            userBuilder.buildResultSetByEntity(prepareStatement, user);
             entityBuilderFactory.entityBuild(type).buildResultSetByEntity(prepareStatement, entity);
             prepareStatement.executeUpdate();
         } catch (SQLException e) {

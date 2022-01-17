@@ -28,9 +28,8 @@ public class UserDetail implements Entity {
     public UserDetail() {
     }
 
-    public UserDetail(int id, String lastName, String firstName,
+    public UserDetail(String lastName, String firstName,
                       String fatherName, String email, String mobile, Date birthday) {
-        this.id = id;
         this.lastName = lastName;
         this.firstName = firstName;
         this.fatherName = fatherName;

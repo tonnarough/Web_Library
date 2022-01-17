@@ -6,13 +6,15 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Welcome to webapp</title>
 </head>
 <body>
 <h1 style="color: indianred"> Hello </h1>
-
+<c:set var="message" scope="page" value="${2*2000}" />
+<c:out value="${message}"/>
 <%
     String regInfo = request.getParameter("Registration info");
     if(regInfo != null){

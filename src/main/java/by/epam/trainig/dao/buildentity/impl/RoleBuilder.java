@@ -15,7 +15,7 @@ public class RoleBuilder implements EntityBuilder<Role> {
 
     private final Class<Role> entityClass = Role.class;
     private final Table tableName = entityClass.getAnnotation(Table.class);
-    private List<String> roleColumns = DatabaseEntityContext.getDatabaseEntityContext()
+    private final List<String> roleColumns = DatabaseEntityContext.getDatabaseEntityContext()
             .getDatabaseContext(tableName.name());
 
     @Override
