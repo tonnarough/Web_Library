@@ -96,6 +96,31 @@ public final class QueryOperationImpl implements QueryOperation {
         }
     }
 
+    public <T extends Entity> void create(List<String> entityColumns, Table table, T entity, Class<T> type, Connection connection) {
+
+        final StringBuilder subquery = new StringBuilder();
+        final StringBuilder numberOfValues = new StringBuilder();
+
+        for (String column : entityColumns) {
+            subquery.append(column).append(", ");
+            numberOfValues.append("?, ");
+        }
+
+        subquery.replace(subquery.lastIndexOf(","), subquery.length(), " )");
+        numberOfValues.replace(numberOfValues.lastIndexOf(","), numberOfValues.length(), " )");
+
+        query = QueryOperator.INSERT + " " + QueryOperator.INTO + " " + table.name() +
+                " ( " + subquery + " " + QueryOperator.VALUES + " ( " + numberOfValues;
+
+        try (PreparedStatement prepareStatement = connection.prepareStatement(query)) {
+            entityBuilderFactory.entityBuild(type).buildResultSetByEntity(prepareStatement, entity);
+            prepareStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            //TODO logger
+        }
+    }
+
     @Override
     public <T extends Entity> Optional<T> findBy(Table table, String column,
                                                  String value, Class<T> type) {

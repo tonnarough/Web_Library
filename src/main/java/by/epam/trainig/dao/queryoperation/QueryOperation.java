@@ -4,6 +4,7 @@ import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.entity.Entity;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,8 @@ public interface QueryOperation {
     void delete(Table table, String column, Object values);
 
     <T extends Entity> void create(List<String> entityColumns, Table table, T entity, Class<T> type);
+
+    <T extends Entity> void create(List<String> entityColumns, Table table, T entity, Class<T> type, Connection connection);
 
     <T extends Entity> Optional<T> findBy(Table table, String column, String value, Class<T> type);
 
