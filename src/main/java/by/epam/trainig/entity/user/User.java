@@ -25,6 +25,7 @@ public class User implements Entity {
 
     public User(String login,
                 String password) {
+        roleId = 2;
         this.login = login;
         this.password = password;
     }
