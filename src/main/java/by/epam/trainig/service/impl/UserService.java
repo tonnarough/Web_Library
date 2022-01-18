@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import static at.favre.lib.crypto.bcrypt.BCrypt.MIN_COST;
+
 public class UserService implements EntityService<User> {
 
     private final MethodUserDAO methodUserDAO = new MethodUserDAO();
@@ -53,11 +55,18 @@ public class UserService implements EntityService<User> {
 
     public void registration(String login, String password, String lastName, String firstName,
                              String fatherName, String email, String mobile, Date birthday) {
-        User user = new User(login, password);
-        UserDetail userDetail = new UserDetail(lastName, firstName, fatherName, email, mobile, birthday);
 
-        methodUserDAO.create(user);
-        methodUserDetailDAO.create(userDetail);
+        final char[] rawPassword = password.toCharArray();
+        String hashedPassword = hasher.hashToString(MIN_COST,rawPassword);
+
+        final User user = new User(login, hashedPassword);
+        final UserDetail userDetail = new UserDetail(lastName, firstName, fatherName, email, mobile, birthday);
+
+        try {
+            methodUserDAO.create(user, userDetail);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isExists(String login) {
