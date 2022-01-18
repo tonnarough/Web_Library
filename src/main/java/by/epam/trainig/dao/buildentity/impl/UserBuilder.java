@@ -31,6 +31,9 @@ public final class UserBuilder implements EntityBuilder<User> {
     @Override
     public void buildResultSetByEntity(PreparedStatement preparedStatement, User entity) throws SQLException {
 
+        preparedStatement.setInt(1, entity.getId());
+        preparedStatement.setInt(2, entity.getRoleId());
+        preparedStatement.setInt(3, entity.getUserDetailsId());
         preparedStatement.setString(4, entity.getLogin());
         preparedStatement.setString(5, entity.getPassword());
     }

@@ -33,6 +33,7 @@ public class UserDetailsBuilder implements EntityBuilder<UserDetail> {
 
     @Override
     public void buildResultSetByEntity(PreparedStatement preparedStatement, UserDetail entity) throws SQLException {
+        preparedStatement.setInt(1, entity.getId());
         preparedStatement.setString(2, entity.getLastName());
         preparedStatement.setString(3, entity.getFirstName());
         preparedStatement.setString(4, entity.getFatherName());
