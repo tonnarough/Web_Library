@@ -42,8 +42,8 @@ public class MethodUserDetailDAO implements EntityDAO<UserDetail> {
     }
 
     @Override
-    public Optional<UserDetail> findBy(Object value) {
-        return queryOperation.findBy(tableName, userDetailColumnNames.get(userDetailColumnNames.indexOf(String.format("%s", value))),
+    public Optional<UserDetail> findBy(String columnName, Object value) {
+        return queryOperation.findBy(tableName, userDetailColumnNames.get(userDetailColumnNames.indexOf(String.format("%s", columnName))),
                 value, UserDetail.class);
     }
 }
