@@ -20,6 +20,10 @@ public final class QueryOperationImpl implements QueryOperation {
     private QueryOperationImpl() {
     }
 
+    public static QueryOperationImpl getInstance() {
+        return Holder.INSTANCE;
+    }
+
     @Override
     public void update(Table table, String column1, Object value1, String column2, Object value2) {
 
@@ -142,10 +146,6 @@ public final class QueryOperationImpl implements QueryOperation {
             //TODO logger
         }
         return Optional.empty();
-    }
-
-    public static QueryOperationImpl getInstance() {
-        return Holder.INSTANCE;
     }
 
     private static class Holder {
