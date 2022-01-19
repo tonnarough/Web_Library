@@ -5,6 +5,7 @@ import by.epam.trainig.entity.Entity;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public interface EntityDAO<T extends Entity> {
 
@@ -16,4 +17,5 @@ public interface EntityDAO<T extends Entity> {
 
     void create(T entity);
 
+    Optional<T> findBy(Object value);
 }
