@@ -128,7 +128,7 @@ public final class QueryOperationImpl implements QueryOperation {
 
     @Override
     public <T extends Entity> Optional<T> findBy(Table table, String column,
-                                                 String value, Class<T> type) {
+                                                 Object value, Class<T> type) {
 
         query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() +
                 " " + QueryOperator.WHERE + " " + column + " = '" + value + "'";
@@ -141,8 +141,7 @@ public final class QueryOperationImpl implements QueryOperation {
                     ? Optional.ofNullable(entityBuilderFactory
                     .entityBuild(type).buildEntity(resultSet))
                     : Optional.empty();
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             //TODO logger
         }
         return Optional.empty();
