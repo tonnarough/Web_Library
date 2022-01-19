@@ -96,6 +96,7 @@ public final class QueryOperationImpl implements QueryOperation {
         }
     }
 
+    @Override
     public <T extends Entity> void create(List<String> entityColumns, Table table, T entity, Class<T> type, Connection connection) {
 
         final StringBuilder subquery = new StringBuilder();
