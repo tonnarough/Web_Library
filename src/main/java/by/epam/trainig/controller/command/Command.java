@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public interface Command {
 
-    void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException;
+    CommandResponse execute(CommandRequest request) throws IOException, ServletException;
 
     static Command of(String name) {
         return null;
