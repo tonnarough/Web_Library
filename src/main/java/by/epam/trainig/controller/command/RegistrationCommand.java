@@ -11,7 +11,7 @@ public enum RegistrationCommand implements Command {
     INSTANCE(UserService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
 
     private static final String REGISTRATION_PAGE = "go_to_registration_page";
-    private static final String MAIN_AUTH_PAGE = "go_to_main_auth_page";
+    private static final String SUBSCRIPTION_PAGE = "go_to_subscription_page";
 
     private static final String LOGIN_REQUEST_PARAMETR_NAME = "login";
     private static final String PASSWORD_REQUEST_PARAMETR_NAME = "password";
@@ -46,11 +46,9 @@ public enum RegistrationCommand implements Command {
 
         if (!userService.isExists(login)) {
             userService.registration(login, password, lastName, firstName, fatherName, email, mobile, birthday);
-            return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
+            return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
         } else {
             return requestFactory.createRedirectResponse(propertyContext.get(REGISTRATION_PAGE));
         }
-
-
     }
 }

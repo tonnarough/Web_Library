@@ -2,31 +2,33 @@ package by.epam.trainig.controller.command;
 
 import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
+import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.User;
+import by.epam.trainig.service.SubscriptionService;
 import by.epam.trainig.service.UserService;
-import by.epam.trainig.service.impl.UserServiceImpl;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Date;
 import java.util.Optional;
 
 public enum LoginCommand implements Command {
-    INSTANCE(UserService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
+    INSTANCE(UserService.getInstance(), SubscriptionService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
 
     private static final String LOGIN_PAGE = "go_to_login_page";
     private static final String MAIN_AUTH_PAGE = "go_to_main_auth_page";
+    private static final String SUBSCRIPTION_PAGE = "go_to_subscription_page";
 
     private static final String LOGIN_REQUEST_PARAMETR_NAME = "login";
     private static final String PASSWORD_REQUEST_PARAMETR_NAME = "password";
 
     private final UserService userService;
+    private final SubscriptionService subscriptionService;
     private final PropertyContext propertyContext;
     private final RequestFactory requestFactory;
 
-    LoginCommand(UserService userService, PropertyContext propertyContext, RequestFactory requestFactory) {
+
+    LoginCommand(UserService userService, SubscriptionService subscriptionService, PropertyContext propertyContext, RequestFactory requestFactory) {
         this.userService = userService;
+        this.subscriptionService = subscriptionService;
         this.propertyContext = propertyContext;
         this.requestFactory = requestFactory;
     }
@@ -39,10 +41,15 @@ public enum LoginCommand implements Command {
         final Optional<User> user = userService.authenticate(login, password);
 
         if (user.isPresent()) {
+
+            final Optional<Subscription> subscription = subscriptionService.findByUserId(user.get().getId());
+
+            //noinspection OptionalGetWithoutIsPresent
+            if (subscription.get().getEndDate().getTime() <= (new Date().getTime())) {
+                return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
+            }
             return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
         }
-
         return requestFactory.createRedirectResponse(propertyContext.get(LOGIN_PAGE));
-
     }
 }
