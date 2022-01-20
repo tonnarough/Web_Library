@@ -4,6 +4,7 @@ public enum PagePath {
 
     LOGIN("WEB-INF/jsp/login.jsp"),
     REGISTRATION("/WEB-INF/jsp/registration.jsp"),
+    SUBSCRIPTION("/WEB-INF/jsp/subscription.jsp"),
     MAIN_UNAUTH("/WEB-INF/jsp/main_unauth.jsp"),
     MAIN_AUTH("/WEB-INF/jsp/main_auth.jsp");
 
