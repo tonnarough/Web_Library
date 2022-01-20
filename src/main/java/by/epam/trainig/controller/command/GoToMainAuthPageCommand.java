@@ -1,7 +1,9 @@
 package by.epam.trainig.controller.command;
 
 import by.epam.trainig.controller.PagePath;
-import by.epam.trainig.service.impl.UserService;
+import by.epam.trainig.controller.PropertyContext;
+import by.epam.trainig.controller.RequestFactory;
+import by.epam.trainig.service.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +12,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class GoToMainAuthPageCommand implements Command {
+public enum GoToMainAuthPageCommand implements Command {
+    INSTANCE(PropertyContext.getInstance(), RequestFactory.getInstance());
 
-    private final String path = PagePath.of("main_auth").getPath();
-    private final UserService userService = new UserService();
+    private static final String MAIN_AUTH_PAGE = "page.main_auth";
+
+    private final PropertyContext propertyContext;
+    private final RequestFactory requestFactory;
+
+    GoToMainAuthPageCommand(PropertyContext propertyContext, RequestFactory requestFactory) {
+        this.propertyContext = propertyContext;
+        this.requestFactory = requestFactory;
+    }
 
     @Override
-    public void execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    public CommandResponse execute(CommandRequest request) {
 
-        try {
-            resp.getWriter().println(userService.findAll().toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher(path);
-        requestDispatcher.forward(req, resp);
+        return requestFactory.createForwardResponse(propertyContext.get(MAIN_AUTH_PAGE));
     }
 }
