@@ -11,6 +11,6 @@ public interface Command {
     CommandResponse execute(CommandRequest request) throws IOException, ServletException;
 
     static Command of(String name) {
-        return null;
+        return CommandProvider.getCommand(name);
     }
 }
