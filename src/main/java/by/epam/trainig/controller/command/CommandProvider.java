@@ -1,14 +1,13 @@
 package by.epam.trainig.controller.command;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public enum CommandProvider {
     SIGN_IN(LoginCommand.INSTANCE, "sign_in"),
     REGISTRATION(RegistrationCommand.INSTANCE, "registration"),
+    SUBSCRIPTION(SubscriptionCommand.INSTANCE, "subscription"),
     GO_TO_LOGIN_PAGE(GoToLoginPageCommand.INSTANCE, "go_to_login_page"),
     GO_TO_REGISTRATION_PAGE(GoToRegistrationCommand.INSTANCE, "go_to_registration_page"),
     GO_TO_MAIN_AUTH_PAGE(GoToMainAuthPageCommand.INSTANCE, "go_to_main_auth_page"),
+    GO_TO_SUBSCRIPTION_PAGE(GoToSubscriptionPageCommand.INSTANCE, "go_to_subscription_page"),
     DEFAULT(GoToMainAuthPageCommand.INSTANCE, "go_to_main_auth_page");
 
     private final String path;
