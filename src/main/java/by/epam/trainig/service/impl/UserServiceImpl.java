@@ -3,11 +3,8 @@ package by.epam.trainig.service.impl;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.trainig.dao.EntityDAO;
 import by.epam.trainig.dao.EntityDAOFactory;
-import by.epam.trainig.dao.impl.MethodUserDAO;
-import by.epam.trainig.dao.impl.MethodUserDetailDAO;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
-import by.epam.trainig.service.EntityService;
 import by.epam.trainig.service.UserService;
 
 import java.nio.charset.StandardCharsets;

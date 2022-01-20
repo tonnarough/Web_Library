@@ -19,9 +19,9 @@ public final class MethodUserDAO implements EntityDAO<User> {
     private final Class<User> userClass = User.class;
     private final Table tableUser = userClass.getAnnotation(Table.class);
     private final QueryOperation queryOperation = QueryOperation.getInstance();
-    private final List<String> UserColumnNames = DatabaseEntityContext
+    private final List<String> userColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableUser.name());
-    private final List<String> UserDetailColumnNames = DatabaseEntityContext
+    private final List<String> userDetailColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableUser.name());
 
 
@@ -46,7 +46,7 @@ public final class MethodUserDAO implements EntityDAO<User> {
     @Override
     public void create(User user) {
 
-        queryOperation.create(UserColumnNames, tableUser, user, User.class);
+        queryOperation.create(userColumnNames, tableUser, user, User.class);
     }
 
     public void create(User user, UserDetail userDetail) throws SQLException {
@@ -57,14 +57,14 @@ public final class MethodUserDAO implements EntityDAO<User> {
 
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
-            queryOperation.create(UserDetailColumnNames, tableUserDetail, userDetail, UserDetail.class, connection);
+            queryOperation.create(userDetailColumnNames, tableUserDetail, userDetail, UserDetail.class, connection);
 
-            Optional<UserDetail> userDetailFromDB = queryOperation.findBy(tableUserDetail, UserDetailColumnNames.get(4),
+            Optional<UserDetail> userDetailFromDB = queryOperation.findBy(tableUserDetail, userDetailColumnNames.get(4),
                     userDetail.getEmail(), UserDetail.class);
 
             userDetailFromDB.ifPresent(detail -> user.setUserDetailsId(detail.getId()));
 
-            queryOperation.create(UserColumnNames, tableUser, user, User.class, connection);
+            queryOperation.create(userColumnNames, tableUser, user, User.class, connection);
 
             connection.commit();
         } catch (SQLException e) {
@@ -80,7 +80,7 @@ public final class MethodUserDAO implements EntityDAO<User> {
     @Override
     public Optional<User> findBy(String columnName, Object value) {
 
-        return queryOperation.findBy(tableUser, UserColumnNames.get(UserColumnNames.indexOf(String.format("%s", columnName))),
+        return queryOperation.findBy(tableUser, userColumnNames.get(userColumnNames.indexOf(String.format("%s", columnName))),
                 value, User.class);
     }
 
