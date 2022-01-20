@@ -22,7 +22,7 @@ public final class MethodUserDAO implements EntityDAO<User> {
     private final List<String> userColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableUser.name());
     private final List<String> userDetailColumnNames = DatabaseEntityContext
-            .getDatabaseEntityContext().getDatabaseContext(tableUser.name());
+            .getDatabaseEntityContext().getDatabaseContext(tableUserDetail.name());
 
 
     @Override
