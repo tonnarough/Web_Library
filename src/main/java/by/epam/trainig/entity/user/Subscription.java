@@ -7,7 +7,7 @@ import by.epam.trainig.entity.Entity;
 import java.util.Date;
 import java.util.Objects;
 
-@Table(name = "subscriptions")
+@Table(name = "subscription")
 public class Subscription implements Entity {
 
     @Column(name = "id")
