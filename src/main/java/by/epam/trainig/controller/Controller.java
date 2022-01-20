@@ -3,8 +3,11 @@ package by.epam.trainig.controller;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.controller.command.Command;
 import by.epam.trainig.controller.command.CommandProvider;
+import by.epam.trainig.controller.command.CommandRequest;
+import by.epam.trainig.controller.command.CommandResponse;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -15,7 +18,9 @@ import java.io.IOException;
 
 public class Controller extends HttpServlet {
 
-    private final CommandProvider commandProvider = new CommandProvider();
+    private static final String COMMAND_NAME_PARAM = "command";
+
+    private final RequestFactory requestFactory = RequestFactory.getInstance();
 
     public Controller() {
     }
@@ -37,14 +42,22 @@ public class Controller extends HttpServlet {
         process(req, resp);
     }
 
-    private void process(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String commandName = req.getParameter("command");
+        String commandName = req.getParameter(COMMAND_NAME_PARAM);
+        Command command = Command.of(commandName);
+        CommandRequest commandRequest = requestFactory.createRequest(req);
+        CommandResponse commandResponse = command.execute(commandRequest);
+        processWithResponse(req, resp, commandResponse);
+    }
 
-        Command command = commandProvider.getCommand(commandName);
-        command.execute(req, resp);
-
-
+    private void processWithResponse(HttpServletRequest req, HttpServletResponse resp, CommandResponse commandResponse) throws ServletException, IOException {
+        if (commandResponse.isRedirect()) {
+            resp.sendRedirect(commandResponse.getPath());
+        } else {
+            final RequestDispatcher requestDispatcher = req.getRequestDispatcher(commandResponse.getPath());
+            requestDispatcher.forward(req,resp);
+        }
     }
 
 
