@@ -10,6 +10,7 @@ import by.epam.trainig.entity.Entity;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public final class QueryOperationImpl implements QueryOperation {
@@ -130,8 +131,15 @@ public final class QueryOperationImpl implements QueryOperation {
     public <T extends Entity> Optional<T> findBy(Table table, String column,
                                                  Object value, Class<T> type) {
 
-        query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() +
-                " " + QueryOperator.WHERE + " " + column + " = '" + value + "'";
+        if (value instanceof String) {
+
+            query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() +
+                    " " + QueryOperator.WHERE + " " + column + " = '" + value + "'";
+        } else if (value instanceof Integer) {
+
+            query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() +
+                    " " + QueryOperator.WHERE + " " + column + " = " + value;
+        }
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final Statement statement = connection.createStatement();
@@ -142,6 +150,7 @@ public final class QueryOperationImpl implements QueryOperation {
                     .entityBuild(type).buildEntity(resultSet))
                     : Optional.empty();
         } catch (SQLException e) {
+            e.printStackTrace();
             //TODO logger
         }
         return Optional.empty();
