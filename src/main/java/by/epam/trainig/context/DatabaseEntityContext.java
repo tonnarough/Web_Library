@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 
 public class  DatabaseEntityContext {
 
+
+
     @SuppressWarnings("rawtypes")
-    private final Class[] classArray = {User.class, UserDetail.class, Subscription.class, SubscribtionType.class, Role.class};
+    private final Class[] classArray = {User.class, UserDetail.class, Subscription.class, SubscriptionType.class, Role.class};
     private final Map<String, List<String>> entityDatabaseMap = new HashMap<>();
     private static DatabaseEntityContext databaseEntityContext;
 
@@ -26,6 +28,7 @@ public class  DatabaseEntityContext {
     }
 
     private void initDatabaseContext() {
+
         String tableName;
         //noinspection rawtypes
         for (Class clazz : classArray) {

@@ -3,9 +3,12 @@ package by.epam.trainig.service.impl;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.trainig.dao.EntityDAO;
 import by.epam.trainig.dao.EntityDAOFactory;
+import by.epam.trainig.dao.impl.MethodUserDAO;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
 import by.epam.trainig.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
@@ -18,6 +21,8 @@ import static at.favre.lib.crypto.bcrypt.BCrypt.MIN_COST;
 public enum UserServiceImpl implements UserService {
     INSTANCE;
 
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
+
     private final BCrypt.Hasher hasher = BCrypt.withDefaults();
     private final BCrypt.Verifyer verifyer = BCrypt.verifyer();
     private final EntityDAO<User> userDAO = EntityDAOFactory.getInstance().entityDAO(User.class);
@@ -28,7 +33,7 @@ public enum UserServiceImpl implements UserService {
         try {
             return userDAO.findAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Users are not found", e);
         }
         return null;
     }
@@ -39,6 +44,8 @@ public enum UserServiceImpl implements UserService {
     }
 
     public Optional<User> authenticate(String login, String password) {
+
+        logger.trace("Authorization");
 
         if (login == null || password == null) {
             return Optional.empty();
@@ -62,6 +69,8 @@ public enum UserServiceImpl implements UserService {
     public void registration(String login, String password, String lastName, String firstName,
                              String fatherName, String email, String mobile, Date birthday) {
 
+        logger.trace("Registration");
+
         final char[] rawPassword = password.toCharArray();
         String hashedPassword = hasher.hashToString(MIN_COST, rawPassword);
 
@@ -71,7 +80,7 @@ public enum UserServiceImpl implements UserService {
         try {
             userDAO.create(user, userDetail);
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Registration denied", e);
         }
     }
 

@@ -5,6 +5,8 @@ import by.epam.trainig.dao.EntityDAOFactory;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.service.SubscriptionService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -12,6 +14,8 @@ import java.util.Optional;
 
 public enum SubscriptionServiceImpl implements SubscriptionService {
     INSTANCE;
+
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     private final EntityDAO<SubscriptionType> subscriptionTypesDAO = EntityDAOFactory.getInstance().entityDAO(SubscriptionType.class);
     private final EntityDAO<Subscription> subscriptionDAO = EntityDAOFactory.getInstance().entityDAO(Subscription.class);
@@ -22,7 +26,7 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
         try {
             return subscriptionTypesDAO.findAll();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Subscription types are not found", e);
         }
         return null;
     }
