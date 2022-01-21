@@ -7,8 +7,8 @@ import by.epam.trainig.entity.Entity;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@Table(name = "subscribtion_types")
-public class SubscribtionType implements Entity {
+@Table(name = "subscription_types")
+public class SubscriptionType implements Entity {
 
     @Column(name = "id")
     private int id;
@@ -17,10 +17,10 @@ public class SubscribtionType implements Entity {
     @Column(name = "price")
     private BigDecimal price;
 
-    public SubscribtionType() {
+    public SubscriptionType() {
     }
 
-    public SubscribtionType(int id, String description, BigDecimal price) {
+    public SubscriptionType(int id, String description, BigDecimal price) {
         this.id = id;
         this.description = description;
         this.price = price;
@@ -54,7 +54,7 @@ public class SubscribtionType implements Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubscribtionType that = (SubscribtionType) o;
+        SubscriptionType that = (SubscriptionType) o;
         return id == that.id && description.equals(that.description) &&
                 price.equals(that.price);
     }
