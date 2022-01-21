@@ -24,8 +24,13 @@ public enum UserServiceImpl implements UserService {
     private static final String FIND_USER_BY_PARAMETER = "login";
 
     @Override
-    public List<User> findAll() throws SQLException {
-        return userDAO.findAll();
+    public List<User> findAll() {
+        try {
+            return userDAO.findAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

@@ -2,6 +2,7 @@ package by.epam.trainig.service.impl;
 
 import by.epam.trainig.dao.EntityDAO;
 import by.epam.trainig.dao.EntityDAOFactory;
+import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.service.SubscriptionService;
 
@@ -12,11 +13,22 @@ import java.util.Optional;
 public enum SubscriptionServiceImpl implements SubscriptionService {
     INSTANCE;
 
+    private final EntityDAO<SubscriptionType> subscriptionTypesDAO = EntityDAOFactory.getInstance().entityDAO(SubscriptionType.class);
     private final EntityDAO<Subscription> subscriptionDAO = EntityDAOFactory.getInstance().entityDAO(Subscription.class);
     private static final String FIND_SUBSCRIPTION_BY_PARAMETER = "user_id";
 
     @Override
-    public List<Subscription> findAll() throws SQLException {
+    public List<SubscriptionType> findAllTypes() {
+        try {
+            return subscriptionTypesDAO.findAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<Subscription> findAll() {
         return null;
     }
 

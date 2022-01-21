@@ -3,18 +3,21 @@ package by.epam.trainig.dao.queryoperation.Impl;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.dao.buildentity.EntityBuilderFactory;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
+import by.epam.trainig.dao.impl.MethodUserDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.dao.queryoperation.QueryOperator;
 import by.epam.trainig.entity.Entity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public final class QueryOperationImpl implements QueryOperation {
 
+    private static final Logger logger = LogManager.getLogger(QueryOperationImpl.class);
     private String query;
     private final EntityBuilderFactory entityBuilderFactory = EntityBuilderFactory.getInstance();
 
@@ -36,7 +39,7 @@ public final class QueryOperationImpl implements QueryOperation {
                      .prepareStatement(query)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            //TODO logger
+            logger.error("Failed updating ", e);
         }
     }
 
@@ -51,11 +54,10 @@ public final class QueryOperationImpl implements QueryOperation {
              final ResultSet resultSet = statement.executeQuery(query)) {
 
             while (resultSet.next()) {
-                T entity = entityBuilderFactory.entityBuild(type).buildEntity(resultSet);
-                entityList.add(entity);
+                entityList.add(entityBuilderFactory.entityBuild(type).buildEntity(resultSet));
             }
         } catch (SQLException e) {
-            //TODO logger
+            logger.error("Failed finding of all entities ", e);
         }
 
         return entityList;
@@ -71,7 +73,7 @@ public final class QueryOperationImpl implements QueryOperation {
              final PreparedStatement prepareStatement = connection.prepareStatement(query)) {
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Failed deleting ", e);
         }
     }
 
@@ -97,7 +99,7 @@ public final class QueryOperationImpl implements QueryOperation {
             entityBuilderFactory.entityBuild(type).buildResultSetByEntity(prepareStatement, entity);
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
-            //TODO logger
+            logger.error("Failed creating ", e);
         }
     }
 
@@ -123,7 +125,7 @@ public final class QueryOperationImpl implements QueryOperation {
             prepareStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            //TODO logger
+            logger.error("Failed creating with transaction ", e);
         }
     }
 
@@ -151,7 +153,7 @@ public final class QueryOperationImpl implements QueryOperation {
                     : Optional.empty();
         } catch (SQLException e) {
             e.printStackTrace();
-            //TODO logger
+            logger.error("Failed finding by smth ", e);
         }
         return Optional.empty();
     }
