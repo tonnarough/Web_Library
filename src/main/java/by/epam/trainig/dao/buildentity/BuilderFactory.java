@@ -1,9 +1,6 @@
 package by.epam.trainig.dao.buildentity;
 
-import by.epam.trainig.dao.buildentity.impl.RoleBuilder;
-import by.epam.trainig.dao.buildentity.impl.SubscriptionBuilder;
-import by.epam.trainig.dao.buildentity.impl.UserBuilder;
-import by.epam.trainig.dao.buildentity.impl.UserDetailsBuilder;
+import by.epam.trainig.dao.buildentity.impl.*;
 import by.epam.trainig.entity.Entity;
 import by.epam.trainig.entity.user.*;
 
@@ -13,6 +10,7 @@ public class BuilderFactory implements EntityBuilderFactory {
     private EntityBuilder<UserDetail> userDetailBuilder;
     private EntityBuilder<Role> roleBuilder;
     private EntityBuilder<Subscription> subscriptionBuilder;
+    private EntityBuilder<SubscriptionType> subscriptionTypeBuilder;
 
     private BuilderFactory() {
     }
@@ -44,6 +42,11 @@ public class BuilderFactory implements EntityBuilderFactory {
                 subscriptionBuilder = new SubscriptionBuilder();
             }
             builder = (EntityBuilder<T>) subscriptionBuilder;
+        } else if (SubscriptionType.class.isAssignableFrom(type)) {
+            if (subscriptionTypeBuilder == null) {
+                subscriptionTypeBuilder = new SubscriptionTypeBuilder();
+            }
+            builder = (EntityBuilder<T>) subscriptionTypeBuilder;
         }
 
         return builder;
