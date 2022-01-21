@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EntityService<T extends Entity> {
 
-    List<T> findAll() throws SQLException;
+    List<T> findAll();
 
     void create(T entity);
 
