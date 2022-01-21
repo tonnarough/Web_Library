@@ -1,10 +1,12 @@
 package by.epam.trainig.dao;
 
 import by.epam.trainig.dao.impl.MethodSubscriptionDAO;
+import by.epam.trainig.dao.impl.MethodSubscriptionTypeDAO;
 import by.epam.trainig.dao.impl.MethodUserDAO;
 import by.epam.trainig.dao.impl.MethodUserDetailDAO;
 import by.epam.trainig.entity.Entity;
 import by.epam.trainig.entity.user.Subscription;
+import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
 
@@ -13,6 +15,7 @@ public class DAOFactory implements EntityDAOFactory {
     private EntityDAO<User> userDAO;
     private EntityDAO<UserDetail> userDetailDAO;
     private EntityDAO<Subscription> subscriptionEntityDAO;
+    private EntityDAO<SubscriptionType> subscriptionTypeEntityDAO;
 
     private DAOFactory() {
     }
@@ -36,6 +39,11 @@ public class DAOFactory implements EntityDAOFactory {
                 subscriptionEntityDAO = new MethodSubscriptionDAO();
             }
             entityDAO = (EntityDAO<T>) subscriptionEntityDAO;
+        }else if (SubscriptionType.class.isAssignableFrom(type)) {
+            if (subscriptionTypeEntityDAO == null) {
+                subscriptionTypeEntityDAO = new MethodSubscriptionTypeDAO();
+            }
+            entityDAO = (EntityDAO<T>) subscriptionTypeEntityDAO;
         }
         return entityDAO;
     }
