@@ -13,28 +13,6 @@
 </head>
 <body>
 <h1 style="color: indianred"> Hello </h1>
-<c:set var="message" scope="page" value="${2*2000}" />
-<c:out value="${message}"/>
-<%
-    String regInfo = request.getParameter("Registration info");
-    if(regInfo != null){
-%>
-<h2>
-    <%
-        out.println(regInfo);
-        }
-    %>
-</h2>
 
-<%
-    String logInfo = request.getParameter("Login info");
-    if(logInfo != null){
-%>
-<h2>
-    <%
-            out.println(logInfo);
-        }
-    %>
-</h2>
 </body>
 </html>
