@@ -20,11 +20,14 @@ public enum LoginCommand implements Command {
     private static final String LOGIN_REQUEST_PARAMETR_NAME = "login";
     private static final String PASSWORD_REQUEST_PARAMETR_NAME = "password";
 
+    private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+    private static final String ERROR_LOGIN_PASS_ATTRIBUTE = "errorLoginPassMessage";
+    private static final String ERROR_LOGIN_PASS_MESSAGE = "Invalid login or password";
+
     private final UserService userService;
     private final SubscriptionService subscriptionService;
     private final PropertyContext propertyContext;
     private final RequestFactory requestFactory;
-
 
     LoginCommand(UserService userService, SubscriptionService subscriptionService, PropertyContext propertyContext, RequestFactory requestFactory) {
         this.userService = userService;
@@ -40,16 +43,21 @@ public enum LoginCommand implements Command {
         final String password = request.getParameter(PASSWORD_REQUEST_PARAMETR_NAME);
         final Optional<User> user = userService.authenticate(login, password);
 
-        if (user.isPresent()) {
-
-            final Optional<Subscription> subscription = subscriptionService.findByUserId(user.get().getId());
-
-            //noinspection OptionalGetWithoutIsPresent
-            if (subscription.get().getEndDate().getTime() <= (new Date().getTime())) {
-                return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
-            }
-            return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
+        if (!user.isPresent()) {
+            request.addAttributeToJsp(ERROR_LOGIN_PASS_ATTRIBUTE, ERROR_LOGIN_PASS_MESSAGE);
+            return requestFactory.createRedirectResponse(propertyContext.get(LOGIN_PAGE));
         }
-        return requestFactory.createRedirectResponse(propertyContext.get(LOGIN_PAGE));
+
+        final Optional<Subscription> subscription = subscriptionService.findByUserId(user.get().getId());
+
+        //noinspection OptionalGetWithoutIsPresent
+        if (subscription.get().getEndDate().getTime() <= (new Date().getTime()) && user.get().getRoleId() != 1) {
+            return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
+        }
+
+        request.clearSession();
+        request.createSession();
+        request.addToSession(USER_SESSION_ATTRIBUTE_NAME, user.get());
+        return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
     }
 }
