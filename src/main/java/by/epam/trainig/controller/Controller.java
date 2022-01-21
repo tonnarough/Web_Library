@@ -1,16 +1,11 @@
 package by.epam.trainig.controller;
 
-import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.controller.command.Command;
-import by.epam.trainig.controller.command.CommandProvider;
 import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
-import by.epam.trainig.dao.connectionpool.ConnectionPool;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,16 +16,6 @@ public class Controller extends HttpServlet {
     private static final String COMMAND_NAME_PARAM = "command";
 
     private final RequestFactory requestFactory = RequestFactory.getInstance();
-
-    public Controller() {
-    }
-
-    @Override
-    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-        ConnectionPool.getConnectionPool().getConnection();
-        DatabaseEntityContext.getDatabaseEntityContext();
-        super.service(req, res);
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
