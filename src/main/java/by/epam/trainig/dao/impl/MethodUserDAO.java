@@ -7,12 +7,16 @@ import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
 public final class MethodUserDAO implements EntityDAO<User> {
+
+    private static final Logger logger = LogManager.getLogger(MethodUserDAO.class);
 
     private final Class<UserDetail> userDetailClass = UserDetail.class;
     private final Table tableUserDetail = userDetailClass.getAnnotation(Table.class);
@@ -50,6 +54,7 @@ public final class MethodUserDAO implements EntityDAO<User> {
     }
 
     public void create(User user, UserDetail userDetail) throws SQLException {
+        logger.trace("Create User & UserDetail, start transaction");
 
         Connection connection = ConnectionPool.getConnectionPool().getConnection();
         try {
@@ -68,11 +73,12 @@ public final class MethodUserDAO implements EntityDAO<User> {
 
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Failed transaction", e);
 
             connection.rollback();
 
         } finally {
+            logger.trace("Transaction is completed");
             connection.setAutoCommit(true);
         }
     }
