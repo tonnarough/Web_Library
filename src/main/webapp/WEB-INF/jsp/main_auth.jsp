@@ -13,6 +13,8 @@
 </head>
 <body>
 <h1 style="color: indianred"> Hello </h1>
-
+<form>
+<a href="${pageContext.request.contextPath}/controller?command=logout">Logout</a>
+</form>
 </body>
 </html>
