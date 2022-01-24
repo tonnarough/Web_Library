@@ -5,5 +5,24 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
                    http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
 
-    <include file="src/main/resources/db/migration/changesets/changeset-202201100220.xml"/>
+    <preConditions>
+        <dbms type="mysql"/>
+    </preConditions>
+
+    <changeSet id="0" author="Anton_Yatsevich">
+        <tagDatabase tag="db_init"/>
+    </changeSet>
+
+    <include file="src/main/resources/db/migration/changesets/v1.0/changeset-202201100220.xml"/>
+
+    <changeSet id="6" author="Anton_Yatsevich">
+        <tagDatabase tag="v-1.0"/>
+    </changeSet>
+
+    <include file="src/main/resources/db/migration/changesets/v2.0/changeset-202201221230.xml"/>
+
+    <changeSet id="12" author="Anton_Yatsevich">
+        <tagDatabase tag="v-2.0"/>
+    </changeSet>
+
 </databaseChangeLog>

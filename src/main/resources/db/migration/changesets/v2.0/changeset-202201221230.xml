@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <include file="01-changeset-fill-roles-table.xml" relativeToChangelogFile="true"/>
+    <include file="10-changeset-fill-user_details-table.xml" relativeToChangelogFile="true"/>
+    <include file="20-changeset-fill-users-table.xml" relativeToChangelogFile="true"/>
+    <include file="30-changeset-fill-subscription_types-table.xml" relativeToChangelogFile="true"/>
+    <include file="40-changeset-fill-subscriptions-table.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
