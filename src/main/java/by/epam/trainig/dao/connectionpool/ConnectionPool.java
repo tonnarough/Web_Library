@@ -13,6 +13,10 @@ public final class ConnectionPool {
     private final String user = dataBaseResourceBundle.getValue(DataBaseProperties.USER);
     private final String password = dataBaseResourceBundle.getValue(DataBaseProperties.PASSWORD);
     private final int poolSize = Integer.parseInt(dataBaseResourceBundle.getValue(DataBaseProperties.POOLSIZE));
+
+    private static final String CONNECTION_POOL_IS_EMPTY = "Connection Pool is empty";
+    private static final String TAKEN_CONNECTION_IS_EMPTY = "TakenConnections is empty";
+
     private final List<Connection> availableConnections;
     private final List<Connection> takenConnections;
 
@@ -46,7 +50,7 @@ public final class ConnectionPool {
             final Connection connection = availableConnections.remove(0);
             takenConnections.add(connection);
         } else {
-            throw new RuntimeException("ConnPool is empty");
+            throw new RuntimeException(CONNECTION_POOL_IS_EMPTY);
         }
         return takenConnections.get(0);
     }
@@ -56,7 +60,7 @@ public final class ConnectionPool {
             final Connection connection = takenConnections.remove(0);
             availableConnections.add(connection);
         } else {
-            throw new RuntimeException("taken conn is empty");
+            throw new RuntimeException(TAKEN_CONNECTION_IS_EMPTY);
         }
 
     }
