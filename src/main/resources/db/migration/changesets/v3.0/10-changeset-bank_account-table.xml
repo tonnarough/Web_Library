@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <changeSet id="14" author="Anton_Yatsevich">
+
+        <sqlFile dbms="mysql"
+                 relativeToChangelogFile="true"
+                 endDelimiter="\nGO"
+                 splitStatements="true"
+                 path="10-create-bank_account-table.sql"/>
+
+        <rollback>
+            <sqlFile dbms="mysql"
+                     relativeToChangelogFile="true"
+                     endDelimiter="\nGO"
+                     splitStatements="true"
+                     path="10-drop-bank_account-table.sql"/>
+        </rollback>
+
+    </changeSet>
+
+</databaseChangeLog>

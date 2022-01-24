@@ -25,4 +25,10 @@
         <tagDatabase tag="v-2.0"/>
     </changeSet>
 
+    <include file="src/main/resources/db/migration/changesets/v3.0/changeset-202201240538.xml"/>
+
+    <changeSet id="14" author="Anton_Yatsevich">
+        <tagDatabase tag="v-3.0"/>
+    </changeSet>
+
 </databaseChangeLog>
