@@ -1,7 +1,7 @@
 CREATE TABLE credit_cards
 (
     id                   INT           NOT NULL AUTO_INCREMENT,
-    credit_card_number   INT           NOT NULL UNIQUE,
+    credit_card_number   VARCHAR(20)   NOT NULL UNIQUE,
     cardholder_name      VARCHAR(50)   NOT NULL,
     card_expiration_date DATE          NOT NULL,
     cvv                  INT           NOT NULL,
