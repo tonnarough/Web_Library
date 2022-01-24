@@ -36,7 +36,7 @@ public class SubscriptionBuilder implements EntityBuilder<Subscription> {
         preparedStatement.setInt(2, entity.getUserId());
         preparedStatement.setInt(3, entity.getSubscriptionTypeId());
         preparedStatement.setBoolean(4, entity.isExpired());
-        preparedStatement.setDate(7, (Date) entity.getStartDate());
         preparedStatement.setDate(5, (Date) entity.getStartDate());
+        preparedStatement.setDate(6, (Date) entity.getEndDate());
     }
 }
