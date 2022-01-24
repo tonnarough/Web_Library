@@ -71,6 +71,8 @@ public final class MethodUserDAO implements EntityDAO<User> {
 
             queryOperation.create(userColumnNames, tableUser, user, User.class, connection);
 
+            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
             connection.commit();
         } catch (SQLException e) {
             logger.error("Failed transaction", e);
