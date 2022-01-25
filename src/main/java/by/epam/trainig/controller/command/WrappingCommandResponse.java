@@ -1,6 +1,4 @@
-package by.epam.trainig.controller;
-
-import by.epam.trainig.controller.command.CommandResponse;
+package by.epam.trainig.controller.command;
 
 import java.util.Objects;
 

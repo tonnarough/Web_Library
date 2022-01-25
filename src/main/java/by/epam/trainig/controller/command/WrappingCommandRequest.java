@@ -1,4 +1,4 @@
-package by.epam.trainig.controller;
+package by.epam.trainig.controller.command;
 
 import by.epam.trainig.controller.command.CommandRequest;
 
