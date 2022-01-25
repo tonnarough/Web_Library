@@ -29,10 +29,10 @@ public final class QueryOperationImpl implements QueryOperation {
     }
 
     @Override
-    public void update(Table table, String column1, Object value1, String column2, Object value2) {
+    public void update(Table table, String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
-        query = QueryOperator.UPDATE + " " + table.name() + " " + QueryOperator.SET + " " + column1 +
-                " = '" + value1 + "' " + QueryOperator.WHERE + " " + column2 + " = '" + value2 + "' ";
+        query = QueryOperator.UPDATE + " " + table.name() + " " + QueryOperator.SET + " " + updColumn +
+                " = '" + updValue + "' " + QueryOperator.WHERE + " " + whereColumn + " = '" + whereValue + "' ";
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final PreparedStatement preparedStatement = connection

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface QueryOperation {
 
-    void update(Table table, String column1, Object value1, String column2, Object value2);
+    void update(Table table, String updColumn, Object updValue, String whereColumn, Object whereValue);
 
     <T extends Entity> List<T> findAll(Table table, Class<T> type) throws SQLException;
 
