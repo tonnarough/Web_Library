@@ -1,4 +1,7 @@
-package by.epam.trainig.controller;
+package by.epam.trainig.controller.impl;
+
+import by.epam.trainig.controller.PagePath;
+import by.epam.trainig.controller.PropertyContext;
 
 public final class PropertyContextImpl implements PropertyContext {
 

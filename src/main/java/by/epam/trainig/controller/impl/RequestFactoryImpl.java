@@ -1,13 +1,16 @@
-package by.epam.trainig.controller;
+package by.epam.trainig.controller.impl;
 
+import by.epam.trainig.controller.RequestFactory;
 import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
+import by.epam.trainig.controller.command.WrappingCommandRequest;
+import by.epam.trainig.controller.command.WrappingCommandResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public enum RequestFactoryImpl implements RequestFactory{
+public enum RequestFactoryImpl implements RequestFactory {
     INSTANCE;
 
     private final Map<String, CommandResponse> forwardResponseCache = new ConcurrentHashMap<>();

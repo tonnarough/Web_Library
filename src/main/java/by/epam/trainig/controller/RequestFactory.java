@@ -2,6 +2,7 @@ package by.epam.trainig.controller;
 
 import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
+import by.epam.trainig.controller.impl.RequestFactoryImpl;
 
 import javax.servlet.http.HttpServletRequest;
 
