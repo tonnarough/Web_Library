@@ -2,7 +2,7 @@ package by.epam.trainig.dao.impl;
 
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
-import by.epam.trainig.dao.EntityDAO;
+import by.epam.trainig.dao.CreditCardDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.CreditCard;
 
@@ -10,18 +10,20 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class MethodCreditCardDAO implements EntityDAO<CreditCard> {
+public enum MethodCreditCardDAO implements CreditCardDAO {
+    INSTANCE;
+
+    private final QueryOperation queryOperation = QueryOperation.getInstance();
 
     private final Class<CreditCard> creditCardClass = CreditCard.class;
     private final Table tableCreditCardClass = creditCardClass.getAnnotation(Table.class);
-    private final QueryOperation queryOperation = QueryOperation.getInstance();
     private final List<String> creditCardColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableCreditCardClass.name());
 
     @Override
-    public void update(String column1, Object value1, String column2, Object value2) {
+    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
-        queryOperation.update(tableCreditCardClass, column1, value1, column2, value2);
+        queryOperation.update(tableCreditCardClass, updColumn, updValue, whereColumn, whereValue);
     }
 
     @Override
@@ -35,9 +37,9 @@ public class MethodCreditCardDAO implements EntityDAO<CreditCard> {
     }
 
     @Override
-    public void create(CreditCard entity) {
+    public void create(CreditCard creditCard) {
 
-        queryOperation.create(creditCardColumnNames, tableCreditCardClass, entity, CreditCard.class);
+        queryOperation.create(creditCardColumnNames, tableCreditCardClass, creditCard, CreditCard.class);
     }
 
     @Override

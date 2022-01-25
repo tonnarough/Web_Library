@@ -3,6 +3,7 @@ package by.epam.trainig.dao.impl;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.EntityDAO;
+import by.epam.trainig.dao.UserDAO;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.User;
@@ -14,25 +15,29 @@ import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
-public final class MethodUserDAO implements EntityDAO<User> {
+public enum MethodUserDAO implements UserDAO {
+    INSTANCE;
 
     private static final Logger logger = LogManager.getLogger(MethodUserDAO.class);
+
+    private final QueryOperation queryOperation = QueryOperation.getInstance();
 
     private final Class<UserDetail> userDetailClass = UserDetail.class;
     private final Table tableUserDetail = userDetailClass.getAnnotation(Table.class);
     private final Class<User> userClass = User.class;
     private final Table tableUser = userClass.getAnnotation(Table.class);
-    private final QueryOperation queryOperation = QueryOperation.getInstance();
+
     private final List<String> userColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableUser.name());
+
     private final List<String> userDetailColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableUserDetail.name());
 
 
     @Override
-    public void update(String column1, Object value1, String column2, Object value2) {
+    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
-        queryOperation.update(tableUser, column1, value1, column2, value2);
+        queryOperation.update(tableUser, updColumn, updValue, whereColumn, whereValue);
     }
 
     @Override

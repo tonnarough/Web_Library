@@ -3,6 +3,7 @@ package by.epam.trainig.dao.impl;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.EntityDAO;
+import by.epam.trainig.dao.SubscriptionTypeDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.SubscriptionType;
 
@@ -10,7 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public class MethodSubscriptionTypeDAO implements EntityDAO<SubscriptionType> {
+public enum MethodSubscriptionTypeDAO implements SubscriptionTypeDAO {
+    INSTANCE;
 
     private final Class<SubscriptionType> subscriptionTypeClass = SubscriptionType.class;
     private final Table tableSubscriptionTypes = subscriptionTypeClass.getAnnotation(Table.class);
@@ -19,7 +21,7 @@ public class MethodSubscriptionTypeDAO implements EntityDAO<SubscriptionType> {
             .getDatabaseEntityContext().getDatabaseContext(tableSubscriptionTypes.name());
 
     @Override
-    public void update(String column1, Object value1, String column2, Object value2) {
+    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
     }
 

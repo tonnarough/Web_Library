@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface EntityDAO<T extends Entity> {
 
-    void update(String column1, Object value1, String column2, Object value2);
+    void update(String updColumn, Object updValue, String whereColumn, Object whereValue);
 
     List<T> findAll() throws SQLException;
 
@@ -18,8 +18,6 @@ public interface EntityDAO<T extends Entity> {
 
     void create(T entity);
 
-    default void create(User user, UserDetail userDetail) throws SQLException {
-    }
-
     Optional<T> findBy(String columnName, Object value);
+
 }
