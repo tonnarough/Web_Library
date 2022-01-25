@@ -1,14 +1,8 @@
 package by.epam.trainig.dao;
 
-import by.epam.trainig.dao.impl.MethodSubscriptionDAO;
-import by.epam.trainig.dao.impl.MethodSubscriptionTypeDAO;
-import by.epam.trainig.dao.impl.MethodUserDAO;
-import by.epam.trainig.dao.impl.MethodUserDetailDAO;
+import by.epam.trainig.dao.impl.*;
 import by.epam.trainig.entity.Entity;
-import by.epam.trainig.entity.user.Subscription;
-import by.epam.trainig.entity.user.SubscriptionType;
-import by.epam.trainig.entity.user.User;
-import by.epam.trainig.entity.user.UserDetail;
+import by.epam.trainig.entity.user.*;
 
 public class DAOFactory implements EntityDAOFactory {
 
@@ -16,6 +10,7 @@ public class DAOFactory implements EntityDAOFactory {
     private EntityDAO<UserDetail> userDetailDAO;
     private EntityDAO<Subscription> subscriptionEntityDAO;
     private EntityDAO<SubscriptionType> subscriptionTypeEntityDAO;
+    private EntityDAO<CreditCard> creditCardEntityDAO;
 
     private DAOFactory() {
     }
@@ -44,6 +39,11 @@ public class DAOFactory implements EntityDAOFactory {
                 subscriptionTypeEntityDAO = new MethodSubscriptionTypeDAO();
             }
             entityDAO = (EntityDAO<T>) subscriptionTypeEntityDAO;
+        }else if (CreditCard.class.isAssignableFrom(type)) {
+            if (creditCardEntityDAO == null) {
+                creditCardEntityDAO = new MethodCreditCardDAO();
+            }
+            entityDAO = (EntityDAO<T>) creditCardEntityDAO;
         }
         return entityDAO;
     }

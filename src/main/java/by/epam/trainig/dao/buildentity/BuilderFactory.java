@@ -11,6 +11,7 @@ public class BuilderFactory implements EntityBuilderFactory {
     private EntityBuilder<Role> roleBuilder;
     private EntityBuilder<Subscription> subscriptionBuilder;
     private EntityBuilder<SubscriptionType> subscriptionTypeBuilder;
+    private EntityBuilder<CreditCard> creditCardEntityBuilder;
 
     private BuilderFactory() {
     }
@@ -47,6 +48,11 @@ public class BuilderFactory implements EntityBuilderFactory {
                 subscriptionTypeBuilder = new SubscriptionTypeBuilder();
             }
             builder = (EntityBuilder<T>) subscriptionTypeBuilder;
+        } else if (CreditCard.class.isAssignableFrom(type)) {
+            if (creditCardEntityBuilder == null) {
+                creditCardEntityBuilder = new BankAccountBuilder();
+            }
+            builder = (EntityBuilder<T>) creditCardEntityBuilder;
         }
 
         return builder;
