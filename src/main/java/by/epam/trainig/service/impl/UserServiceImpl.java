@@ -66,6 +66,11 @@ public enum UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<User> findBy(String columnName, Object value) {
+        return userDAO.findBy(columnName, value);
+    }
+
+    @Override
     public void registration(String login, String password, String lastName, String firstName,
                              String fatherName, String email, String mobile, Date birthday) {
 

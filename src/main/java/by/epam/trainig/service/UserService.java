@@ -10,6 +10,8 @@ public interface UserService extends EntityService<User> {
 
     Optional<User> authenticate(String login, String password);
 
+    Optional<User> findBy(String columnName, Object value);
+
     void registration(String login, String password, String lastName, String firstName,
                              String fatherName, String email, String mobile, Date birthday);
 
