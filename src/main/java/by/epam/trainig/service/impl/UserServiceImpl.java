@@ -2,8 +2,7 @@ package by.epam.trainig.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.trainig.dao.EntityDAO;
-import by.epam.trainig.dao.EntityDAOFactory;
-import by.epam.trainig.dao.impl.MethodUserDAO;
+import by.epam.trainig.dao.UserDAO;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
 import by.epam.trainig.service.UserService;
@@ -19,14 +18,21 @@ import java.util.Optional;
 import static at.favre.lib.crypto.bcrypt.BCrypt.MIN_COST;
 
 public enum UserServiceImpl implements UserService {
-    INSTANCE;
+    INSTANCE(UserDAO.getInstance(), BCrypt.withDefaults(), BCrypt.verifyer());
 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    private final BCrypt.Hasher hasher = BCrypt.withDefaults();
-    private final BCrypt.Verifyer verifyer = BCrypt.verifyer();
-    private final EntityDAO<User> userDAO = EntityDAOFactory.getInstance().entityDAO(User.class);
+    private final UserDAO userDAO;
+    private final BCrypt.Hasher hasher;
+    private final BCrypt.Verifyer verifyer;
+
     private static final String FIND_USER_BY_PARAMETER = "login";
+
+    UserServiceImpl(UserDAO userDAO, BCrypt.Hasher hasher, BCrypt.Verifyer verifyer) {
+        this.userDAO = userDAO;
+        this.hasher = hasher;
+        this.verifyer = verifyer;
+    }
 
     @Override
     public List<User> findAll() {

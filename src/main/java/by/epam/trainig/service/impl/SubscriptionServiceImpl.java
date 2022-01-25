@@ -1,7 +1,7 @@
 package by.epam.trainig.service.impl;
 
-import by.epam.trainig.dao.EntityDAO;
-import by.epam.trainig.dao.EntityDAOFactory;
+import by.epam.trainig.dao.SubscriptionDAO;
+import by.epam.trainig.dao.SubscriptionTypeDAO;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.User;
@@ -17,18 +17,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public enum SubscriptionServiceImpl implements SubscriptionService {
-    INSTANCE;
+    INSTANCE(SubscriptionTypeDAO.getInstance(), SubscriptionDAO.getInstance());
 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    private final EntityDAO<SubscriptionType> subscriptionTypesDAO = EntityDAOFactory.getInstance().entityDAO(SubscriptionType.class);
-    private final EntityDAO<Subscription> subscriptionDAO = EntityDAOFactory.getInstance().entityDAO(Subscription.class);
+    private final SubscriptionTypeDAO subscriptionTypesDAO;
+    private final SubscriptionDAO subscriptionDAO;
     private static final String FIND_SUBSCRIPTION_BY_PARAMETER = "user_id";
 
     private static final String START_SUBSCRIPTION_DATE = "start_date";
     private static final String END_SUBSCRIPTION_DATE = "end_date";
 
     private static final String USER_ID_COLUMN = "user_id";
+
+    SubscriptionServiceImpl(SubscriptionTypeDAO subscriptionTypesDAO, SubscriptionDAO subscriptionDAO) {
+        this.subscriptionTypesDAO = subscriptionTypesDAO;
+        this.subscriptionDAO = subscriptionDAO;
+    }
 
     @Override
     public List<SubscriptionType> findAllTypes() {

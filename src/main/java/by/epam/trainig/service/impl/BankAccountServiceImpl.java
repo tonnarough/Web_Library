@@ -1,22 +1,23 @@
 package by.epam.trainig.service.impl;
 
-import by.epam.trainig.dao.EntityDAO;
-import by.epam.trainig.dao.EntityDAOFactory;
+import by.epam.trainig.dao.BankAccountDAO;
+import by.epam.trainig.dao.CreditCardDAO;
 import by.epam.trainig.entity.user.*;
 import by.epam.trainig.service.BankAccountService;
-import liquibase.repackaged.org.apache.commons.lang3.time.DateUtils;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 public enum BankAccountServiceImpl implements BankAccountService {
-    INSTANCE;
+    INSTANCE(CreditCardDAO.getInstance(), BankAccountDAO.getInstance());
 
-    private final EntityDAO<CreditCard> creditCardEntityDAO = EntityDAOFactory.getInstance().entityDAO(CreditCard.class);
-    private final EntityDAO<User> subscriptionEntityDAO = EntityDAOFactory.getInstance().entityDAO(Subscription.class);
+    private final CreditCardDAO creditCardDAO;
+    private final BankAccountDAO bankAccountDAO;
+
+    BankAccountServiceImpl(CreditCardDAO creditCardDAO, BankAccountDAO bankAccountDAO) {
+        this.creditCardDAO = creditCardDAO;
+        this.bankAccountDAO = bankAccountDAO;
+    }
 
     @Override
     public List<CreditCard> findAll() {
@@ -31,18 +32,19 @@ public enum BankAccountServiceImpl implements BankAccountService {
     @Override
     public void create(User user, CreditCard creditCard) {
 
-        creditCardEntityDAO.create(creditCard, new BankAccount(user.getId(),creditCard.getId()));
+        creditCardDAO.create(creditCard);
+        bankAccountDAO.create(new BankAccount(user.getId(), creditCard.getId()));
     }
 
     @Override
     public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
-        creditCardEntityDAO.update(updColumn, updValue, whereColumn, whereValue);
+        creditCardDAO.update(updColumn, updValue, whereColumn, whereValue);
     }
 
     @Override
     public Optional<CreditCard> findBy(String columnName, Object value) {
 
-        return creditCardEntityDAO.findBy(columnName, value);
+        return creditCardDAO.findBy(columnName, value);
     }
 }
