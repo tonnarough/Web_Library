@@ -4,6 +4,7 @@ import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
 import by.epam.trainig.entity.user.CreditCard;
 import by.epam.trainig.entity.user.SubscriptionType;
+import by.epam.trainig.entity.user.User;
 import by.epam.trainig.service.BankAccountService;
 import by.epam.trainig.service.SubscriptionService;
 
@@ -21,9 +22,13 @@ public enum SubscriptionCommand implements Command {
     private static final String DROP_DOWN_MENU_CHOSEN_ITEM = "subscriptionType";
     private static final String CREDIT_CARD_NUMBER = "credit_card_number";
     private static final String CARDHOLDER_NAME = "cardholder_name";
-    private static final String CARD_EXPIRATION_DATE ="date";
+    private static final String CARD_EXPIRATION_DATE = "date";
     private static final String CVV = "cvv";
     private static final String BALANCE = "balance";
+
+    private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+
+    private static final String ERROR_PAGE = "go_to_error_page";
 
     private static final String ERROR_SUBSCRIPTION_ATTRIBUTE = "paymentError";
     private static final String ERROR_SUBSCRIPTION_MESSAGE = "Insufficient funds to pay";
@@ -48,30 +53,58 @@ public enum SubscriptionCommand implements Command {
         final String cardHolderName = request.getParameter(CARDHOLDER_NAME);
         final Date cardExpirationDate = Date.valueOf(request.getParameter(CARD_EXPIRATION_DATE));
         final int cvv = Integer.parseInt(request.getParameter(CVV));
+        final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
+        final User user;
+        final SubscriptionType subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
 
-        final List<SubscriptionType> subscriptionTypes = subscriptionService.findAllTypes()
-                .stream()
-                .filter(subType -> (subType.getDescription() + ": " + subType.getPrice()).equals(chosenSubscriptionType))
-                .collect(Collectors.toList());
-
-        final SubscriptionType subscriptionType = subscriptionTypes.get(0);
         final Optional<CreditCard> creditCard = bankAccountService.findBy(CREDIT_CARD_NUMBER, creditCardNumber);
+
+        if (userFromSession.isPresent()) {
+
+            if (userFromSession.get() instanceof User) {
+                user = (User) userFromSession.get();
+            } else {
+                request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
+
+                return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
+            }
+
+        } else {
+            request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
+
+            return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
+        }
 
         if (creditCard.isPresent()) {
 
-            if(subscriptionType.getPrice().equals(creditCard.get().getBalance())){
+            if (subscriptionType.getPrice().compareTo(creditCard.get().getBalance()) > 0) {
                 request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE);
+
                 return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
             }
 
             bankAccountService.update(BALANCE, creditCard.get().getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
+            subscriptionService.update(user, subscriptionType);
         } else {
 
-            bankAccountService.create(new CreditCard(creditCardNumber, cardHolderName, cardExpirationDate, cvv));
+            bankAccountService.create(
+                    user,
+                    new CreditCard(creditCardNumber,
+                            cardHolderName,
+                            cardExpirationDate,
+                            cvv)
+            );
 
             final Optional<CreditCard> newCreditCard = bankAccountService.findBy(CREDIT_CARD_NUMBER, creditCardNumber);
-            //TODO: verifier
+
+            if(!newCreditCard.isPresent()){
+                request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
+
+                return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
+            }
+
             bankAccountService.update(BALANCE, newCreditCard.get().getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
+            subscriptionService.update(user, subscriptionType);
         }
 
         return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
