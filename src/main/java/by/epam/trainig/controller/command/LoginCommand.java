@@ -57,6 +57,9 @@ public enum LoginCommand implements Command {
 
         //noinspection OptionalGetWithoutIsPresent
         if (subscription.get().getEndDate().getTime() <= (new Date().getTime()) && user.get().getRoleId() != 1) {
+            request.clearSession();
+            request.createSession();
+            request.addToSession(USER_SESSION_ATTRIBUTE_NAME, user.get());
             return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
         }
 
