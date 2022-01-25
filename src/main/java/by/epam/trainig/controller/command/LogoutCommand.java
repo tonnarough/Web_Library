@@ -21,6 +21,8 @@ public enum LogoutCommand implements Command{
 
     @Override
     public CommandResponse execute(CommandRequest request) throws IOException, ServletException {
+
+        request.clearSession();
         return requestFactory.createRedirectResponse(propertyContext.get(INDEX_PAGE));
     }
 }

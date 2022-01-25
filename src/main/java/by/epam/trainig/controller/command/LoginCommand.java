@@ -39,6 +39,11 @@ public enum LoginCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
 
+        if (request.sessionExists() && request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME).isPresent()) {
+            //todo: error - user already logged in
+            return null;
+        }
+
         final String login = request.getParameter(LOGIN_REQUEST_PARAMETR_NAME);
         final String password = request.getParameter(PASSWORD_REQUEST_PARAMETR_NAME);
         final Optional<User> user = userService.authenticate(login, password);

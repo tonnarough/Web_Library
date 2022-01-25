@@ -2,16 +2,20 @@ package by.epam.trainig.controller.command;
 
 import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
+import by.epam.trainig.entity.user.User;
 import by.epam.trainig.service.UserService;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.Optional;
 
 public enum RegistrationCommand implements Command {
     INSTANCE(UserService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
 
     private static final String REGISTRATION_PAGE = "go_to_registration_page";
     private static final String SUBSCRIPTION_PAGE = "go_to_subscription_page";
+
+    private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 
     private static final String LOGIN_REQUEST_PARAMETR_NAME = "login";
     private static final String PASSWORD_REQUEST_PARAMETR_NAME = "password";
@@ -45,8 +49,13 @@ public enum RegistrationCommand implements Command {
         final Date birthday = Date.valueOf(request.getParameter(BIRTHDAY_REQUEST_PARAMETR_NAME));
 
         if (!userService.isExists(login)) {
+
             userService.registration(login, password, lastName, firstName, fatherName, email, mobile, birthday);
+            Optional<User> user = userService.findBy(LOGIN_REQUEST_PARAMETR_NAME, login);
+            request.createSession();
+            request.addToSession(USER_SESSION_ATTRIBUTE_NAME, user.get());
             return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
+
         } else {
             return requestFactory.createRedirectResponse(propertyContext.get(REGISTRATION_PAGE));
         }
