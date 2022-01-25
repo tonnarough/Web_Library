@@ -17,15 +17,16 @@
         <form method="post" action="controller">
             <label>
                 <input type="hidden" name="command" value="subscription"/>
-                <select name="type">
+                <select name="subscriptionType">
                     <c:forEach var="desc" items="${requestScope.subscriptionTypes}">
-                        <option>${desc.description} - ${desc.price}</option><br/>
-                        <c:set var="type" scope="request" value="${desc.price}" />
+                        <option>${desc.description}: ${desc.price}</option><br/>
                     </c:forEach>
                 </select><br/>
-                <input type="number" maxlength="12" placeholder="0000-0000-0000-0000"><br/>
-                <input type="number" maxlength="4" placeholder="MM/YYYY">
-                <input type="number" maxlength="3" placeholder="CVV"><br>
+
+                <input name="credit_card_number" type="number" maxlength="12" placeholder="0000-0000-0000-0000"><br/>
+                <input name="date" type="date" maxlength="4" placeholder="MM/YYYY">
+                <input name="cardholder_name" type="text" placeholder="CARDHOLDER NAME">
+                <input name="cvv" type="number" maxlength="3" placeholder="CVV"><br>
                 <input id="buy" class="button" type="submit" value="Buy"><br>
             </label><br>
         </form>
