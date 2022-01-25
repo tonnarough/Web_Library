@@ -29,7 +29,6 @@ public class CreditCard implements Entity {
 
     public CreditCard(String creditCardNumber,
                       String cardholderName, Date cardExpirationDate, int CVV) {
-        this.id = id;
         this.creditCardNumber = creditCardNumber;
         this.cardholderName = cardholderName;
         this.cardExpirationDate = cardExpirationDate;
