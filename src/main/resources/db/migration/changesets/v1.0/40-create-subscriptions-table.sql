@@ -3,7 +3,6 @@ CREATE TABLE subscriptions
     id                   INT     NOT NULL AUTO_INCREMENT,
     user_id              INT     NOT NULL,
     subscription_type_id INT     NOT NULL,
-    expired              TINYINT NOT NULL,
     start_date           DATE    NOT NULL,
     end_date             DATE    NOT NULL,
     PRIMARY KEY (id),
