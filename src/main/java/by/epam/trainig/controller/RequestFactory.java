@@ -4,6 +4,7 @@ import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
 import by.epam.trainig.controller.impl.RequestFactoryImpl;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 public interface RequestFactory {
@@ -13,6 +14,8 @@ public interface RequestFactory {
     CommandResponse createForwardResponse(String path);
 
     CommandResponse createRedirectResponse(String path);
+
+    CommandResponse createRedirectResponseWithCookie(String path, Cookie cookie);
 
     static RequestFactory getInstance() {
         return RequestFactoryImpl.INSTANCE;

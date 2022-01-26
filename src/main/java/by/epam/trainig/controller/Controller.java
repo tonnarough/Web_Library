@@ -37,11 +37,14 @@ public class Controller extends HttpServlet {
     }
 
     private void processWithResponse(HttpServletRequest req, HttpServletResponse resp, CommandResponse commandResponse) throws ServletException, IOException {
-        if (commandResponse.isRedirect()) {
+        if (commandResponse.isRedirect() && commandResponse.getCookie() != null) {
+            resp.addCookie(commandResponse.getCookie());
+            resp.sendRedirect(commandResponse.getPath());
+        } else if (commandResponse.isRedirect()) {
             resp.sendRedirect(commandResponse.getPath());
         } else {
             final RequestDispatcher requestDispatcher = req.getRequestDispatcher(commandResponse.getPath());
-            requestDispatcher.forward(req,resp);
+            requestDispatcher.forward(req, resp);
         }
     }
 

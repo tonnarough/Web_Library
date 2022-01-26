@@ -1,19 +1,34 @@
 package by.epam.trainig.controller.command;
 
+import javax.servlet.http.Cookie;
 import java.util.Objects;
 
 public class WrappingCommandResponse implements CommandResponse {
 
     private final boolean redirect;
     private final String path;
+    private final Cookie cookie;
 
     public WrappingCommandResponse(String path) {
         this(false, path);
     }
 
     public WrappingCommandResponse(boolean redirect, String path) {
+        this(redirect, path, null);
+    }
+
+    public WrappingCommandResponse(boolean redirect, String path, Cookie cookie) {
         this.redirect = redirect;
         this.path = path;
+        this.cookie = cookie;
+        if(cookie != null){
+            cookie.setMaxAge(24 * 60 * 60);
+        }
+    }
+
+    @Override
+    public Cookie getCookie() {
+        return cookie;
     }
 
     @Override

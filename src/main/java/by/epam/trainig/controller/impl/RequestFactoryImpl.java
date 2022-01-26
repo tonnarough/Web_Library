@@ -6,6 +6,7 @@ import by.epam.trainig.controller.command.CommandResponse;
 import by.epam.trainig.controller.command.WrappingCommandRequest;
 import by.epam.trainig.controller.command.WrappingCommandResponse;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +29,12 @@ public enum RequestFactoryImpl implements RequestFactory {
 
     @Override
     public CommandResponse createRedirectResponse(String path) {
-        return redirectResponseCache.computeIfAbsent(path, p -> new WrappingCommandResponse(true,p));
+        return redirectResponseCache.computeIfAbsent(path, p -> new WrappingCommandResponse(true, p));
+    }
+
+    @Override
+    public CommandResponse createRedirectResponseWithCookie(String path, Cookie cookie) {
+        return redirectResponseCache.computeIfAbsent(path, p -> new WrappingCommandResponse(true, p, cookie));
     }
 
 }
