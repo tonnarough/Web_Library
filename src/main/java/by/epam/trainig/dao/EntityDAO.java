@@ -2,7 +2,6 @@ package by.epam.trainig.dao;
 
 import by.epam.trainig.entity.Entity;
 import by.epam.trainig.entity.user.User;
-import by.epam.trainig.entity.user.UserDetail;
 
 import java.sql.SQLException;
 import java.util.List;

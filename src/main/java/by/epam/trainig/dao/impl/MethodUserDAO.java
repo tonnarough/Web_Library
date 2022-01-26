@@ -2,7 +2,6 @@ package by.epam.trainig.dao.impl;
 
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
-import by.epam.trainig.dao.EntityDAO;
 import by.epam.trainig.dao.UserDAO;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
@@ -79,6 +78,7 @@ public enum MethodUserDAO implements UserDAO {
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             connection.commit();
+
         } catch (SQLException e) {
             logger.error("Failed transaction", e);
 
@@ -88,6 +88,13 @@ public enum MethodUserDAO implements UserDAO {
             logger.trace("Transaction is completed");
             connection.setAutoCommit(true);
         }
+    }
+
+    @Override
+    public Optional<UserDetail> findByUserDetail(String columnName, Object value) {
+
+        return queryOperation.findBy(tableUserDetail, userDetailColumnNames.get(userDetailColumnNames.indexOf(String.format("%s", columnName))),
+                value, UserDetail.class);
     }
 
     @Override
