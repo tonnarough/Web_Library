@@ -8,6 +8,10 @@ public interface CommandRequest {
 
     String getParameter(String name);
 
+    String getRequestURL();
+
+    Object getAttribute(String name);
+
     boolean sessionExists();
 
     boolean addToSession(String name, Object value);

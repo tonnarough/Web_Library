@@ -19,13 +19,22 @@ public class WrappingCommandRequest implements CommandRequest {
         request.setAttribute(name, attribute);
     }
 
+    public Object getAttribute(String name) {
+        return request.getAttribute(name);
+    }
+
     @Override
     public String getParameter(String name) {
         return request.getParameter(name);
     }
 
     @Override
-    public boolean sessionExists()  {
+    public String getRequestURL() {
+        return String.valueOf(request.getRequestURL());
+    }
+
+    @Override
+    public boolean sessionExists() {
         return request.getSession(false) != null;
     }
 
@@ -48,7 +57,7 @@ public class WrappingCommandRequest implements CommandRequest {
     @Override
     public void clearSession() {
         final HttpSession session = request.getSession(false);
-        if(session != null){
+        if (session != null) {
             session.invalidate();
         }
     }
