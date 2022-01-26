@@ -28,12 +28,12 @@ public class CreditCard implements Entity {
     }
 
     public CreditCard(String creditCardNumber,
-                      String cardholderName, Date cardExpirationDate, int CVV) {
+                      String cardholderName, Date cardExpirationDate, int CVV, BigDecimal balance) {
         this.creditCardNumber = creditCardNumber;
         this.cardholderName = cardholderName;
         this.cardExpirationDate = cardExpirationDate;
         this.CVV = CVV;
-        balance = BigDecimal.valueOf(100);
+        this.balance = balance;
     }
 
     public int getId() {

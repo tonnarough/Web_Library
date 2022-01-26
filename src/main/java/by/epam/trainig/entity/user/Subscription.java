@@ -16,8 +16,6 @@ public class Subscription implements Entity {
     private int userId;
     @Column(name = "subscription_type_id")
     private int subscriptionTypeId;
-    @Column(name = "expired")
-    private boolean expired;
     @Column(name = "start_date")
     private Date startDate;
     @Column(name = "end_date")
@@ -26,14 +24,9 @@ public class Subscription implements Entity {
     public Subscription() {
     }
 
-    public Subscription(int id, int userId, int subscriptionTypeId,
-                         boolean expired, Date startDate, Date endDate) {
-        this.id = id;
+    public Subscription(int userId, int subscriptionTypeId) {
         this.userId = userId;
         this.subscriptionTypeId = subscriptionTypeId;
-        this.expired = expired;
-        this.startDate = startDate;
-        this.endDate = endDate;
     }
 
     public int getId() {
@@ -60,14 +53,6 @@ public class Subscription implements Entity {
         this.subscriptionTypeId = subscriptionTypeId;
     }
 
-    public boolean isExpired() {
-        return expired;
-    }
-
-    public void setExpired(boolean expired) {
-        this.expired = expired;
-    }
-
     public Date getStartDate() {
         return startDate;
     }
@@ -90,12 +75,12 @@ public class Subscription implements Entity {
         if (o == null || getClass() != o.getClass()) return false;
         Subscription that = (Subscription) o;
         return id == that.id && userId == that.userId && subscriptionTypeId == that.subscriptionTypeId &&
-                expired == that.expired && startDate.equals(that.startDate) && endDate.equals(that.endDate);
+                startDate.equals(that.startDate) && endDate.equals(that.endDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, subscriptionTypeId, expired, startDate, endDate);
+        return Objects.hash(id, userId, subscriptionTypeId, startDate, endDate);
     }
 
     @Override
@@ -104,7 +89,6 @@ public class Subscription implements Entity {
                 "id=" + id +
                 ", userId=" + userId +
                 ", subscriptionTypeId=" + subscriptionTypeId +
-                ", expired=" + expired +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';
