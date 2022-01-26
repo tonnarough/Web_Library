@@ -3,15 +3,15 @@ package by.epam.trainig.controller.command;
 import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
 import by.epam.trainig.entity.user.CreditCard;
+import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.service.BankAccountService;
 import by.epam.trainig.service.SubscriptionService;
 
+import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public enum SubscriptionCommand implements Command {
     INSTANCE(SubscriptionService.getInstance(), BankAccountService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
@@ -53,23 +53,28 @@ public enum SubscriptionCommand implements Command {
         final String cardHolderName = request.getParameter(CARDHOLDER_NAME);
         final Date cardExpirationDate = Date.valueOf(request.getParameter(CARD_EXPIRATION_DATE));
         final int cvv = Integer.parseInt(request.getParameter(CVV));
-        final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
-        final User user;
-        final SubscriptionType subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
 
-        final Optional<CreditCard> creditCard = bankAccountService.findBy(CREDIT_CARD_NUMBER, creditCardNumber);
+        final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
+        final SubscriptionType subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
+        final Optional<CreditCard> creditCard = bankAccountService.findCreditCardBy(CREDIT_CARD_NUMBER, creditCardNumber);
+
+        final User user;
 
         if (userFromSession.isPresent()) {
 
             if (userFromSession.get() instanceof User) {
+
                 user = (User) userFromSession.get();
+
             } else {
+
                 request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
 
                 return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
             }
 
         } else {
+
             request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
 
             return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
@@ -78,13 +83,16 @@ public enum SubscriptionCommand implements Command {
         if (creditCard.isPresent()) {
 
             if (subscriptionType.getPrice().compareTo(creditCard.get().getBalance()) > 0) {
+
                 request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE);
 
                 return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
             }
 
-            bankAccountService.update(BALANCE, creditCard.get().getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
-            subscriptionService.update(user, subscriptionType);
+            bankAccountService.updateCreditCard(BALANCE, creditCard.get().getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
+
+            doesTheUserHaveASubscription(user, subscriptionType);
+
         } else {
 
             bankAccountService.create(
@@ -92,21 +100,26 @@ public enum SubscriptionCommand implements Command {
                     new CreditCard(creditCardNumber,
                             cardHolderName,
                             cardExpirationDate,
-                            cvv)
+                            cvv,
+                            BigDecimal.valueOf(100).subtract(subscriptionType.getPrice()))
             );
 
-            final Optional<CreditCard> newCreditCard = bankAccountService.findBy(CREDIT_CARD_NUMBER, creditCardNumber);
-
-            if(!newCreditCard.isPresent()){
-                request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
-
-                return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
-            }
-
-            bankAccountService.update(BALANCE, newCreditCard.get().getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
-            subscriptionService.update(user, subscriptionType);
+            doesTheUserHaveASubscription(user, subscriptionType);
         }
 
         return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
+    }
+
+    private void doesTheUserHaveASubscription(User user, SubscriptionType subscriptionType){
+
+        if (subscriptionService.findByUserId(user.getId()).isPresent()) {
+
+            subscriptionService.update(user, subscriptionType);
+
+        } else {
+
+            subscriptionService.create(new Subscription(user.getId(), subscriptionType.getId()), subscriptionType);
+
+        }
     }
 }
