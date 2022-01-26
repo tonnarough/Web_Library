@@ -22,9 +22,7 @@ public enum GoToMainUnauthPageCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
 
-        final String url = request.getRequestURL() + PARAMETER_NAME + request.getParameter(PARAMETER_FROM_REQUEST);
-
-        request.addToSession(URL, url);
+        request.addToSession(URL, request.getRequestURL() + PARAMETER_NAME + request.getParameter(PARAMETER_FROM_REQUEST));
 
         return requestFactory.createForwardResponse(propertyContext.get(MAIN_UNAUTH_PAGE));
     }
