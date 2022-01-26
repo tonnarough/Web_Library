@@ -5,7 +5,7 @@
   Time: 20:06
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.local}"/>
 <fmt:setBundle basename="l10n.page.main" var="loc"/>
@@ -22,12 +22,12 @@
 <div class="form">
     <form action="controller" method="post">
         <input type="hidden" name="command" value="set_locale"/>
-        <input type="hidden" name="local" value="ru"/>
+        <input type="hidden" name="local" value="ru_RU"/>
         <input type="submit" value="${ru}">
     </form>
     <form action="controller" method="post">
         <input type="hidden" name="command" value="set_locale"/>
-        <input type="hidden" name="local" value="en"/>
+        <input type="hidden" name="local" value="en_US"/>
         <input type="submit" value="${en}">
     </form>
     <form>
