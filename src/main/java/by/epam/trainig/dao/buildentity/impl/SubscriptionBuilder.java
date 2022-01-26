@@ -24,9 +24,8 @@ public class SubscriptionBuilder implements EntityBuilder<Subscription> {
         subscription.setId(resultSet.getInt(subscriptionsColumns.get(0)));
         subscription.setUserId(resultSet.getInt(subscriptionsColumns.get(1)));
         subscription.setSubscriptionTypeId(resultSet.getInt(subscriptionsColumns.get(2)));
-        subscription.setExpired(resultSet.getBoolean(subscriptionsColumns.get(3)));
-        subscription.setStartDate(resultSet.getDate(subscriptionsColumns.get(4)));
-        subscription.setEndDate(resultSet.getDate(subscriptionsColumns.get(5)));
+        subscription.setStartDate(resultSet.getDate(subscriptionsColumns.get(3)));
+        subscription.setEndDate(resultSet.getDate(subscriptionsColumns.get(4)));
         return subscription;
     }
 
@@ -35,8 +34,7 @@ public class SubscriptionBuilder implements EntityBuilder<Subscription> {
         preparedStatement.setInt(1, entity.getId());
         preparedStatement.setInt(2, entity.getUserId());
         preparedStatement.setInt(3, entity.getSubscriptionTypeId());
-        preparedStatement.setBoolean(4, entity.isExpired());
-        preparedStatement.setDate(5, (Date) entity.getStartDate());
-        preparedStatement.setDate(6, (Date) entity.getEndDate());
+        preparedStatement.setDate(4, (Date) entity.getStartDate());
+        preparedStatement.setDate(5, (Date) entity.getEndDate());
     }
 }
