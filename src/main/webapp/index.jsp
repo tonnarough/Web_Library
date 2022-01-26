@@ -1,8 +1,9 @@
+<%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>My awesome app!</title>
 </head>
 <body>
-<jsp:forward page="/WEB-INF/jsp/main_unauth.jsp" />
+<jstl:redirect url="/controller?command=go_to_main_unauth_page" />
 </body>
 </html>
