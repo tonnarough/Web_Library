@@ -1,27 +1,26 @@
 package by.epam.trainig.service.impl;
 
 import by.epam.trainig.dao.SubscriptionDAO;
-import by.epam.trainig.dao.SubscriptionTypeDAO;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.service.SubscriptionService;
-import liquibase.repackaged.org.apache.commons.lang3.time.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public enum SubscriptionServiceImpl implements SubscriptionService {
-    INSTANCE(SubscriptionTypeDAO.getInstance(), SubscriptionDAO.getInstance());
+    INSTANCE(SubscriptionDAO.getInstance());
 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
-    private final SubscriptionTypeDAO subscriptionTypesDAO;
     private final SubscriptionDAO subscriptionDAO;
     private static final String FIND_SUBSCRIPTION_BY_PARAMETER = "user_id";
 
@@ -30,15 +29,14 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
 
     private static final String USER_ID_COLUMN = "user_id";
 
-    SubscriptionServiceImpl(SubscriptionTypeDAO subscriptionTypesDAO, SubscriptionDAO subscriptionDAO) {
-        this.subscriptionTypesDAO = subscriptionTypesDAO;
+    SubscriptionServiceImpl(SubscriptionDAO subscriptionDAO) {
         this.subscriptionDAO = subscriptionDAO;
     }
 
     @Override
     public List<SubscriptionType> findAllTypes() {
         try {
-            return subscriptionTypesDAO.findAll();
+            return subscriptionDAO.findAllTypes();
         } catch (SQLException e) {
             logger.error("Subscription types are not found", e);
         }
@@ -48,13 +46,19 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public void update(User user, SubscriptionType subscriptionType) {
 
-        subscriptionDAO.update(START_SUBSCRIPTION_DATE, new Date(), USER_ID_COLUMN, user.getId());
+        subscriptionDAO.update(
+                START_SUBSCRIPTION_DATE,
+                Date.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))),
+                USER_ID_COLUMN, user.getId());
 
         subscriptionDAO.update(
                 END_SUBSCRIPTION_DATE,
-                DateUtils.addMonths(
-                        new Date(),
-                        Integer.parseInt(subscriptionType.getDescription().replaceAll("\\D+", ""))),
+                Date
+                  .valueOf(LocalDateTime
+                                .now()
+                                .plusMonths(Long.parseLong(subscriptionType.getDescription().replaceAll("\\D+", "")))
+                                .format(DateTimeFormatter
+                                        .ofPattern("yyyy-MM-dd"))),
                 USER_ID_COLUMN,
                 user.getId());
     }
@@ -70,6 +74,20 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public void create(Subscription entity, SubscriptionType subscriptionType) {
+
+        entity.setStartDate(Date.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+        entity.setEndDate(Date
+                .valueOf(LocalDateTime
+                        .now()
+                        .plusMonths(Long.parseLong(subscriptionType.getDescription().replaceAll("\\D+", "")))
+                        .format(DateTimeFormatter
+                                .ofPattern("yyyy-MM-dd"))));
+
+        subscriptionDAO.create(entity);
+    }
+
+    @Override
     public Optional<Subscription> findByUserId(Integer id) {
         return subscriptionDAO.findBy(FIND_SUBSCRIPTION_BY_PARAMETER, id);
     }
@@ -77,7 +95,7 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public SubscriptionType findByType(String chosenType) {
         try {
-            return subscriptionTypesDAO.findAll().stream()
+            return subscriptionDAO.findAllTypes().stream()
                     .filter(subType -> (subType.getDescription() + ": " + subType.getPrice()).equals(chosenType))
                     .collect(Collectors.toList()).get(0);
         } catch (SQLException e) {

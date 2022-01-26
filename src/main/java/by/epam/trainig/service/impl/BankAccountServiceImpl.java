@@ -1,21 +1,23 @@
 package by.epam.trainig.service.impl;
 
 import by.epam.trainig.dao.BankAccountDAO;
-import by.epam.trainig.dao.CreditCardDAO;
 import by.epam.trainig.entity.user.*;
 import by.epam.trainig.service.BankAccountService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public enum BankAccountServiceImpl implements BankAccountService {
-    INSTANCE(CreditCardDAO.getInstance(), BankAccountDAO.getInstance());
+    INSTANCE(BankAccountDAO.getInstance());
 
-    private final CreditCardDAO creditCardDAO;
+    private static final Logger logger = LogManager.getLogger(BankAccountServiceImpl.class);
+
     private final BankAccountDAO bankAccountDAO;
 
-    BankAccountServiceImpl(CreditCardDAO creditCardDAO, BankAccountDAO bankAccountDAO) {
-        this.creditCardDAO = creditCardDAO;
+    BankAccountServiceImpl(BankAccountDAO bankAccountDAO) {
         this.bankAccountDAO = bankAccountDAO;
     }
 
@@ -32,19 +34,22 @@ public enum BankAccountServiceImpl implements BankAccountService {
     @Override
     public void create(User user, CreditCard creditCard) {
 
-        creditCardDAO.create(creditCard);
-        bankAccountDAO.create(new BankAccount(user.getId(), creditCard.getId()));
+        try {
+            bankAccountDAO.create(new BankAccount(user.getId(), creditCard.getId()), creditCard);
+        } catch (SQLException e) {
+            logger.error("Creating bank account $ credit card are denied", e);
+        }
     }
 
     @Override
-    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
+    public void updateCreditCard(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
-        creditCardDAO.update(updColumn, updValue, whereColumn, whereValue);
+        bankAccountDAO.updateCreditCard(updColumn, updValue, whereColumn, whereValue);
     }
 
     @Override
-    public Optional<CreditCard> findBy(String columnName, Object value) {
+    public Optional<CreditCard> findCreditCardBy(String columnName, Object value) {
 
-        return creditCardDAO.findBy(columnName, value);
+        return bankAccountDAO.findCreditCardBy(columnName, value);
     }
 }

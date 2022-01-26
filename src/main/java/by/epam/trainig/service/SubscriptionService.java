@@ -12,6 +12,8 @@ public interface SubscriptionService extends EntityService<Subscription> {
 
     Optional<Subscription> findByUserId(Integer id);
 
+    void create(Subscription entity, SubscriptionType subscriptionType);
+
     SubscriptionType findByType(String chosenType);
 
     List<SubscriptionType> findAllTypes();
