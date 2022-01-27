@@ -6,8 +6,12 @@ import by.epam.trainig.entity.user.CreditCard;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.User;
+import by.epam.trainig.exception.ControllerException;
+import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.BankAccountService;
 import by.epam.trainig.service.SubscriptionService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -15,6 +19,8 @@ import java.util.Optional;
 
 public enum SubscriptionCommand implements Command {
     INSTANCE(SubscriptionService.getInstance(), BankAccountService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
+
+    private static final Logger logger = LogManager.getLogger(SubscriptionCommand.class);
 
     private static final String MAIN_AUTH_PAGE = "go_to_main_auth_page";
     private static final String SUBSCRIPTION_PAGE = "page.subscription";
@@ -28,10 +34,10 @@ public enum SubscriptionCommand implements Command {
 
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
 
-    private static final String ERROR_PAGE = "go_to_error_page";
+    private static final String ERROR_PAGE = "page.error";
 
-    private static final String ERROR_SUBSCRIPTION_ATTRIBUTE = "paymentError";
-    private static final String ERROR_SUBSCRIPTION_MESSAGE = "Insufficient funds to pay";
+    private static final String ERROR_PAYMENT_PASS_ATTRIBUTE = "paymentError";
+    private static final String ERROR_PAYMENT_PASS_MESSAGE = "Insufficient funds to pay";
 
     private final SubscriptionService subscriptionService;
     private final BankAccountService bankAccountService;
@@ -54,46 +60,69 @@ public enum SubscriptionCommand implements Command {
         final Date cardExpirationDate = Date.valueOf(request.getParameter(CARD_EXPIRATION_DATE));
         final int cvv = Integer.parseInt(request.getParameter(CVV));
 
-        final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
-        final SubscriptionType subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
         final Optional<CreditCard> creditCard = bankAccountService.findCreditCardBy(CREDIT_CARD_NUMBER, creditCardNumber);
+
+        final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
+
+        final SubscriptionType subscriptionType;
+
+        try {
+
+            subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
+
+        } catch (ServiceException e) {
+
+            logger.error("Failed finding of subscription type", e);
+            return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
+
+        }
 
         final User user;
 
-        if (userFromSession.isPresent()) {
+        if (userFromSession.isPresent() && userFromSession.get() instanceof User) {
 
-            if (userFromSession.get() instanceof User) {
-
-                user = (User) userFromSession.get();
-
-            } else {
-
-                request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
-
-                return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
-            }
+            user = (User) userFromSession.get();
 
         } else {
 
-            request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE); //TODO attribute & message
-
             return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
+
         }
 
         if (creditCard.isPresent()) {
 
-            if (subscriptionType.getPrice().compareTo(creditCard.get().getBalance()) > 0) {
+            try {
 
-                request.addAttributeToJsp(ERROR_SUBSCRIPTION_ATTRIBUTE, ERROR_SUBSCRIPTION_MESSAGE);
+                updateCreditCard(request, subscriptionType, user, creditCard.get(), creditCardNumber);
 
+            } catch (ControllerException e) {
+
+                logger.error(e);
+                request.addAttributeToJsp(ERROR_PAYMENT_PASS_ATTRIBUTE, ERROR_PAYMENT_PASS_MESSAGE);
                 return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
             }
 
-            bankAccountService.updateCreditCard(BALANCE, creditCard.get().getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
-
-            doesTheUserHaveASubscription(user, subscriptionType);
-
         } else {
+
+            try {
+
+                createCreditCard(user, subscriptionType, creditCardNumber, cardHolderName, cardExpirationDate, cvv);
+
+            } catch (ControllerException e) {
+
+                logger.error(e);
+                return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
+
+            }
+
+        }
+
+        return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
+    }
+
+    private void createCreditCard(User user, SubscriptionType subscriptionType, String creditCardNumber, String cardHolderName, Date cardExpirationDate, int cvv) throws ControllerException {
+
+        try {
 
             bankAccountService.create(
                     user,
@@ -105,12 +134,31 @@ public enum SubscriptionCommand implements Command {
             );
 
             doesTheUserHaveASubscription(user, subscriptionType);
+
+        } catch (ServiceException e) {
+
+            logger.error("Failed with creating bank account for user", e);
+            throw new ControllerException(e);
+
         }
 
-        return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
     }
 
-    private void doesTheUserHaveASubscription(User user, SubscriptionType subscriptionType){
+    private void updateCreditCard(CommandRequest request, SubscriptionType subscriptionType, User user, CreditCard creditCard, String creditCardNumber) throws ControllerException {
+
+        if (subscriptionType.getPrice().compareTo(creditCard.getBalance()) > 0) {
+
+            throw new ControllerException("Insufficient funds");
+
+        }
+
+        bankAccountService.updateCreditCard(BALANCE, creditCard.getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
+
+        doesTheUserHaveASubscription(user, subscriptionType);
+
+    }
+
+    private void doesTheUserHaveASubscription(User user, SubscriptionType subscriptionType) {
 
         if (subscriptionService.findByUserId(user.getId()).isPresent()) {
 

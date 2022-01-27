@@ -3,15 +3,22 @@ package by.epam.trainig.controller.command;
 import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
 import by.epam.trainig.entity.user.SubscriptionType;
+import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.SubscriptionService;
+import by.epam.trainig.service.impl.BankAccountServiceImpl;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public enum GoToSubscriptionPageCommand implements Command {
     INSTANCE(SubscriptionService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
 
+    private static final Logger logger = LogManager.getLogger(GoToSubscriptionPageCommand.class);
+
     private static final String SUBSCRIPTION_PAGE = "page.subscription";
     private static final String SUBSCRIPTION_PARAMETER = "subscriptionTypes";
+    private static final String ERROR_PAGE = "page.error";
 
     private final SubscriptionService subscriptionService;
     private final PropertyContext propertyContext;
@@ -26,10 +33,18 @@ public enum GoToSubscriptionPageCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
 
-        final List<SubscriptionType> subscriptionTypes = subscriptionService.findAllTypes();
+        try {
 
-        request.addAttributeToJsp(SUBSCRIPTION_PARAMETER, subscriptionTypes);
+            request.addAttributeToJsp(SUBSCRIPTION_PARAMETER, subscriptionService.findAllTypes());
 
-        return requestFactory.createForwardResponse(propertyContext.get(SUBSCRIPTION_PAGE));
+            return requestFactory.createForwardResponse(propertyContext.get(SUBSCRIPTION_PAGE));
+
+        } catch (ServiceException e) {
+
+            logger.error("Failed finding of subscription types", e);
+            return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
+
+        }
     }
+
 }
