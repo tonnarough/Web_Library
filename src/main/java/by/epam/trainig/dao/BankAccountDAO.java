@@ -3,6 +3,7 @@ package by.epam.trainig.dao;
 import by.epam.trainig.dao.impl.MethodBankAccountDAO;
 import by.epam.trainig.entity.user.BankAccount;
 import by.epam.trainig.entity.user.CreditCard;
+import by.epam.trainig.exception.DAOException;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public interface BankAccountDAO extends EntityDAO<BankAccount> {
 
     Optional<CreditCard> findCreditCardBy(String columnName, Object value);
 
-    void create(BankAccount bankAccount, CreditCard creditCard) throws SQLException;
+    void create(BankAccount bankAccount, CreditCard creditCard) throws DAOException;
 
     static MethodBankAccountDAO getInstance() {
         return MethodBankAccountDAO.INSTANCE;
