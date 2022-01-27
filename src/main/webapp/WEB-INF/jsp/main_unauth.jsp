@@ -11,12 +11,13 @@
 <fmt:setBundle basename="l10n.page.main" var="loc"/>
 <fmt:message bundle="${loc}" key="label.link.login" var="login"/>
 <fmt:message bundle="${loc}" key="label.link.registration" var="registration"/>
+<fmt:message bundle="${loc}" key="label.link.title" var="title"/>
 <fmt:message bundle="${loc}" key="label.link.rusbutton" var="ru"/>
 <fmt:message bundle="${loc}" key="label.link.engbutton" var="en"/>
 
 <html>
 <head>
-    <title>Main</title>
+    <title>${title}</title>
 </head>
 <body>
 <div class="form">
