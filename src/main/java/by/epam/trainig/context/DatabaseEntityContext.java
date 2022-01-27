@@ -2,6 +2,10 @@ package by.epam.trainig.context;
 
 import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
+import by.epam.trainig.entity.book.Author;
+import by.epam.trainig.entity.book.Book;
+import by.epam.trainig.entity.book.Genre;
+import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.entity.user.*;
 
 import java.util.*;
@@ -9,10 +13,19 @@ import java.util.stream.Collectors;
 
 public class  DatabaseEntityContext {
 
-
-
     @SuppressWarnings("rawtypes")
-    private final Class[] classArray = {User.class, UserDetail.class, Subscription.class, SubscriptionType.class, Role.class, CreditCard.class, BankAccount.class};
+    private final Class[] classArray = {User.class,
+            UserDetail.class,
+            Subscription.class,
+            SubscriptionType.class,
+            Role.class,
+            CreditCard.class,
+            BankAccount.class,
+            Author.class,
+            Book.class,
+            Genre.class,
+            PublishingHouse.class
+    };
     private final Map<String, List<String>> entityDatabaseMap = new HashMap<>();
     private static DatabaseEntityContext databaseEntityContext;
 
