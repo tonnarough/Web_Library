@@ -2,6 +2,8 @@ package by.epam.trainig.service.impl;
 
 import by.epam.trainig.dao.BankAccountDAO;
 import by.epam.trainig.entity.user.*;
+import by.epam.trainig.exception.DAOException;
+import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.BankAccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,24 +34,31 @@ public enum BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public void create(User user, CreditCard creditCard) {
+    public void create(User user, CreditCard creditCard) throws ServiceException {
 
-        try {
-            bankAccountDAO.create(new BankAccount(user.getId(), creditCard.getId()), creditCard);
-        } catch (SQLException e) {
-            logger.error("Creating bank account $ credit card are denied", e);
-        }
+            try {
+
+                bankAccountDAO.create(new BankAccount(user.getId(), creditCard.getId()), creditCard);
+
+            } catch (DAOException e) {
+
+                logger.error("Creating bank account $ credit card are denied", e);
+                throw new ServiceException(e);
+
+            }
     }
 
     @Override
     public void updateCreditCard(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
         bankAccountDAO.updateCreditCard(updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
     public Optional<CreditCard> findCreditCardBy(String columnName, Object value) {
 
         return bankAccountDAO.findCreditCardBy(columnName, value);
+
     }
 }

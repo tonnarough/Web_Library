@@ -5,6 +5,8 @@ import by.epam.trainig.dao.EntityDAO;
 import by.epam.trainig.dao.UserDAO;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
+import by.epam.trainig.exception.DAOException;
+import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,13 +37,18 @@ public enum UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws ServiceException {
+
         try {
+
             return userDAO.findAll();
-        } catch (SQLException e) {
+
+        } catch (DAOException e) {
+
             logger.error("Users are not found", e);
+            throw new ServiceException(e);
+
         }
-        return null;
     }
 
     @Override
@@ -54,16 +61,20 @@ public enum UserServiceImpl implements UserService {
         logger.trace("Authorization");
 
         if (login == null || password == null) {
+
             return Optional.empty();
+
         }
 
         final Optional<User> user = userDAO.findBy(FIND_USER_BY_PARAMETER, login);
         final byte[] enteredPassword = password.getBytes(StandardCharsets.UTF_8);
 
         if (user.isPresent()) {
+
             final byte[] hashedPassword = user.get()
                     .getPassword()
                     .getBytes(StandardCharsets.UTF_8);
+
             return verifyer.verify(enteredPassword, hashedPassword).verified
                     ? user
                     : Optional.empty();
@@ -78,7 +89,7 @@ public enum UserServiceImpl implements UserService {
 
     @Override
     public void registration(String login, String password, String lastName, String firstName,
-                             String fatherName, String email, String mobile, Date birthday) {
+                             String fatherName, String email, String mobile, Date birthday) throws ServiceException {
 
         logger.trace("Registration");
 
@@ -90,8 +101,9 @@ public enum UserServiceImpl implements UserService {
 
         try {
             userDAO.create(user, userDetail);
-        } catch (SQLException e) {
+        } catch (DAOException e) {
             logger.error("Registration denied", e);
+            throw new ServiceException(e);
         }
     }
 

@@ -4,6 +4,8 @@ import by.epam.trainig.dao.SubscriptionDAO;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.User;
+import by.epam.trainig.exception.DAOException;
+import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.SubscriptionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,13 +36,18 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
-    public List<SubscriptionType> findAllTypes() {
+    public List<SubscriptionType> findAllTypes() throws ServiceException {
+
         try {
+
             return subscriptionDAO.findAllTypes();
-        } catch (SQLException e) {
+
+        } catch (DAOException e) {
+
             logger.error("Subscription types are not found", e);
+            throw new ServiceException(e);
+
         }
-        return null;
     }
 
     @Override
@@ -61,6 +68,7 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
                                         .ofPattern("yyyy-MM-dd"))),
                 USER_ID_COLUMN,
                 user.getId());
+
     }
 
     @Override
@@ -77,6 +85,7 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
     public void create(Subscription entity, SubscriptionType subscriptionType) {
 
         entity.setStartDate(Date.valueOf(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))));
+
         entity.setEndDate(Date
                 .valueOf(LocalDateTime
                         .now()
@@ -89,19 +98,29 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public Optional<Subscription> findByUserId(Integer id) {
+
         return subscriptionDAO.findBy(FIND_SUBSCRIPTION_BY_PARAMETER, id);
+
     }
 
     @Override
-    public SubscriptionType findByType(String chosenType) {
+    public SubscriptionType findByType(String chosenType) throws ServiceException {
+
         try {
-            return subscriptionDAO.findAllTypes().stream()
+
+            return subscriptionDAO
+                    .findAllTypes()
+                    .stream()
                     .filter(subType -> (subType.getDescription() + ": " + subType.getPrice()).equals(chosenType))
-                    .collect(Collectors.toList()).get(0);
-        } catch (SQLException e) {
-            e.printStackTrace(); //TODO: logger
+                    .collect(Collectors.toList())
+                    .get(0);
+
+        } catch (DAOException e) {
+
+            logger.error("Failed finding of all types of subscription", e);
+            throw new ServiceException(e);
+
         }
-        return null;
     }
 
 }
