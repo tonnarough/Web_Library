@@ -5,9 +5,11 @@ import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
 import by.epam.trainig.controller.command.WrappingCommandRequest;
 import by.epam.trainig.controller.command.WrappingCommandResponse;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileInputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +27,11 @@ public enum RequestFactoryImpl implements RequestFactory {
     @Override
     public CommandResponse createForwardResponse(String path) {
         return forwardResponseCache.computeIfAbsent(path, WrappingCommandResponse::new);
+    }
+
+    @Override
+    public CommandResponse createRedirectResponseWithInputStream(String path, S3ObjectInputStream inputStream) {
+        return redirectResponseCache.computeIfAbsent(path, p -> new WrappingCommandResponse(false, p, null, inputStream));
     }
 
     @Override

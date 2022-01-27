@@ -3,6 +3,7 @@ package by.epam.trainig.controller;
 import by.epam.trainig.controller.command.Command;
 import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class Controller extends HttpServlet {
 
@@ -18,35 +20,56 @@ public class Controller extends HttpServlet {
     private final RequestFactory requestFactory = RequestFactory.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        process(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        process(req, resp);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        process(request, response);
     }
 
-    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String commandName = req.getParameter(COMMAND_NAME_PARAM);
+        String commandName = request.getParameter(COMMAND_NAME_PARAM);
         Command command = Command.of(commandName);
-        CommandRequest commandRequest = requestFactory.createRequest(req);
+        CommandRequest commandRequest = requestFactory.createRequest(request);
         CommandResponse commandResponse = command.execute(commandRequest);
-        processWithResponse(req, resp, commandResponse);
+        processWithResponse(request, response, commandResponse);
     }
 
-    private void processWithResponse(HttpServletRequest req, HttpServletResponse resp, CommandResponse commandResponse) throws ServletException, IOException {
-        if (commandResponse.isRedirect() && commandResponse.getCookie() != null) {
-            resp.addCookie(commandResponse.getCookie());
-            resp.sendRedirect(commandResponse.getPath());
-        } else if (commandResponse.isRedirect()) {
-            resp.sendRedirect(commandResponse.getPath());
+    private void processWithResponse(HttpServletRequest request, HttpServletResponse response, CommandResponse commandResponse) throws ServletException, IOException {
+
+        if (commandResponse.getInputStream() != null) {
+            downloadBooksFromServer(response, commandResponse);
+        }
+
+        if (commandResponse.isRedirect()) {
+
+            if (commandResponse.getCookie() != null) {
+                response.addCookie(commandResponse.getCookie());
+            }
+
+            response.sendRedirect(commandResponse.getPath());
         } else {
-            final RequestDispatcher requestDispatcher = req.getRequestDispatcher(commandResponse.getPath());
-            requestDispatcher.forward(req, resp);
+            final RequestDispatcher requestDispatcher = request.getRequestDispatcher(commandResponse.getPath());
+            requestDispatcher.forward(request, response);
         }
     }
 
+    private void downloadBooksFromServer(HttpServletResponse response, CommandResponse commandResponse) throws IOException {
+
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+        response.setContentType("APPLICATION/OCTET-STREAM");
+        response.setHeader("Content-Disposition", "attachment; filename=\""
+                + "test.png" + "\"");
+        int i;
+        while ((i = commandResponse.getInputStream().read()) != -1) {
+            out.write(i);
+        }
+        commandResponse.getInputStream().close();
+        out.close();
+    }
 
 }

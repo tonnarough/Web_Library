@@ -1,5 +1,7 @@
 package by.epam.trainig.controller.command;
 
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+
 import javax.servlet.http.Cookie;
 
 public interface CommandResponse {
@@ -9,5 +11,7 @@ public interface CommandResponse {
     String getPath();
 
     Cookie getCookie();
+
+    S3ObjectInputStream getInputStream();
 
 }
