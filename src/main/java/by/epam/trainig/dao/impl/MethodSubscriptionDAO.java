@@ -6,7 +6,9 @@ import by.epam.trainig.dao.SubscriptionDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.Subscription;
 import by.epam.trainig.entity.user.SubscriptionType;
-import by.epam.trainig.entity.user.User;
+import by.epam.trainig.exception.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.Optional;
 
 public enum MethodSubscriptionDAO implements SubscriptionDAO {
     INSTANCE;
+
+    private static final Logger logger = LogManager.getLogger(MethodSubscriptionDAO.class);
 
     private final QueryOperation queryOperation = QueryOperation.getInstance();
 
@@ -30,12 +34,16 @@ public enum MethodSubscriptionDAO implements SubscriptionDAO {
 
     @Override
     public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
+
         queryOperation.update(tableSubscription, updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
-    public List<Subscription> findAll() throws SQLException {
+    public List<Subscription> findAll() {
+
         return null;
+
     }
 
     @Override
@@ -45,17 +53,31 @@ public enum MethodSubscriptionDAO implements SubscriptionDAO {
 
     @Override
     public void create(Subscription entity) {
+
         queryOperation.create(subscriptionColumnNames, tableSubscription, entity, Subscription.class);
+
     }
 
     @Override
     public Optional<Subscription> findBy(String columnName, Object value) {
+
         return queryOperation.findBy(tableSubscription, subscriptionColumnNames.get(subscriptionColumnNames.indexOf(String.format("%s", columnName))),
                 value, Subscription.class);
+
     }
 
     @Override
-    public List<SubscriptionType> findAllTypes() throws SQLException {
-        return queryOperation.findAll(tableSubscriptionTypes, SubscriptionType.class);
+    public List<SubscriptionType> findAllTypes() throws DAOException {
+
+        try {
+
+            return queryOperation.findAll(tableSubscriptionTypes, SubscriptionType.class);
+
+        } catch (SQLException e) {
+
+            logger.error("Failed finding of all types of subscription", e);
+            throw new DAOException(e);
+
+        }
     }
 }

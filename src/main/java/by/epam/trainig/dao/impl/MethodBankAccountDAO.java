@@ -7,6 +7,7 @@ import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.BankAccount;
 import by.epam.trainig.entity.user.CreditCard;
+import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,8 +39,10 @@ public enum MethodBankAccountDAO implements BankAccountDAO {
     }
 
     @Override
-    public List<BankAccount> findAll() throws SQLException {
+    public List<BankAccount> findAll() throws DAOException {
+
         return null;
+
     }
 
     @Override
@@ -53,10 +56,12 @@ public enum MethodBankAccountDAO implements BankAccountDAO {
     }
 
     @Override
-    public void create(BankAccount bankAccount, CreditCard creditCard) throws SQLException {
+    public void create(BankAccount bankAccount, CreditCard creditCard) throws DAOException {
 
         Connection connection = ConnectionPool.getConnectionPool().getConnection();
+
         try {
+
             connection.setAutoCommit(false);
 
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
@@ -75,26 +80,29 @@ public enum MethodBankAccountDAO implements BankAccountDAO {
             connection.commit();
 
         } catch (SQLException e) {
+
             logger.error("Failed transaction", e);
-            connection.rollback();
+            rollback(connection ,logger);
 
         } finally {
-            logger.trace("Transaction is completed");
-            connection.setAutoCommit(true);
+
+            reliaseConnection(connection, logger);
+
         }
-
-
     }
 
     @Override
     public Optional<BankAccount> findBy(String columnName, Object value) {
+
         return Optional.empty();
+
     }
 
     @Override
     public void updateCreditCard(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
         queryOperation.update(tableCreditCardClass, updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
@@ -102,5 +110,7 @@ public enum MethodBankAccountDAO implements BankAccountDAO {
 
         return queryOperation.findBy(tableCreditCardClass, creditCardColumnNames.get(creditCardColumnNames.indexOf(String.format("%s", columnName))),
                 value, CreditCard.class);
+
     }
+
 }

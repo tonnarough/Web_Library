@@ -7,6 +7,7 @@ import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
+import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,31 +38,46 @@ public enum MethodUserDAO implements UserDAO {
     public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
         queryOperation.update(tableUser, updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
-    public List<User> findAll() throws SQLException {
+    public List<User> findAll() throws DAOException {
 
-        return queryOperation.findAll(tableUser, User.class);
+        try {
+
+            return queryOperation.findAll(tableUser, User.class);
+
+        } catch (SQLException e) {
+
+            logger.error("Failed with finding of all users", e);
+            throw new DAOException(e);
+
+        }
+
     }
 
     @Override
     public void delete(String column, Object values) {
 
         queryOperation.delete(tableUser, column, values);
+
     }
 
     @Override
     public void create(User user) {
 
         queryOperation.create(userColumnNames, tableUser, user, User.class);
+
     }
 
-    public void create(User user, UserDetail userDetail) throws SQLException {
+    public void create(User user, UserDetail userDetail) throws DAOException {
         logger.trace("Create User & UserDetail, start transaction");
 
         Connection connection = ConnectionPool.getConnectionPool().getConnection();
+
         try {
+
             connection.setAutoCommit(false);
 
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
@@ -80,13 +96,14 @@ public enum MethodUserDAO implements UserDAO {
             connection.commit();
 
         } catch (SQLException e) {
-            logger.error("Failed transaction", e);
 
-            connection.rollback();
+            logger.error("Failed transaction", e);
+            rollback(connection, logger);
 
         } finally {
-            logger.trace("Transaction is completed");
-            connection.setAutoCommit(true);
+
+            reliaseConnection(connection, logger);
+
         }
     }
 
@@ -95,6 +112,7 @@ public enum MethodUserDAO implements UserDAO {
 
         return queryOperation.findBy(tableUserDetail, userDetailColumnNames.get(userDetailColumnNames.indexOf(String.format("%s", columnName))),
                 value, UserDetail.class);
+
     }
 
     @Override
@@ -102,6 +120,7 @@ public enum MethodUserDAO implements UserDAO {
 
         return queryOperation.findBy(tableUser, userColumnNames.get(userColumnNames.indexOf(String.format("%s", columnName))),
                 value, User.class);
+
     }
 
 }
