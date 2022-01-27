@@ -37,4 +37,10 @@
         <tagDatabase tag="v-4.0"/>
     </changeSet>
 
+    <include file="src/main/resources/db/migration/changesets/v5.0/changeset-202201260535.xml"/>
+
+    <changeSet id="25" author="Anton_Yatsevich">
+        <tagDatabase tag="v-5.0"/>
+    </changeSet>
+
 </databaseChangeLog>

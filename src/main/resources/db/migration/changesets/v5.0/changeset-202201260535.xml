@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <include file="01-changeset-books-table.xml" relativeToChangelogFile="true"/>
+    <include file="10-changeset-genres-table.xml" relativeToChangelogFile="true"/>
+    <include file="20-changeset-genres_books-table.xml" relativeToChangelogFile="true"/>
+    <include file="30-changeset-authors-table.xml" relativeToChangelogFile="true"/>
+    <include file="40-changeset-authors_books-table.xml" relativeToChangelogFile="true"/>
+    <include file="50-changeset-publishing_houses-table.xml" relativeToChangelogFile="true"/>
+    <include file="60-changeset-publishing_houses_books-table.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
