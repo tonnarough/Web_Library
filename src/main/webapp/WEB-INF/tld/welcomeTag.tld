@@ -3,10 +3,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
         version="2.1">
+
     <description>Welcome user tags library</description>
     <tlib-version>1.0</tlib-version>
     <short-name>jwst</short-name>
-    <uri>by.epam.trainig.tag</uri>
+    <uri>http://by/epam/training</uri>
     <tag>
         <name>welcomeUser</name>
         <tag-class>by.epam.trainig.tag.WelcomeUserTag</tag-class>
@@ -18,4 +19,5 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
     </tag>
+
 </taglib>
