@@ -19,6 +19,8 @@ public enum GoToSubscriptionPageCommand implements Command {
     private static final String SUBSCRIPTION_PAGE = "page.subscription";
     private static final String SUBSCRIPTION_PARAMETER = "subscriptionTypes";
     private static final String ERROR_PAGE = "page.error";
+    private static final String URL = "url";
+    private static final String PARAMETER_FROM_REQUEST = "command";
 
     private final SubscriptionService subscriptionService;
     private final PropertyContext propertyContext;
@@ -36,6 +38,8 @@ public enum GoToSubscriptionPageCommand implements Command {
         try {
 
             request.addAttributeToJsp(SUBSCRIPTION_PARAMETER, subscriptionService.findAllTypes());
+
+            request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST)));
 
             return requestFactory.createForwardResponse(propertyContext.get(SUBSCRIPTION_PAGE));
 

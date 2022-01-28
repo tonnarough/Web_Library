@@ -16,6 +16,8 @@ public enum GoToMainAuthPageCommand implements Command {
     INSTANCE(PropertyContext.getInstance(), RequestFactory.getInstance());
 
     private static final String MAIN_AUTH_PAGE = "page.main_auth";
+    private static final String URL = "url";
+    private static final String PARAMETER_FROM_REQUEST = "command";
 
     private final PropertyContext propertyContext;
     private final RequestFactory requestFactory;
@@ -28,6 +30,9 @@ public enum GoToMainAuthPageCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
 
+        request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST)));
+
         return requestFactory.createForwardResponse(propertyContext.get(MAIN_AUTH_PAGE));
+
     }
 }

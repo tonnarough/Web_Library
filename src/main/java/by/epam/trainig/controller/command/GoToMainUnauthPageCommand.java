@@ -8,7 +8,6 @@ public enum GoToMainUnauthPageCommand implements Command {
 
     private static final String MAIN_UNAUTH_PAGE = "page.main_unauth";
     private static final String URL = "url";
-    private static final String PARAMETER_NAME = "?command=";
     private static final String PARAMETER_FROM_REQUEST = "command";
 
     private final PropertyContext propertyContext;
@@ -22,7 +21,7 @@ public enum GoToMainUnauthPageCommand implements Command {
     @Override
     public CommandResponse execute(CommandRequest request) {
 
-        request.addToSession(URL, request.getRequestURL() + PARAMETER_NAME + request.getParameter(PARAMETER_FROM_REQUEST));
+        request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST)));
 
         return requestFactory.createForwardResponse(propertyContext.get(MAIN_UNAUTH_PAGE));
     }
