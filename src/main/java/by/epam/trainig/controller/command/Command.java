@@ -13,4 +13,9 @@ public interface Command {
     static Command of(String name) {
         return CommandProvider.getCommand(name);
     }
+
+    default String urlBuilder(String url, String parameter){
+        return String.format("%s?command=%s", url, parameter);
+    }
+
 }
