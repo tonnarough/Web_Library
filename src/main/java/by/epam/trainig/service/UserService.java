@@ -1,6 +1,7 @@
 package by.epam.trainig.service;
 
 import by.epam.trainig.entity.user.User;
+import by.epam.trainig.entity.user.UserDetail;
 import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.impl.UserServiceImpl;
 
@@ -17,6 +18,8 @@ public interface UserService extends EntityService<User> {
                              String fatherName, String email, String mobile, Date birthday) throws ServiceException;
 
     boolean isExists(String login);
+
+    Optional<UserDetail> findByUserId(int id);
 
     static UserServiceImpl getInstance(){
         return UserServiceImpl.INSTANCE;

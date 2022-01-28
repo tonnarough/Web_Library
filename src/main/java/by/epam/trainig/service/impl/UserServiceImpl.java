@@ -1,7 +1,6 @@
 package by.epam.trainig.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import by.epam.trainig.dao.EntityDAO;
 import by.epam.trainig.dao.UserDAO;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
@@ -13,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +26,9 @@ public enum UserServiceImpl implements UserService {
     private final BCrypt.Hasher hasher;
     private final BCrypt.Verifyer verifyer;
 
-    private static final String FIND_USER_BY_PARAMETER = "login";
+    private static final String FIND_USER_BY_LOGIN_PARAMETER = "login";
+    private static final String FIND_USER_BY_ID_PARAMETER = "id";
+
 
     UserServiceImpl(UserDAO userDAO, BCrypt.Hasher hasher, BCrypt.Verifyer verifyer) {
         this.userDAO = userDAO;
@@ -66,7 +66,7 @@ public enum UserServiceImpl implements UserService {
 
         }
 
-        final Optional<User> user = userDAO.findBy(FIND_USER_BY_PARAMETER, login);
+        final Optional<User> user = userDAO.findBy(FIND_USER_BY_LOGIN_PARAMETER, login);
         final byte[] enteredPassword = password.getBytes(StandardCharsets.UTF_8);
 
         if (user.isPresent()) {
@@ -109,7 +109,14 @@ public enum UserServiceImpl implements UserService {
 
     @Override
     public boolean isExists(String login) {
-        return userDAO.findBy(FIND_USER_BY_PARAMETER, login).isPresent();
+        return userDAO.findBy(FIND_USER_BY_LOGIN_PARAMETER, login).isPresent();
+    }
+
+    @Override
+    public Optional<UserDetail> findByUserId(int id) {
+
+        return userDAO.findByUserDetail(FIND_USER_BY_ID_PARAMETER, id);
+
     }
 
 }
