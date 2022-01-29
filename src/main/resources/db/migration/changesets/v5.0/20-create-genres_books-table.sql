@@ -3,6 +3,7 @@ CREATE TABLE genres_books
     genre_id INT NOT NULL,
     book_id  INT NOT NULL,
 
+    PRIMARY KEY (genre_id, book_id),
     CONSTRAINT FK_GENRES_ID
         FOREIGN KEY (genre_id)
             REFERENCES genres (id)

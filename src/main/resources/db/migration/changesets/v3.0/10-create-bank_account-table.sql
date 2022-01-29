@@ -3,6 +3,7 @@ CREATE TABLE bank_account
     user_id        INT NOT NULL,
     credit_card_id INT NOT NULL,
 
+    PRIMARY KEY (user_id, credit_card_id),
     CONSTRAINT FK_USERS_ID
         FOREIGN KEY (user_id)
             REFERENCES users (id)
