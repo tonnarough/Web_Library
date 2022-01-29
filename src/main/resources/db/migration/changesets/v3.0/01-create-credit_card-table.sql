@@ -5,7 +5,7 @@ CREATE TABLE credit_cards
     cardholder_name      VARCHAR(50)   NOT NULL,
     card_expiration_date DATE          NOT NULL,
     cvv                  INT           NOT NULL,
-    balance              DECIMAL(6, 2) NOT NULL,
+    balance              DECIMAL(6, 2) NOT NULL DEFAULT 100,
 
     PRIMARY KEY (id),
     INDEX IX_CARDHOLDER (cardholder_name ASC) VISIBLE,
