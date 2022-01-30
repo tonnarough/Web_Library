@@ -1,9 +1,8 @@
 CREATE TABLE authors_books
 (
-    author_id INT NOT NULL,
     book_id   INT NOT NULL,
+    author_id INT NOT NULL,
 
-    PRIMARY KEY (author_id, book_id),
     CONSTRAINT FK_AUTHORS_ID
         FOREIGN KEY (author_id)
             REFERENCES authors (id)
