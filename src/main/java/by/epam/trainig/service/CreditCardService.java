@@ -7,7 +7,7 @@ import by.epam.trainig.service.impl.CreditCardServiceImpl;
 
 import java.util.Optional;
 
-public interface BankAccountService extends EntityService<CreditCard> {
+public interface CreditCardService extends EntityService<CreditCard> {
 
     Optional<CreditCard> findCreditCardBy(String findByValue, String creditCardNumber);
 

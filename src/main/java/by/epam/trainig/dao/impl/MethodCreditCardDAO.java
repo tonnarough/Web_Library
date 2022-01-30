@@ -2,7 +2,7 @@ package by.epam.trainig.dao.impl;
 
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
-import by.epam.trainig.dao.BankAccountDAO;
+import by.epam.trainig.dao.CreditCardDAO;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.CreditCard;
@@ -16,10 +16,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public enum MethodBankAccountDAO implements BankAccountDAO {
+public enum MethodCreditCardDAO implements CreditCardDAO {
     INSTANCE;
 
-    private static final Logger logger = LogManager.getLogger(MethodBankAccountDAO.class);
+    private static final Logger logger = LogManager.getLogger(MethodCreditCardDAO.class);
 
     private final QueryOperation queryOperation = QueryOperation.getInstance();
 

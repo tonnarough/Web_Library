@@ -7,7 +7,7 @@ import by.epam.trainig.exception.DAOException;
 
 import java.util.Optional;
 
-public interface BankAccountDAO extends EntityDAO<CreditCard> {
+public interface CreditCardDAO extends EntityDAO<CreditCard> {
 
     void updateCreditCard(String updColumn, Object updValue, String whereColumn, Object whereValue);
 
