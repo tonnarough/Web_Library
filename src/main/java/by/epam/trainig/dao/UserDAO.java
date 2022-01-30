@@ -12,8 +12,6 @@ public interface UserDAO extends EntityDAO<User> {
 
     void create(User user, UserDetail userDetail) throws DAOException;
 
-    Optional<UserDetail> findByUserDetail(String columnName, Object value);
-
     static MethodUserDAO getInstance() {
         return MethodUserDAO.INSTANCE;
     }

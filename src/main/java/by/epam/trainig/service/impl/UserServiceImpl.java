@@ -2,6 +2,7 @@ package by.epam.trainig.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import by.epam.trainig.dao.UserDAO;
+import by.epam.trainig.dao.UserDetailDAO;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.entity.user.UserDetail;
 import by.epam.trainig.exception.DAOException;
@@ -18,11 +19,12 @@ import java.util.Optional;
 import static at.favre.lib.crypto.bcrypt.BCrypt.MIN_COST;
 
 public enum UserServiceImpl implements UserService {
-    INSTANCE(UserDAO.getInstance(), BCrypt.withDefaults(), BCrypt.verifyer());
+    INSTANCE(UserDAO.getInstance(),UserDetailDAO.getInstance(), BCrypt.withDefaults(), BCrypt.verifyer());
 
     private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     private final UserDAO userDAO;
+    private final UserDetailDAO userDetailDAO;
     private final BCrypt.Hasher hasher;
     private final BCrypt.Verifyer verifyer;
 
@@ -30,8 +32,9 @@ public enum UserServiceImpl implements UserService {
     private static final String FIND_USER_BY_ID_PARAMETER = "id";
 
 
-    UserServiceImpl(UserDAO userDAO, BCrypt.Hasher hasher, BCrypt.Verifyer verifyer) {
+    UserServiceImpl(UserDAO userDAO, UserDetailDAO userDetailDAO, BCrypt.Hasher hasher, BCrypt.Verifyer verifyer) {
         this.userDAO = userDAO;
+        this.userDetailDAO = userDetailDAO;
         this.hasher = hasher;
         this.verifyer = verifyer;
     }
@@ -115,7 +118,7 @@ public enum UserServiceImpl implements UserService {
     @Override
     public Optional<UserDetail> findByUserId(int id) {
 
-        return userDAO.findByUserDetail(FIND_USER_BY_ID_PARAMETER, id);
+        return userDetailDAO.findBy(FIND_USER_BY_ID_PARAMETER, id);
 
     }
 

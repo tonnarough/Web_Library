@@ -3,6 +3,7 @@ package by.epam.trainig.dao.impl;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.UserDAO;
+import by.epam.trainig.dao.UserDetailDAO;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.entity.user.User;
@@ -16,23 +17,24 @@ import java.util.List;
 import java.util.Optional;
 
 public enum MethodUserDAO implements UserDAO {
-    INSTANCE;
+    INSTANCE(QueryOperation.getInstance(), UserDetailDAO.getInstance());
 
     private static final Logger logger = LogManager.getLogger(MethodUserDAO.class);
 
-    private final QueryOperation queryOperation = QueryOperation.getInstance();
+    private static final String FIND_USER_DETAIL_BY_EMAIL = "email";
 
-    private final Class<UserDetail> userDetailClass = UserDetail.class;
-    private final Table tableUserDetail = userDetailClass.getAnnotation(Table.class);
+    private final QueryOperation queryOperation;
+    private UserDetailDAO userDetailDAO;
+
     private final Class<User> userClass = User.class;
     private final Table tableUser = userClass.getAnnotation(Table.class);
-
     private final List<String> userColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableUser.name());
 
-    private final List<String> userDetailColumnNames = DatabaseEntityContext
-            .getDatabaseEntityContext().getDatabaseContext(tableUserDetail.name());
-
+    MethodUserDAO(QueryOperation queryOperation, UserDetailDAO userDetailDAO) {
+        this.queryOperation = queryOperation;
+        this.userDetailDAO = userDetailDAO;
+    }
 
     @Override
     public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) {
@@ -82,10 +84,9 @@ public enum MethodUserDAO implements UserDAO {
 
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
-            queryOperation.create(userDetailColumnNames, tableUserDetail, userDetail, UserDetail.class, connection);
+            userDetailDAO.create(userDetail, connection);
 
-            Optional<UserDetail> userDetailFromDB = queryOperation.findBy(tableUserDetail, userDetailColumnNames.get(4),
-                    userDetail.getEmail(), UserDetail.class);
+            Optional<UserDetail> userDetailFromDB = userDetailDAO.findBy(FIND_USER_DETAIL_BY_EMAIL, userDetail.getEmail());
 
             userDetailFromDB.ifPresent(detail -> user.setUserDetailsId(detail.getId()));
 
@@ -105,14 +106,6 @@ public enum MethodUserDAO implements UserDAO {
             reliaseConnection(connection, logger);
 
         }
-    }
-
-    @Override
-    public Optional<UserDetail> findByUserDetail(String columnName, Object value) {
-
-        return queryOperation.findBy(tableUserDetail, userDetailColumnNames.get(userDetailColumnNames.indexOf(String.format("%s", columnName))),
-                value, UserDetail.class);
-
     }
 
     @Override
