@@ -5,7 +5,6 @@ import by.epam.trainig.controller.RequestFactory;
 import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.SubscriptionService;
-import by.epam.trainig.service.impl.BankAccountServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
