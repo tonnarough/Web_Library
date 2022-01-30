@@ -1,7 +1,7 @@
 CREATE TABLE users
 (
     id              INT          NOT NULL AUTO_INCREMENT,
-    role_id         INT          NOT NULL,
+    role_id         INT          NOT NULL Default 2,
     user_details_id INT          NOT NULL UNIQUE,
     login           VARCHAR(255) NULL UNIQUE,
     password        VARCHAR(255) NOT NULL,
