@@ -20,7 +20,6 @@ public class  DatabaseEntityContext {
             SubscriptionType.class,
             Role.class,
             CreditCard.class,
-            BankAccount.class,
             Author.class,
             Book.class,
             Genre.class,
