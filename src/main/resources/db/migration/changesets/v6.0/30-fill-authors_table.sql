@@ -1,0 +1,25 @@
+INSERT INTO authors
+    (id, last_name, first_name, father_name)
+VALUES (1, 'Kotaro', 'Isaka', null),
+       (2, 'Brandish', 'Charlotte', null),
+       (3, 'Herbert', 'Frank', null),
+       (4, 'Glukhovsky', 'Dmitry', 'Alekseevich'),
+       (5, 'Duma', 'Alexandr', null),
+       (6, 'Miller', 'Madeleine', null),
+       (7, 'Orwell', 'George', null),
+       (8, 'Bradbury', 'Ray', null),
+       (9, 'Barden','Phil', null),
+       (10, 'Belfort', 'Jordan', null),
+       (11, 'Marx', 'Karl', null),
+       (12, 'Vysotsky', 'Alexander', null),
+       (13, 'Dispenza', 'Joe', null),
+       (14, 'Kehoe', 'John', null),
+       (15, 'Carroll', 'Lewis', null),
+       (16, 'Jones', 'Diana', 'Wynn'),
+       (17, 'Churchill', 'Winston', null),
+       (18, 'Zhukov', 'Klim', null),
+       (19, 'Volkova', 'Paola', null),
+       (20, 'Basovskaya', 'Natalia', null),
+       (21, 'Walls', 'Craig' , null),
+       (22, 'Bewley', 'Alan' , null)
+

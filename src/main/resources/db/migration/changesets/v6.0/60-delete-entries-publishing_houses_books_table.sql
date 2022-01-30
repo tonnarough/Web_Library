@@ -1,0 +1,1 @@
+DELETE FROM publishing_houses_books
