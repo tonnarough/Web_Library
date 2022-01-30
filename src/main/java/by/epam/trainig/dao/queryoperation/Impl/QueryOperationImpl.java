@@ -130,6 +130,23 @@ public final class QueryOperationImpl implements QueryOperation {
     }
 
     @Override
+    public <T extends Entity> void create(String sqlQuery, int firstId, int secondId, Connection connection) {
+
+        try (PreparedStatement prepareStatement = connection.prepareStatement(sqlQuery)) {
+
+            prepareStatement.setInt(1, firstId);
+            prepareStatement.setInt(2, secondId);
+
+            prepareStatement.executeUpdate();
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+            logger.error("Failed creating with transaction ", e);
+        }
+    }
+
+    @Override
     public <T extends Entity> Optional<T> findBy(Table table, String column,
                                                  Object value, Class<T> type) {
 

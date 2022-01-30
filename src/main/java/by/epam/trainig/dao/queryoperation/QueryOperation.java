@@ -22,6 +22,8 @@ public interface QueryOperation {
 
     <T extends Entity> void create(List<String> entityColumns, Table table, T entity, Class<T> type, Connection connection);
 
+    <T extends Entity> void create(String sqlQuery, int firstId, int secondId, Connection connection);
+
     <T extends Entity> Optional<T> findBy(Table table, String column, Object value, Class<T> type);
 
     static QueryOperationImpl getInstance(){
