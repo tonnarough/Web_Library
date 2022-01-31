@@ -16,6 +16,11 @@ import java.io.PrintWriter;
 public class Controller extends HttpServlet {
 
     private static final String COMMAND_NAME_PARAM = "command";
+    private static final String TEXT_HTML = "text/html";
+    private static final String CONTENT_TYPE = "APPLICATION/OCTET-STREAM";
+    private static final String CONTENT_DISPOSITION = "Content-Disposition";
+    private static final String REQUEST_PARAMETER = "download";
+    private static final String ATTACHMENT = "attachment; filename=";
 
     private final RequestFactory requestFactory = RequestFactory.getInstance();
 
@@ -41,7 +46,7 @@ public class Controller extends HttpServlet {
     private void processWithResponse(HttpServletRequest request, HttpServletResponse response, CommandResponse commandResponse) throws ServletException, IOException {
 
         if (commandResponse.getInputStream() != null) {
-            downloadBooksFromServer(response, commandResponse);
+            downloadBooksFromServer(response, request.getParameter(REQUEST_PARAMETER), commandResponse);
         }
 
         if (commandResponse.isRedirect()) {
@@ -57,13 +62,13 @@ public class Controller extends HttpServlet {
         }
     }
 
-    private void downloadBooksFromServer(HttpServletResponse response, CommandResponse commandResponse) throws IOException {
+    private void downloadBooksFromServer(HttpServletResponse response, String fileName, CommandResponse commandResponse) throws IOException {
 
         PrintWriter out = response.getWriter();
-        response.setContentType("text/html");
-        response.setContentType("APPLICATION/OCTET-STREAM");
-        response.setHeader("Content-Disposition", "attachment; filename=\""
-                + "test.png" + "\"");
+        response.setContentType(TEXT_HTML);
+        response.setContentType(CONTENT_TYPE);
+        response.setHeader(CONTENT_DISPOSITION, ATTACHMENT+"\""
+                + fileName + "\"");
         int i;
         while ((i = commandResponse.getInputStream().read()) != -1) {
             out.write(i);
