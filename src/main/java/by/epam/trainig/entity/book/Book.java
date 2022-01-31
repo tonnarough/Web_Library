@@ -11,8 +11,8 @@ public class Book implements Entity {
 
     @Column(name = "id")
     private int id;
-    @Column(name = "titile")
-    private String titile;
+    @Column(name = "title")
+    private String title;
     @Column(name = "description")
     private String description;
     @Column(name = "age_limit")
@@ -27,10 +27,10 @@ public class Book implements Entity {
     public Book() {
     }
 
-    public Book(int id, String titile, String description,
+    public Book(int id, String title, String description,
                 String ageLimit, int numberOfPages, String file, String picture) {
         this.id = id;
-        this.titile = titile;
+        this.title = title;
         this.description = description;
         this.ageLimit = ageLimit;
         this.numberOfPages = numberOfPages;
@@ -46,12 +46,12 @@ public class Book implements Entity {
         this.id = id;
     }
 
-    public String getTitile() {
-        return titile;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitile(String titile) {
-        this.titile = titile;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -99,19 +99,19 @@ public class Book implements Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return id == book.id && numberOfPages == book.numberOfPages && titile.equals(book.titile) && description.equals(book.description) && ageLimit.equals(book.ageLimit) && file.equals(book.file) && picture.equals(book.picture);
+        return id == book.id && numberOfPages == book.numberOfPages && title.equals(book.title) && description.equals(book.description) && ageLimit.equals(book.ageLimit) && file.equals(book.file) && picture.equals(book.picture);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, titile, description, ageLimit, numberOfPages, file, picture);
+        return Objects.hash(id, title, description, ageLimit, numberOfPages, file, picture);
     }
 
     @Override
     public String toString() {
         return "Book{" +
                 "id=" + id +
-                ", titile='" + titile + '\'' +
+                ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", ageLimit='" + ageLimit + '\'' +
                 ", numberOfPages=" + numberOfPages +
