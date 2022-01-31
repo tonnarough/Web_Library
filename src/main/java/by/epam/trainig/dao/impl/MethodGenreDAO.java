@@ -71,4 +71,11 @@ public enum MethodGenreDAO implements GenreDAO {
         return queryOperation.findBy(tableGenre, columnName, value, Genre.class);
 
     }
+
+    @Override
+    public Optional<Genre> findById(int id) {
+
+        return findBy(genreColumnNames.get(0), id);
+
+    }
 }

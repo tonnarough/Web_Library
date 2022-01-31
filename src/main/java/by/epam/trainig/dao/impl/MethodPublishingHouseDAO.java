@@ -71,4 +71,11 @@ public enum MethodPublishingHouseDAO implements PublishingHouseDAO {
         return queryOperation.findBy(tablePublishingHouse, columnName, value, PublishingHouse.class);
 
     }
+
+    @Override
+    public Optional<PublishingHouse> findById(int id) {
+
+        return findBy(publishingHouseColumnNames.get(0), id);
+
+    }
 }

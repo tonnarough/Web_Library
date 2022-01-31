@@ -71,4 +71,11 @@ public enum MethodAuthorDAO implements AuthorDAO {
         return queryOperation.findBy(tableAuthor, columnName, value, Author.class);
 
     }
+
+    @Override
+    public Optional<Author> findById(int id) {
+
+        return findBy(authorColumnNames.get(0), id);
+
+    }
 }

@@ -71,4 +71,11 @@ public enum MethodBookDAO implements BookDAO {
         return queryOperation.findBy(tableBook, columnName, value, Book.class);
 
     }
+
+    @Override
+    public Optional<Book> findById(int id) {
+
+        return findBy(bookColumnNames.get(0), id);
+
+    }
 }

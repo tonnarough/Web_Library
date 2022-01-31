@@ -116,4 +116,11 @@ public enum MethodUserDAO implements UserDAO {
 
     }
 
+    @Override
+    public Optional<User> findById(int id) {
+
+        return findBy(userColumnNames.get(0), id);
+
+    }
+
 }

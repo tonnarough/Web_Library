@@ -76,6 +76,13 @@ public enum MethodSubscriptionDAO implements SubscriptionDAO {
     }
 
     @Override
+    public Optional<Subscription> findById(int id) {
+
+        return findBy(subscriptionColumnNames.get(0), id);
+
+    }
+
+    @Override
     public List<SubscriptionType> findAllTypes() throws DAOException {
 
         return subscriptionTypeDAO.findAll();

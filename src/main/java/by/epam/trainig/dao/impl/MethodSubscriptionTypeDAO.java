@@ -68,4 +68,11 @@ public enum MethodSubscriptionTypeDAO implements SubscriptionTypeDAO {
         return queryOperation.findBy(tableSubscriptionTypes, columnName, value, SubscriptionType.class);
 
     }
+
+    @Override
+    public Optional<SubscriptionType> findById(int id) {
+
+        return findBy(subscriptionTypesColumnNames.get(0), id);
+
+    }
 }

@@ -94,6 +94,13 @@ public enum MethodCreditCardDAO implements CreditCardDAO {
     }
 
     @Override
+    public Optional<CreditCard> findById(int id) {
+
+        return findBy(creditCardColumnNames.get(0), id);
+
+    }
+
+    @Override
     public void updateCreditCard(String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
         queryOperation.update(tableCreditCardClass, updColumn, updValue, whereColumn, whereValue);

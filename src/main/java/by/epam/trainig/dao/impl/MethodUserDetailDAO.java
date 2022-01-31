@@ -73,4 +73,11 @@ public enum MethodUserDetailDAO implements UserDetailDAO {
         return queryOperation.findBy(tableUserDetail, columnName, value, UserDetail.class);
 
     }
+
+    @Override
+    public Optional<UserDetail> findById(int id) {
+
+        return findBy(userDetailColumnNames.get(0), id);
+
+    }
 }
