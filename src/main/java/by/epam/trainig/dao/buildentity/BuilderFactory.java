@@ -2,7 +2,13 @@ package by.epam.trainig.dao.buildentity;
 
 import by.epam.trainig.dao.buildentity.impl.*;
 import by.epam.trainig.entity.Entity;
+import by.epam.trainig.entity.book.Author;
+import by.epam.trainig.entity.book.Book;
+import by.epam.trainig.entity.book.Genre;
+import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.entity.user.*;
+
+import java.awt.desktop.PreferencesHandler;
 
 public class BuilderFactory implements EntityBuilderFactory {
 
@@ -12,6 +18,10 @@ public class BuilderFactory implements EntityBuilderFactory {
     private EntityBuilder<Subscription> subscriptionBuilder;
     private EntityBuilder<SubscriptionType> subscriptionTypeBuilder;
     private EntityBuilder<CreditCard> creditCardEntityBuilder;
+    private EntityBuilder<Book> bookEntityBuilder;
+    private EntityBuilder<PublishingHouse> publishingHouseEntityBuilder;
+    private EntityBuilder<Author> authorEntityBuilder;
+    private EntityBuilder<Genre> genreEntityBuilder;
 
     private BuilderFactory() {
     }
@@ -53,6 +63,26 @@ public class BuilderFactory implements EntityBuilderFactory {
                 creditCardEntityBuilder = new CreditCardBuilder();
             }
             builder = (EntityBuilder<T>) creditCardEntityBuilder;
+        }else if (Book.class.isAssignableFrom(type)) {
+            if (bookEntityBuilder == null) {
+                bookEntityBuilder = new BookBuilder();
+            }
+            builder = (EntityBuilder<T>) bookEntityBuilder;
+        }else if (Genre.class.isAssignableFrom(type)) {
+            if (genreEntityBuilder == null) {
+                genreEntityBuilder = new GenreBuilder();
+            }
+            builder = (EntityBuilder<T>) genreEntityBuilder;
+        }else if (PublishingHouse.class.isAssignableFrom(type)) {
+            if (publishingHouseEntityBuilder == null) {
+                publishingHouseEntityBuilder = new PublishingHouseBuilder();
+            }
+            builder = (EntityBuilder<T>) publishingHouseEntityBuilder;
+        }else if (Author.class.isAssignableFrom(type)) {
+            if (authorEntityBuilder == null) {
+                authorEntityBuilder = new AuthorBuilder();
+            }
+            builder = (EntityBuilder<T>) authorEntityBuilder;
         }
         return builder;
     }

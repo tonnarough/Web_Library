@@ -34,7 +34,7 @@ public class BookBuilder implements EntityBuilder<Book> {
     public void buildResultSetByEntity(PreparedStatement preparedStatement, Book entity) throws SQLException {
 
         preparedStatement.setInt(1, entity.getId());
-        preparedStatement.setString(2, entity.getTitile());
+        preparedStatement.setString(2, entity.getTitle());
         preparedStatement.setString(3, entity.getDescription());
         preparedStatement.setString(4, entity.getAgeLimit());
         preparedStatement.setInt(5, entity.getNumberOfPages());
