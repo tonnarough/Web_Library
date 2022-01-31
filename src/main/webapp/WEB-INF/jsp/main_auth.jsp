@@ -34,8 +34,6 @@
     <input type="submit" value="${en}">
 </form>
 <form class = "logout">
-    <input type="hidden" name="command" value="main">
-    <input class="button" type="submit" value="Press me pls"><br>
     <a href="${pageContext.request.contextPath}/controller?command=logout">${logout}</a>
 </form>
 
@@ -57,7 +55,7 @@
             </c:if>
             <td>
                     ${book.picture} <br>
-                <a href="controller?command=go_to_book_detail_page&books=${book.id}">${book.title}</a>
+                    <a href="controller?command=go_to_book_detail_page&books=${book.id}">${book.title}</a>
             </td>
             <c:if test="${loops eq index+3}">
                 </tr>
@@ -69,9 +67,10 @@
 </body>
 
 </html>
+
 <style>
     body {
-        background-color: cadetblue;
+        background-color: lightblue;
     }
     p {
         font-size: 20px;
@@ -87,10 +86,6 @@
         color: black;
         font-weight: 600;
     }
-    form.ru, form.en {
-        width: 3%;
-        float: left;
-    }
     form.search {
         text-align: center;
     }
@@ -101,7 +96,7 @@
         text-decoration: none;
         outline: none;
         border: none;
-        background-color: mediumpurple;
+        background-color: lightblue;
         position: relative;
         bottom: 25px;
     }
@@ -109,7 +104,7 @@
         opacity: 0.7;
     }
     table {
-        background-color: blanchedalmond;
+        background-color: lightblue;
 
     }
     table a {
@@ -118,10 +113,8 @@
         color: black;
     }
     td {
-        border-bottom: 2px solid red;
-        border-right: 2px solid red;
+        border-bottom: 2px solid black;
+        border-right: 2px solid black;
         text-align: center;
     }
-
-
 </style>
