@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 public enum BookServiceImpl implements BookService {
     INSTANCE(BookDAO.getInstance());
@@ -62,5 +63,21 @@ public enum BookServiceImpl implements BookService {
     @Override
     public List<Book> findAllBook() {
         return null;
+    }
+
+    @Override
+    public Book findBookById(int id) throws ServiceException {
+
+        Optional<Book> book = bookDAO.findById(id);
+
+        if (book.isPresent()) {
+
+            return book.get();
+
+        } else {
+
+            throw new ServiceException("Book not found");
+        }
+
     }
 }

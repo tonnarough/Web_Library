@@ -4,6 +4,7 @@ import by.epam.trainig.entity.book.Author;
 import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.entity.book.Genre;
 import by.epam.trainig.entity.book.PublishingHouse;
+import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.impl.BookServiceImpl;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface BookService extends EntityService<Book>{
     List<Book> findByGenre(Genre genre);
 
     List<Book> findAllBook();
+
+    Book findBookById(int id) throws ServiceException;
 
     static BookServiceImpl getInstance(){
         return BookServiceImpl.INSTANCE;
