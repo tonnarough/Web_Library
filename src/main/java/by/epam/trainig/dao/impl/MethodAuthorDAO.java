@@ -4,7 +4,9 @@ import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.AuthorDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
+import by.epam.trainig.dao.queryoperation.QueryOperator;
 import by.epam.trainig.entity.book.Author;
+import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,6 +78,20 @@ public enum MethodAuthorDAO implements AuthorDAO {
     public Optional<Author> findById(int id) {
 
         return findBy(authorColumnNames.get(0), id);
+
+    }
+
+    @Override
+    public List<Author> findAuthorsByBookId(int id) {
+
+        final String sqlQuery = String.format(QueryOperator.SELECT
+                + " * " + QueryOperator.FROM + " authors " + QueryOperator.INNER + " " +
+                QueryOperator.JOIN + " authors_books " + QueryOperator.ON +
+                " authors.id = authors_books.author_id " + QueryOperator.INNER + " " + QueryOperator.JOIN +
+                " books " + QueryOperator.ON + " authors_books.book_id = books.id " +
+                "WHERE books.id = %s", id);
+
+        return queryOperation.findWithSql(sqlQuery, Author.class);
 
     }
 }

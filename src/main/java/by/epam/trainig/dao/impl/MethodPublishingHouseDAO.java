@@ -4,6 +4,8 @@ import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.PublishingHouseDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
+import by.epam.trainig.dao.queryoperation.QueryOperator;
+import by.epam.trainig.entity.book.Author;
 import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -78,4 +80,19 @@ public enum MethodPublishingHouseDAO implements PublishingHouseDAO {
         return findBy(publishingHouseColumnNames.get(0), id);
 
     }
+
+    @Override
+    public List<PublishingHouse> findPublishingHouseByBookId(int id) {
+
+        final String sqlQuery = String.format(QueryOperator.SELECT
+                + " * " + QueryOperator.FROM + " publishing_houses " + QueryOperator.INNER + " " +
+                QueryOperator.JOIN + " publishing_houses_books " + QueryOperator.ON +
+                " publishing_houses.id = publishing_houses_books.publishing_house_id " + QueryOperator.INNER + " " + QueryOperator.JOIN +
+                " books " + QueryOperator.ON + " publishing_houses_books.book_id = books.id " +
+                "WHERE books.id = %s", id);
+
+        return queryOperation.findWithSql(sqlQuery, PublishingHouse.class);
+
+    }
+
 }

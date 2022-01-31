@@ -175,6 +175,26 @@ public final class QueryOperationImpl implements QueryOperation {
         return Optional.empty();
     }
 
+    @Override
+    public <T extends Entity> List<T> findWithSql(String sqlQuery, Class<T> type) {
+
+        final List<T> entityList = new ArrayList<>();
+
+        try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
+             final Statement statement = connection.createStatement();
+             final ResultSet resultSet = statement.executeQuery(sqlQuery)) {
+
+            while (resultSet.next()) {
+                entityList.add(entityBuilderFactory.entityBuild(type).buildEntity(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error("Failed finding of all entities ", e);
+        }
+
+        return entityList;
+
+    }
+
     private static class Holder {
         public final static QueryOperationImpl INSTANCE = new QueryOperationImpl();
     }

@@ -4,7 +4,9 @@ import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.GenreDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
+import by.epam.trainig.dao.queryoperation.QueryOperator;
 import by.epam.trainig.entity.book.Genre;
+import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,6 +78,20 @@ public enum MethodGenreDAO implements GenreDAO {
     public Optional<Genre> findById(int id) {
 
         return findBy(genreColumnNames.get(0), id);
+
+    }
+
+    @Override
+    public List<Genre> findGenreByBookId(int id) {
+
+        final String sqlQuery = String.format(QueryOperator.SELECT
+                + " * " + QueryOperator.FROM + " genres " + QueryOperator.INNER + " " +
+                QueryOperator.JOIN + " genres_books " + QueryOperator.ON +
+                " genres.id = genres_books.genre_id " + QueryOperator.INNER + " " + QueryOperator.JOIN +
+                " books " + QueryOperator.ON + " genres_books.book_id = books.id " +
+                "WHERE books.id = %s", id);
+
+        return queryOperation.findWithSql(sqlQuery, Genre.class);
 
     }
 }
