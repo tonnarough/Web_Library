@@ -2,6 +2,7 @@ package by.epam.trainig.controller.command;
 
 import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
+import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.BookService;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +35,10 @@ public enum GoToSelectedBookCommand implements Command{
 
         try {
 
-            bookService.findBookById(Integer.parseInt(request.getParameter(BOOK_ID_PARAMETR)));
+            final Book book = bookService.findBookById(Integer.parseInt(request.getParameter(BOOK_ID_PARAMETR)));
+
+            request.addAttributeToJsp(BOOK_ID_PARAMETR, book);
+
             return requestFactory.createForwardResponse(propertyContext.get(SELECTED_BOOK));
 
         } catch (ServiceException e) {
