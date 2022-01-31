@@ -21,6 +21,8 @@ public interface EntityDAO<T extends Entity> {
 
     Optional<T> findBy(String columnName, Object value);
 
+    Optional<T> findById(int id);
+
     default void rollback(Connection connection, Logger logger) throws DAOException {
 
         if (connection != null) {
