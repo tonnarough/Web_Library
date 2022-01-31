@@ -6,6 +6,7 @@ public enum CommandProvider {
     SUBSCRIPTION(SubscriptionCommand.INSTANCE, "subscription"),
     LOGOUT(LogoutCommand.INSTANCE, "logout"),
     SET_LOCALE_COMMAND(SetLocaleCommand.INSTANCE, "set_locale"),
+    SELECTED_BOOK_COMMAND(GoToSelectedBookCommand.INSTANCE, "go_to_book_detail_page"),
     MAIN_AUTH_COMMAND(MainAuthCommand.INSTANCE, "main"),
     GO_TO_LOGIN_PAGE(GoToLoginPageCommand.INSTANCE, "go_to_login_page"),
     GO_TO_MAIN_UNAUTH_PAGE(GoToMainUnauthPageCommand.INSTANCE, "go_to_main_unauth_page"),
