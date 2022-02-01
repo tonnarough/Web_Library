@@ -18,7 +18,9 @@ public interface BookService extends EntityService<Book>{
 
     List<Book> findByGenre(Genre genre);
 
-    List<Book> findAllBook();
+    List<Book> findAllBooks(int currentPage, int recordsPerPage);
+
+    int getNumberOfRows();
 
     Book findBookById(int id) throws ServiceException;
 
@@ -29,6 +31,8 @@ public interface BookService extends EntityService<Book>{
     List<PublishingHouse> findPublishingHouseByBookId(int id);
 
     S3ObjectInputStream downloadBook(String file);
+
+    List<Book> findBookByTitle(String title);
 
     static BookServiceImpl getInstance(){
         return BookServiceImpl.INSTANCE;

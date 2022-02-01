@@ -33,6 +33,7 @@ public enum BookServiceImpl implements BookService {
     private static final String SECRET_KEY_PARAMETER = "aws.secretKey";
     private static final String SECRET_KEY_ATTRIBUTE = "5hHkTwqN2FLfqw7GeTYlU2TFWS47nfIVGFYrRWcM";
     private static final String BUCKET_NAME = "training-epam";
+    private static final String TITLE_PARAMETER = "title";
 
     private final BookDAO bookDAO;
     private final AuthorDAO authorDAO;
@@ -82,8 +83,17 @@ public enum BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findAllBook() {
-        return null;
+    public List<Book> findAllBooks(int currentPage, int recordsPerPage) {
+
+        return bookDAO.findAllBooks(currentPage, recordsPerPage);
+
+    }
+
+    @Override
+    public int getNumberOfRows() {
+
+        return bookDAO.getNumberOfRows();
+
     }
 
     @Override
@@ -141,4 +151,12 @@ public enum BookServiceImpl implements BookService {
         return fullObject.getObjectContent();
 
     }
+
+    @Override
+    public List<Book> findBookByTitle(String title) {
+
+        return bookDAO.findByParameter(TITLE_PARAMETER, title);
+
+    }
+
 }
