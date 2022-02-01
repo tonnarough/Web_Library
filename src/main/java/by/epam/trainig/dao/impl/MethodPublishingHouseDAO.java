@@ -22,6 +22,9 @@ public enum MethodPublishingHouseDAO implements PublishingHouseDAO {
 
     private final QueryOperation queryOperation;
 
+    private static final String FIND_PUBLISHING_HOUSE_BY_BOOK_ID = "SELECT * FROM publishing_houses INNER JOIN publishing_houses_books ON" +
+            " publishing_houses.id = publishing_houses_books.publishing_house_id INNER JOIN books ON publishing_houses_books.book_id = books.id WHERE books.id = %s";
+
     private final Class<PublishingHouse> publishingHouseClass = PublishingHouse.class;
     private final Table tablePublishingHouse = publishingHouseClass.getAnnotation(Table.class);
     private final List<String> publishingHouseColumnNames = DatabaseEntityContext
@@ -84,12 +87,7 @@ public enum MethodPublishingHouseDAO implements PublishingHouseDAO {
     @Override
     public List<PublishingHouse> findPublishingHouseByBookId(int id) {
 
-        final String sqlQuery = String.format(QueryOperator.SELECT
-                + " * " + QueryOperator.FROM + " publishing_houses " + QueryOperator.INNER + " " +
-                QueryOperator.JOIN + " publishing_houses_books " + QueryOperator.ON +
-                " publishing_houses.id = publishing_houses_books.publishing_house_id " + QueryOperator.INNER + " " + QueryOperator.JOIN +
-                " books " + QueryOperator.ON + " publishing_houses_books.book_id = books.id " +
-                "WHERE books.id = %s", id);
+        final String sqlQuery = String.format(FIND_PUBLISHING_HOUSE_BY_BOOK_ID, id);
 
         return queryOperation.findWithSql(sqlQuery, PublishingHouse.class);
 

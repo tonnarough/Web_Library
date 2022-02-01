@@ -22,6 +22,9 @@ public enum MethodAuthorDAO implements AuthorDAO {
 
     private final QueryOperation queryOperation;
 
+    private static final String FIND_AUTHOR_BY_BOOK_ID = "SELECT * FROM authors INNER JOIN authors_books ON" +
+            " authors.id = authors_books.author_id INNER JOIN books ON authors_books.book_id = books.id WHERE books.id = %s";
+
     private final Class<Author> authorClass = Author.class;
     private final Table tableAuthor = authorClass.getAnnotation(Table.class);
     private final List<String> authorColumnNames = DatabaseEntityContext
@@ -84,12 +87,7 @@ public enum MethodAuthorDAO implements AuthorDAO {
     @Override
     public List<Author> findAuthorsByBookId(int id) {
 
-        final String sqlQuery = String.format(QueryOperator.SELECT
-                + " * " + QueryOperator.FROM + " authors " + QueryOperator.INNER + " " +
-                QueryOperator.JOIN + " authors_books " + QueryOperator.ON +
-                " authors.id = authors_books.author_id " + QueryOperator.INNER + " " + QueryOperator.JOIN +
-                " books " + QueryOperator.ON + " authors_books.book_id = books.id " +
-                "WHERE books.id = %s", id);
+        final String sqlQuery = String.format(FIND_AUTHOR_BY_BOOK_ID, id);
 
         return queryOperation.findWithSql(sqlQuery, Author.class);
 

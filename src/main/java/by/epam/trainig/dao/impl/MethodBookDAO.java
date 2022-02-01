@@ -2,9 +2,15 @@ package by.epam.trainig.dao.impl;
 
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
+import by.epam.trainig.dao.AuthorDAO;
 import by.epam.trainig.dao.BookDAO;
+import by.epam.trainig.dao.GenreDAO;
+import by.epam.trainig.dao.PublishingHouseDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
+import by.epam.trainig.entity.book.Author;
 import by.epam.trainig.entity.book.Book;
+import by.epam.trainig.entity.book.Genre;
+import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +25,8 @@ public enum MethodBookDAO implements BookDAO {
     private static final Logger logger = LogManager.getLogger(MethodBookDAO.class);
 
     private final QueryOperation queryOperation;
+
+    private static final String PAGINATION_QUERY = "SELECT * FROM books LIMIT %s, %s";
 
     private final Class<Book> bookClass = Book.class;
     private final Table tableBook = bookClass.getAnnotation(Table.class);
@@ -78,4 +86,26 @@ public enum MethodBookDAO implements BookDAO {
         return findBy(bookColumnNames.get(0), id);
 
     }
+
+    @Override
+    public List<Book> findByParameter(String column, String parameter) {
+
+        return queryOperation.findByParameter(tableBook,column, parameter, Book.class);
+
+    }
+
+    @Override
+    public List<Book> findAllBooks(int currentPage, int recordsOnPage) {
+
+        return queryOperation.findWithSql(String.format(PAGINATION_QUERY, currentPage, recordsOnPage), Book.class);
+
+    }
+
+    @Override
+    public int getNumberOfRows() {
+
+        return queryOperation.getCountOfRows();
+
+    }
+
 }

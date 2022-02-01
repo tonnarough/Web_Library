@@ -22,6 +22,9 @@ public enum MethodGenreDAO implements GenreDAO {
 
     private final QueryOperation queryOperation;
 
+    private static final String FIND_GENRE_BY_BOOK_ID = "SELECT * FROM genres INNER JOIN genres_books ON genres.id = genres_books.genre_id " +
+            "INNER JOIN books ON genres_books.book_id = books.id WHERE books.id = %s";
+
     private final Class<Genre> genreClass = Genre.class;
     private final Table tableGenre = genreClass.getAnnotation(Table.class);
     private final List<String> genreColumnNames = DatabaseEntityContext
@@ -84,12 +87,7 @@ public enum MethodGenreDAO implements GenreDAO {
     @Override
     public List<Genre> findGenreByBookId(int id) {
 
-        final String sqlQuery = String.format(QueryOperator.SELECT
-                + " * " + QueryOperator.FROM + " genres " + QueryOperator.INNER + " " +
-                QueryOperator.JOIN + " genres_books " + QueryOperator.ON +
-                " genres.id = genres_books.genre_id " + QueryOperator.INNER + " " + QueryOperator.JOIN +
-                " books " + QueryOperator.ON + " genres_books.book_id = books.id " +
-                "WHERE books.id = %s", id);
+        final String sqlQuery = String.format(FIND_GENRE_BY_BOOK_ID, id);
 
         return queryOperation.findWithSql(sqlQuery, Genre.class);
 
