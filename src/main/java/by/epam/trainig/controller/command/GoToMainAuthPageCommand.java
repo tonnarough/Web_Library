@@ -47,9 +47,6 @@ public enum GoToMainAuthPageCommand implements Command {
         final int recordOnPage = 6;
         int currentPage;
 
-        request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST) +
-                SECOND_PARAMETER + request.getParameter(CURRENT_PAGE)));
-
         if (request.getParameter(CURRENT_PAGE) != null) {
             currentPage = Integer.parseInt(request.getParameter(CURRENT_PAGE));
         } else {
@@ -64,6 +61,8 @@ public enum GoToMainAuthPageCommand implements Command {
 
         int numberOfPages = (int) Math.ceil(numberOfRowsInDB * 1.0 / recordOnPage);
 
+        request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST) +
+                SECOND_PARAMETER + request.getParameter(CURRENT_PAGE)));
         request.addAttributeToJsp("numberOfPage", numberOfPages);
         request.addAttributeToJsp("currentPage", currentPage);
 
