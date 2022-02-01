@@ -19,6 +19,8 @@
 <fmt:message bundle="${loc}" key="label.button.search" var="search"/>
 <fmt:message bundle="${loc}" key="label.page.next" var="next"/>
 <fmt:message bundle="${loc}" key="label.page.previous" var="previous"/>
+<fmt:message bundle="${loc}" key="label.button.delete" var="delete"/>
+<fmt:message bundle="${loc}" key="label.button.update" var="update"/>
 <html>
 <head>
     <title>${title}</title>
@@ -59,10 +61,9 @@
                 <a href="controller?command=go_to_book_detail_page&books=${book.id}">${book.title}</a></br>
 
                         <c:if test="${sessionScope.user.roleId eq 1}">
-                            <a href="controller?command=go_to_book_detail_page&admin=delete">Delete</a></br>
-                            <a href="controller?command=update_book&admin=update">Update</a>
+                            <a href="controller?command=delete_book&books=${book.id}">${delete}</a></br>
+                            <a href="controller?command=go_to_update_book_page&books=${book.id}">${update}</a>
                         </c:if>
-
             </td>
 
             <c:if test="${loops eq index+3}">
@@ -138,18 +139,19 @@
         width: 365px;
     }
 
-    form.ru [type="submit"], form.en [type="submit"] {
-        text-decoration: none;
-        outline: none;
-        border: none;
-        background-color: lightblue;
-        position: relative;
-        bottom: 25px;
-    }
+    /*form.ru [type="submit"], form.en [type="submit"] {*/
+    /*    text-decoration: none;*/
+    /*    outline: none;*/
+    /*    border: none;*/
+    /*    background-color: lightblue;*/
+    /*    position: relative;*/
+    /*    bottom: 25px;*/
+    /*    padding-left: 100px;*/
+    /*}*/
 
-    #ru:hover, #en:hover {
-        opacity: 0.7;
-    }
+    /*#ru:hover, #en:hover {*/
+    /*    opacity: 0.7;*/
+    /*}*/
 
     table {
         background-color: lightblue;
