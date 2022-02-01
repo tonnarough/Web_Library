@@ -113,6 +113,13 @@ public enum BookServiceImpl implements BookService {
     }
 
     @Override
+    public void deleteBook(Book book) {
+
+        bookDAO.delete(book);
+
+    }
+
+    @Override
     public List<Author> findAuthorsByBookId(int id) {
 
         return authorDAO.findAuthorsByBookId(id);

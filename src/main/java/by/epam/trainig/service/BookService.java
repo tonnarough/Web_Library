@@ -24,6 +24,8 @@ public interface BookService extends EntityService<Book>{
 
     Book findBookById(int id) throws ServiceException;
 
+    void deleteBook(Book book);
+
     List<Author> findAuthorsByBookId(int id);
 
     List<Genre> findGenresByBookId(int id);
