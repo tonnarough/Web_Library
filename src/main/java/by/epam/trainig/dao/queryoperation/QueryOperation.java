@@ -26,7 +26,11 @@ public interface QueryOperation {
 
     <T extends Entity> Optional<T> findBy(Table table, String column, Object value, Class<T> type);
 
+    <T extends Entity> List<T> findByParameter(Table table, String column, Object value, Class<T> type);
+
     <T extends Entity> List<T> findWithSql(String sqlQuery, Class<T> type);
+
+    int getCountOfRows();
 
     static QueryOperationImpl getInstance(){
         return QueryOperationImpl.getInstance();

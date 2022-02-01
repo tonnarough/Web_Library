@@ -176,6 +176,27 @@ public final class QueryOperationImpl implements QueryOperation {
     }
 
     @Override
+    public <T extends Entity> List<T> findByParameter(Table table, String column, Object value, Class<T> type) {
+
+        final List<T> entityList = new ArrayList<>();
+        query = QueryOperator.SELECT + " * " + QueryOperator.FROM + " " + table.name() + " " + QueryOperator.WHERE + " " + column + " = '" + value + "'";
+
+        try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
+             final Statement statement = connection.createStatement();
+             final ResultSet resultSet = statement.executeQuery(query)) {
+
+            while (resultSet.next()) {
+                entityList.add(entityBuilderFactory.entityBuild(type).buildEntity(resultSet));
+            }
+        } catch (SQLException e) {
+            logger.error("Failed finding of all entities ", e);
+        }
+
+        return entityList;
+
+    }
+
+    @Override
     public <T extends Entity> List<T> findWithSql(String sqlQuery, Class<T> type) {
 
         final List<T> entityList = new ArrayList<>();
@@ -193,6 +214,25 @@ public final class QueryOperationImpl implements QueryOperation {
 
         return entityList;
 
+    }
+
+    @Override
+    public int getCountOfRows() {
+
+        try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
+             final Statement statement = connection.createStatement();
+             final ResultSet resultSet = statement.executeQuery("SELECT Count(*) AS count FROM books")) {
+
+
+             return resultSet.next()
+                     ? resultSet.getInt("count")
+                     : 0;
+
+        } catch (SQLException e) {
+            logger.error("Failed finding of all entities ", e);
+        }
+
+        return 0;
     }
 
     private static class Holder {
