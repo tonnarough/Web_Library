@@ -49,9 +49,9 @@ public enum MethodSubscriptionTypeDAO implements SubscriptionTypeDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(SubscriptionType subscriptionType) {
 
-        queryOperation.delete(tableSubscriptionTypes, column, values);
+        queryOperation.delete(tableSubscriptionTypes, subscriptionTypesColumnNames.get(0), subscriptionType.getId());
 
     }
 

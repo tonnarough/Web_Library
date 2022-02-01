@@ -6,6 +6,7 @@ import by.epam.trainig.dao.AuthorDAO;
 import by.epam.trainig.dao.queryoperation.QueryOperation;
 import by.epam.trainig.dao.queryoperation.QueryOperator;
 import by.epam.trainig.entity.book.Author;
+import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -57,9 +58,9 @@ public enum MethodAuthorDAO implements AuthorDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(Author author) {
 
-        queryOperation.delete(tableAuthor, column, values);
+        queryOperation.delete(tableAuthor, authorColumnNames.get(0), author.getId());
 
     }
 

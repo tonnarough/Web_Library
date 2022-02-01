@@ -43,7 +43,9 @@ public enum MethodCreditCardDAO implements CreditCardDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(CreditCard creditCard) {
+
+        queryOperation.delete(tableCreditCardClass, creditCardColumnNames.get(0), creditCard.getId());
 
     }
 

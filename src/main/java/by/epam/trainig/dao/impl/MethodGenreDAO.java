@@ -57,9 +57,9 @@ public enum MethodGenreDAO implements GenreDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(Genre genre) {
 
-        queryOperation.delete(tableGenre, column, values);
+        queryOperation.delete(tableGenre, genreColumnNames.get(0), genre.getId());
 
     }
 

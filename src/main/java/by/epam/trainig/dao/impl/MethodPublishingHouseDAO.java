@@ -57,9 +57,9 @@ public enum MethodPublishingHouseDAO implements PublishingHouseDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(PublishingHouse publishingHouse) {
 
-        queryOperation.delete(tablePublishingHouse, column, values);
+        queryOperation.delete(tablePublishingHouse, publishingHouseColumnNames.get(0), publishingHouse.getId());
 
     }
 

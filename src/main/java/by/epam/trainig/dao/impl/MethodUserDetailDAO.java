@@ -49,9 +49,9 @@ public enum MethodUserDetailDAO implements UserDetailDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(UserDetail userDetail) {
 
-        queryOperation.delete(tableUserDetail, column, values);
+        queryOperation.delete(tableUserDetail, userDetailColumnNames.get(0), userDetail);
 
     }
 

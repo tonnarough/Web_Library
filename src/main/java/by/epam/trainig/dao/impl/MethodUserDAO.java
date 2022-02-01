@@ -60,9 +60,9 @@ public enum MethodUserDAO implements UserDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(User user) {
 
-        queryOperation.delete(tableUser, column, values);
+        queryOperation.delete(tableUser, userColumnNames.get(0), user.getId());
 
     }
 

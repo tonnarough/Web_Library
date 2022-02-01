@@ -60,9 +60,9 @@ public enum MethodBookDAO implements BookDAO {
     }
 
     @Override
-    public void delete(String column, Object values) {
+    public void delete(Book book) {
 
-        queryOperation.delete(tableBook, column, values);
+        queryOperation.delete(tableBook, bookColumnNames.get(0), book);
 
     }
 
