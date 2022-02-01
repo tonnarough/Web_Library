@@ -19,6 +19,7 @@
 <fmt:message bundle="${loc}" key="label.button.rus" var="ru"/>
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <fmt:message bundle="${loc}" key="label.download" var="download"/>
+<fmt:message bundle="${loc}" key="label.description" var="description"/>
 <html>
 <head>
     <title>${title}</title>
@@ -37,8 +38,10 @@
 </form>
 
 <form>
-    <c:out value="${requestScope.books.picture}"/></br>
-    <c:out value="${requestScope.books.title}"/>
+    <c:out value="${requestScope.books.picture}"/>
+    <c:out value="${requestScope.books.title}"/></br>
+    <div>${description}:</div>
+    <c:out value="${requestScope.books.description}"/>
 </form>
 
 <form>
