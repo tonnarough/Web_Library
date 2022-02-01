@@ -62,7 +62,7 @@ public enum MethodBookDAO implements BookDAO {
     @Override
     public void delete(Book book) {
 
-        queryOperation.delete(tableBook, bookColumnNames.get(0), book);
+        queryOperation.delete(tableBook, bookColumnNames.get(0), book.getId());
 
     }
 

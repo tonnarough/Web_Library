@@ -15,7 +15,7 @@ public interface EntityDAO<T extends Entity> {
 
     List<T> findAll() throws DAOException;
 
-    void delete(String column, Object values);
+    void delete(T entity);
 
     void create(T entity);
 

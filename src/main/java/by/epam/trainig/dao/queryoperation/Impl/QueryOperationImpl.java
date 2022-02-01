@@ -21,6 +21,9 @@ public final class QueryOperationImpl implements QueryOperation {
     private String query;
     private final EntityBuilderFactory entityBuilderFactory = EntityBuilderFactory.getInstance();
 
+    private static final String COUNT_OF_ROWS = "SELECT Count(*) AS count FROM books";
+    private static final String COUNT = "count";
+
     private QueryOperationImpl() {
     }
 
@@ -66,8 +69,15 @@ public final class QueryOperationImpl implements QueryOperation {
     @Override
     public void delete(Table table, String column, Object values) {
 
-        query = QueryOperator.DELETE + " " + QueryOperator.FROM + " " + table.name() + " "
-                + QueryOperator.WHERE + " " + column + " = '" + values + "'";
+        if (values instanceof String) {
+
+            query = QueryOperator.DELETE + " " + QueryOperator.FROM + " " + table.name() + " "
+                    + QueryOperator.WHERE + " " + column + " = '" + values + "'";
+        } else if (values instanceof Integer) {
+
+            query = QueryOperator.DELETE + " " + QueryOperator.FROM + " " + table.name() + " "
+                    + QueryOperator.WHERE + " " + column + " = " + values;
+        }
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final PreparedStatement prepareStatement = connection.prepareStatement(query)) {
@@ -221,11 +231,11 @@ public final class QueryOperationImpl implements QueryOperation {
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final Statement statement = connection.createStatement();
-             final ResultSet resultSet = statement.executeQuery("SELECT Count(*) AS count FROM books")) {
+             final ResultSet resultSet = statement.executeQuery(COUNT_OF_ROWS)) {
 
 
              return resultSet.next()
-                     ? resultSet.getInt("count")
+                     ? resultSet.getInt(COUNT)
                      : 0;
 
         } catch (SQLException e) {
