@@ -20,11 +20,13 @@ public enum GoSearchBookCommand implements Command{
 
     private static final Logger logger = LogManager.getLogger(GoSearchBookCommand.class);
 
-    private static final String SELECTED_BOOK = "page.search_book";
-    private static final String ERROR_PAGE = "page.error";
+    private static final String SEARCH_BOOK = "page.search_book";
     private static final String URL = "url";
     private static final String PARAMETER_FROM_REQUEST = "command";
     private static final String SEARCH_PARAMETER = "search";
+    private static final String BOOK_PARAMETER = "books";
+    private static final String ERROR_MESSAGE = "Nothing found";
+    private static final String SECOND_PARAMETER = "&search=";
 
     private final PropertyContext propertyContext;
     private final RequestFactory requestFactory;
@@ -39,21 +41,21 @@ public enum GoSearchBookCommand implements Command{
     @Override
     public CommandResponse execute(CommandRequest request) throws IOException, ServletException {
 
-        try {
+            request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST) +
+                    SECOND_PARAMETER + request.getParameter(SEARCH_PARAMETER)));
 
-            request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST)));
+            final List<Book> books = bookService.findBookByTitle(request.getParameter(SEARCH_PARAMETER));
 
-            final List<Book> books = bookService.findBookBy(request.getParameter(SEARCH_PARAMETER));
+            if(books.isEmpty()){
 
+                request.addAttributeToJsp(BOOK_PARAMETER, ERROR_MESSAGE);
 
-            return requestFactory.createForwardResponse(propertyContext.get(SELECTED_BOOK));
+            } else {
 
-        } catch (ServiceException e) {
+                request.addAttributeToJsp(BOOK_PARAMETER, books);
 
-            logger.error("Failed finding of book", e);
-            return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
+            }
 
-        }
-
+        return requestFactory.createForwardResponse(propertyContext.get(SEARCH_BOOK));
     }
 }

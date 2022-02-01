@@ -8,6 +8,7 @@ public enum CommandProvider {
     SET_LOCALE_COMMAND(SetLocaleCommand.INSTANCE, "set_locale"),
     GO_TO_BOOK_DETAIL_PAGE(GoToSelectedBookCommand.INSTANCE, "go_to_book_detail_page"),
     SELECTED_BOOK_COMMAND(DownloadBookCommand.INSTANCE, "download"),
+    SEARCH_BOOK_COMMAND(GoSearchBookCommand.INSTANCE, "search_book"),
     GO_TO_LOGIN_PAGE(GoToLoginPageCommand.INSTANCE, "go_to_login_page"),
     GO_TO_MAIN_UNAUTH_PAGE(GoToMainUnauthPageCommand.INSTANCE, "go_to_main_unauth_page"),
     GO_TO_REGISTRATION_PAGE(GoToRegistrationCommand.INSTANCE, "go_to_registration_page"),

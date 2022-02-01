@@ -8,6 +8,7 @@ public enum PagePath {
     MAIN_UNAUTH("/WEB-INF/jsp/main_unauth.jsp"),
     MAIN_AUTH("/WEB-INF/jsp/main_auth.jsp"),
     SELECTED_BOOK("/WEB-INF/jsp/selected_book.jsp"),
+    SEARCH_BOOK("/WEB-INF/jsp/search_book.jsp"),
     INDEX("index.jsp");
 
     private final String path;
