@@ -4,6 +4,7 @@ import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.entity.Entity;
 
+import java.util.List;
 import java.util.Objects;
 
 @Table(name = "genres")
@@ -13,6 +14,9 @@ public class Genre implements Entity {
     private int id;
     @Column(name = "title")
     private String title;
+
+    @Column(name = "book_id")
+    private List<Book> books;
 
     public Genre() {
     }
@@ -38,17 +42,25 @@ public class Genre implements Entity {
         this.title = title;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Genre genre = (Genre) o;
-        return id == genre.id && title.equals(genre.title);
+        return id == genre.id && title.equals(genre.title) && books.equals(genre.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title);
+        return Objects.hash(id, title, books);
     }
 
     @Override
@@ -56,7 +68,7 @@ public class Genre implements Entity {
         return "Genre{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", books=" + books +
                 '}';
     }
-
 }

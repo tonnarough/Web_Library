@@ -12,7 +12,7 @@ public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ConnectionPool.getConnectionPool().getConnection();
+        ConnectionPool.getConnectionPool();
         DatabaseEntityContext.getDatabaseEntityContext();
     }
 
