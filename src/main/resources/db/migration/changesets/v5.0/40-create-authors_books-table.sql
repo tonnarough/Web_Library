@@ -6,11 +6,11 @@ CREATE TABLE authors_books
     CONSTRAINT FK_AUTHORS_ID
         FOREIGN KEY (author_id)
             REFERENCES authors (id)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
     CONSTRAINT FK_AUTHORS_BOOKS_ID
         FOREIGN KEY (book_id)
             REFERENCES books (id)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
 )

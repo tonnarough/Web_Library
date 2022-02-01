@@ -6,11 +6,11 @@ CREATE TABLE genres_books
     CONSTRAINT FK_BOOK_GENRE_ID
         FOREIGN KEY (book_id)
             REFERENCES books (id)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION,
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
     CONSTRAINT FK_GENRE_ID
         FOREIGN KEY (genre_id)
             REFERENCES genres (id)
-            ON DELETE NO ACTION
-            ON UPDATE NO ACTION
+            ON DELETE CASCADE
+            ON UPDATE CASCADE
 )
