@@ -20,6 +20,7 @@
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <fmt:message bundle="${loc}" key="label.download" var="download"/>
 <fmt:message bundle="${loc}" key="label.description" var="description"/>
+<fmt:message bundle="${loc}" key="label.update.exit" var="exit"/>
 <html>
 <head>
     <title>${title}</title>
@@ -73,6 +74,11 @@
     <input type="hidden" name="command" value="download">
     <input type="hidden" name="download" value="${requestScope.books.file}">
     <input class="button" type="submit" value="${download}"><br>
+</form>
+
+<form>
+    <input type="hidden" name="command" value="go_to_main_auth_page">
+    <input type="submit" value="${exit}">
 </form>
 
 </body>
