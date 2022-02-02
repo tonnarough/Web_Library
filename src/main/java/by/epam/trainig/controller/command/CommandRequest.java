@@ -12,6 +12,8 @@ public interface CommandRequest {
 
     Object getAttribute(String name);
 
+    void deleteFromSession(String name);
+
     boolean sessionExists();
 
     boolean addToSession(String name, Object value);

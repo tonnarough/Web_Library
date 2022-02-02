@@ -49,6 +49,14 @@ public class WrappingCommandRequest implements CommandRequest {
     }
 
     @Override
+    public void deleteFromSession(String name){
+        final HttpSession session = request.getSession(false);
+        if (session != null){
+            session.removeAttribute(name);
+        }
+    }
+
+    @Override
     public Optional<Object> retrieveFromSession(String name) {
         return Optional.ofNullable(request.getSession(false))
                 .map(httpSession -> httpSession.getAttribute(name));
