@@ -4,6 +4,7 @@ import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.entity.Entity;
 
+import java.util.List;
 import java.util.Objects;
 
 @Table(name = "publishing_houses")
@@ -15,6 +16,9 @@ public class PublishingHouse implements Entity {
     private String title;
     @Column(name = "year_of_publishing")
     private int yearOfPublishing;
+
+    @Column(name = "book_id")
+    private List<Book> books;
 
     public PublishingHouse() {
     }
@@ -49,17 +53,29 @@ public class PublishingHouse implements Entity {
         this.yearOfPublishing = yearOfPublishing;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBook(Book book) {
+        books.add(book);
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PublishingHouse that = (PublishingHouse) o;
-        return id == that.id && yearOfPublishing == that.yearOfPublishing && title.equals(that.title);
+        return id == that.id && yearOfPublishing == that.yearOfPublishing && title.equals(that.title) && books.equals(that.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, yearOfPublishing);
+        return Objects.hash(id, title, yearOfPublishing, books);
     }
 
     @Override
@@ -68,6 +84,7 @@ public class PublishingHouse implements Entity {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", yearOfPublishing=" + yearOfPublishing +
+                ", books=" + books +
                 '}';
     }
 

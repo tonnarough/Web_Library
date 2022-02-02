@@ -4,6 +4,7 @@ import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.entity.Entity;
 
+import java.util.List;
 import java.util.Objects;
 
 @Table(name = "authors")
@@ -17,6 +18,8 @@ public class Author implements Entity {
     private String lastName;
     @Column(name = "father_name")
     private String fatherName;
+    @Column(name = "book_id")
+    private List<Book> books;
 
     public Author() {
     }
@@ -60,17 +63,30 @@ public class Author implements Entity {
         this.fatherName = fatherName;
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBook(Book book) {
+        books.add(book);
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return id == author.id && firstName.equals(author.firstName) && lastName.equals(author.lastName) && fatherName.equals(author.fatherName);
+        return id == author.id && firstName.equals(author.firstName) && lastName.equals(author.lastName) &&
+                fatherName.equals(author.fatherName) && books.equals(author.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, fatherName);
+        return Objects.hash(id, firstName, lastName, fatherName, books);
     }
 
     @Override
@@ -80,6 +96,7 @@ public class Author implements Entity {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", fatherName='" + fatherName + '\'' +
+                ", books=" + books +
                 '}';
     }
 }

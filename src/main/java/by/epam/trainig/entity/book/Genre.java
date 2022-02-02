@@ -46,6 +46,10 @@ public class Genre implements Entity {
         return books;
     }
 
+    public void setBook(Book book) {
+        books.add(book);
+    }
+
     public void setBooks(List<Book> books) {
         this.books = books;
     }
