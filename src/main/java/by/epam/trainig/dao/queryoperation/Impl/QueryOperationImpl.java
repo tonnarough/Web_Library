@@ -34,8 +34,16 @@ public final class QueryOperationImpl implements QueryOperation {
     @Override
     public void update(Table table, String updColumn, Object updValue, String whereColumn, Object whereValue) {
 
-        query = QueryOperator.UPDATE + " " + table.name() + " " + QueryOperator.SET + " " + updColumn +
-                " = '" + updValue + "' " + QueryOperator.WHERE + " " + whereColumn + " = '" + whereValue + "' ";
+        if (whereValue instanceof String) {
+
+            query = QueryOperator.UPDATE + " " + table.name() + " " + QueryOperator.SET + " " + updColumn +
+                    " = '" + updValue + "' " + QueryOperator.WHERE + " " + whereColumn + " = '" + whereValue + "' ";
+
+        } else if (whereValue instanceof Integer) {
+
+            query = QueryOperator.UPDATE + " " + table.name() + " " + QueryOperator.SET + " " + updColumn +
+                    " = '" + updValue + "' " + QueryOperator.WHERE + " " + whereColumn + " = " + whereValue + " ";
+        }
 
         try (final Connection connection = ConnectionPool.getConnectionPool().getConnection();
              final PreparedStatement preparedStatement = connection

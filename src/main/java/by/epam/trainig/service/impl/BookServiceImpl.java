@@ -68,18 +68,31 @@ public enum BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByAuthor(Author author) {
-        return null;
+    public void updateAuthor(String updColumn, Object updValue, String whereColumn, Object whereValue) {
+
+        authorDAO.update(updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
-    public List<Book> findByPublishingHouse(PublishingHouse publishingHouse) {
-        return null;
+    public void updatePublishingHouse(String updColumn, Object updValue, String whereColumn, Object whereValue) {
+
+        publishingHouseDAO.update(updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
-    public List<Book> findByGenre(Genre genre) {
-        return null;
+    public void updateGenre(String updColumn, Object updValue, String whereColumn, Object whereValue) {
+
+        genreDAO.update(updColumn, updValue, whereColumn, whereValue);
+
+    }
+
+    @Override
+    public void updateBook(String updColumn, Object updValue, String whereColumn, Object whereValue) {
+
+        bookDAO.update(updColumn, updValue, whereColumn, whereValue);
+
     }
 
     @Override
@@ -87,6 +100,19 @@ public enum BookServiceImpl implements BookService {
 
         return bookDAO.findAllBooks(currentPage, recordsPerPage);
 
+    }
+
+    @Override
+    public Optional<Book> findBookWithAuthorGenrePublishingHouseById(int id) throws ServiceException {
+        try {
+
+            return bookDAO.findBookWithAuthorGenrePublishingHouseById(id);
+
+        } catch (DAOException e) {
+
+            logger.error("Failed finding of book");
+            throw new ServiceException("Failed finding of book");
+        }
     }
 
     @Override

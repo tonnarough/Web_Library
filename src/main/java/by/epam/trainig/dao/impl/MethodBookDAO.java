@@ -20,11 +20,14 @@ import java.util.List;
 import java.util.Optional;
 
 public enum MethodBookDAO implements BookDAO {
-    INSTANCE(QueryOperation.getInstance());
+    INSTANCE(QueryOperation.getInstance(), AuthorDAO.getInstance(), GenreDAO.getInstance(), PublishingHouseDAO.getInstance());
 
     private static final Logger logger = LogManager.getLogger(MethodBookDAO.class);
 
     private final QueryOperation queryOperation;
+    private final AuthorDAO authorDAO;
+    private final GenreDAO genreDAO;
+    private final PublishingHouseDAO publishingHouseDAO;
 
     private static final String PAGINATION_QUERY = "SELECT * FROM books LIMIT %s, %s";
 
@@ -33,8 +36,11 @@ public enum MethodBookDAO implements BookDAO {
     private final List<String> bookColumnNames = DatabaseEntityContext
             .getDatabaseEntityContext().getDatabaseContext(tableBook.name());
 
-    MethodBookDAO(QueryOperation queryOperation) {
+    MethodBookDAO(QueryOperation queryOperation, AuthorDAO authorDAO, GenreDAO genreDAO, PublishingHouseDAO publishingHouseDAO) {
         this.queryOperation = queryOperation;
+        this.authorDAO = authorDAO;
+        this.genreDAO = genreDAO;
+        this.publishingHouseDAO = publishingHouseDAO;
     }
 
     @Override
@@ -90,7 +96,7 @@ public enum MethodBookDAO implements BookDAO {
     @Override
     public List<Book> findByParameter(String column, String parameter) {
 
-        return queryOperation.findByParameter(tableBook,column, parameter, Book.class);
+        return queryOperation.findByParameter(tableBook, column, parameter, Book.class);
 
     }
 
@@ -108,4 +114,18 @@ public enum MethodBookDAO implements BookDAO {
 
     }
 
+    @Override
+    public Optional<Book> findBookWithAuthorGenrePublishingHouseById(int id) throws DAOException {
+
+        Optional<Book> book = findById(id);
+
+        if (book.isPresent()) {
+            book.get().setAuthors(authorDAO.findAuthorsByBookId(id));
+            book.get().setGenres(genreDAO.findGenreByBookId(id));
+            book.get().setPublishingHouses(publishingHouseDAO.findPublishingHouseByBookId(id));
+            return book;
+        }else{
+            throw new DAOException("Failed finding of book");
+        }
+    }
 }

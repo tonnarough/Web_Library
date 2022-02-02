@@ -9,16 +9,21 @@ import by.epam.trainig.service.impl.BookServiceImpl;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService extends EntityService<Book>{
 
-    List<Book> findByAuthor(Author author);
+    void updateAuthor(String updColumn, Object updValue, String whereColumn, Object whereValue);
 
-    List<Book> findByPublishingHouse(PublishingHouse publishingHouse);
+    void updatePublishingHouse(String updColumn, Object updValue, String whereColumn, Object whereValue);
 
-    List<Book> findByGenre(Genre genre);
+    void updateGenre(String updColumn, Object updValue, String whereColumn, Object whereValue);
+
+    void updateBook(String updColumn, Object updValue, String whereColumn, Object whereValue);
 
     List<Book> findAllBooks(int currentPage, int recordsPerPage);
+
+    Optional<Book> findBookWithAuthorGenrePublishingHouseById(int id) throws ServiceException;
 
     int getNumberOfRows();
 
