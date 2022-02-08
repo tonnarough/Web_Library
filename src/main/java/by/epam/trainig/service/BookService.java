@@ -8,6 +8,7 @@ import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.impl.BookServiceImpl;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ public interface BookService extends EntityService<Book>{
     void updateBook(String updColumn, Object updValue, String whereColumn, Object whereValue);
 
     List<Book> findAllBooks(int currentPage, int recordsPerPage);
+
+    void uploadBook(String title, File book);
 
     Optional<Book> findBookWithAuthorGenrePublishingHouseById(int id) throws ServiceException;
 

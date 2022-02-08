@@ -11,15 +11,17 @@ import by.epam.trainig.entity.book.PublishingHouse;
 import by.epam.trainig.exception.DAOException;
 import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.BookService;
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.GetObjectRequest;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,10 +30,8 @@ public enum BookServiceImpl implements BookService {
 
     private static final Logger logger = LogManager.getLogger(BookServiceImpl.class);
 
-    private static final String ACCESS_KEY_PARAMETER = "aws.accessKeyId";
-    private static final String ACCESS_KEY_ATTRIBUTE = "AKIA5PC3PNARA4GDLEUZ";
-    private static final String SECRET_KEY_PARAMETER = "aws.secretKey";
-    private static final String SECRET_KEY_ATTRIBUTE = "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";
+    private static final String AWS_ACCESS_KEY = "AKIA5PC3PNARAK5IQTWA";
+    private static final String AWS_SECRET_KEY = "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";
     private static final String BUCKET_NAME = "training-epam";
     private static final String TITLE_PARAMETER = "title";
 
@@ -103,6 +103,21 @@ public enum BookServiceImpl implements BookService {
     }
 
     @Override
+    public void uploadBook(String title, File book) {
+
+        AWSCredentials credentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY);
+
+        AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withRegion("us-east-1")
+                .build();
+
+        System.out.println("Upload an object");
+        s3Client.putObject(new PutObjectRequest(BUCKET_NAME, title, book));
+
+    }
+
+    @Override
     public Optional<Book> findBookWithAuthorGenrePublishingHouseById(int id) throws ServiceException {
         try {
 
@@ -169,11 +184,10 @@ public enum BookServiceImpl implements BookService {
     @Override
     public S3ObjectInputStream downloadBook(String file) {
 
-        System.setProperty(ACCESS_KEY_PARAMETER, ACCESS_KEY_ATTRIBUTE);
-        System.setProperty(SECRET_KEY_PARAMETER, SECRET_KEY_ATTRIBUTE);
+        AWSCredentials credentials = new BasicAWSCredentials(AWS_ACCESS_KEY, AWS_SECRET_KEY);
 
         AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                .withCredentials(DefaultAWSCredentialsProviderChain.getInstance())
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion("us-east-1")
                 .build();
 
