@@ -34,7 +34,7 @@ public class Book implements Entity {
     public Book() {
     }
 
-    public Book(int id, String title, String description,
+    public Book(String title, String description,
                 String ageLimit, int numberOfPages, String file, String picture) {
         this.id = id;
         this.title = title;

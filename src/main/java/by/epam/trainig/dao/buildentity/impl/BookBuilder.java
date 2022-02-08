@@ -20,7 +20,6 @@ public class BookBuilder implements EntityBuilder<Book> {
     @Override
     public Book buildEntity(ResultSet resultSet) throws SQLException {
         return new Book(
-                resultSet.getInt(columnNames.get(0)),
                 resultSet.getString(columnNames.get(1)),
                 resultSet.getString(columnNames.get(2)),
                 resultSet.getString(columnNames.get(3)),
