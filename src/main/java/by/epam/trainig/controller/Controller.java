@@ -3,16 +3,17 @@ package by.epam.trainig.controller;
 import by.epam.trainig.controller.command.Command;
 import by.epam.trainig.controller.command.CommandRequest;
 import by.epam.trainig.controller.command.CommandResponse;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@MultipartConfig
 public class Controller extends HttpServlet {
 
     private static final String COMMAND_NAME_PARAM = "command";

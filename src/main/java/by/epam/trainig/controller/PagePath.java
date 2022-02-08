@@ -10,6 +10,7 @@ public enum PagePath {
     UPDATE_BOOK("/WEB-INF/jsp/update_book.jsp"),
     SELECTED_BOOK("/WEB-INF/jsp/selected_book.jsp"),
     SEARCH_BOOK("/WEB-INF/jsp/search_book.jsp"),
+    ADDING_BOOK("/WEB-INF/jsp/book_adding.jsp"),
     INDEX("index.jsp");
 
     private final String path;
