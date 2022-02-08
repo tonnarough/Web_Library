@@ -15,13 +15,13 @@
 <fmt:message bundle="${loc}" key="label.button.rus" var="ru"/>
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <fmt:message bundle="${loc}" key="label.button.update" var="update"/>
-<fmt:message bundle="${loc}" key="label.update.book.title" var="book_title"/>
-<fmt:message bundle="${loc}" key="label.update.book.description" var="description"/>
-<fmt:message bundle="${loc}" key="label.update.book.age.limit" var="age_limit"/>
-<fmt:message bundle="${loc}" key="label.update.genre" var="genre"/>
-<fmt:message bundle="${loc}" key="label.update.author.name" var="author_name"/>
-<fmt:message bundle="${loc}" key="label.update.publishing.house" var="publishing_house"/>
-<fmt:message bundle="${loc}" key="label.update.exit" var="exit"/>
+<fmt:message bundle="${loc}" key="label.book.title" var="book_title"/>
+<fmt:message bundle="${loc}" key="label.book.description" var="description"/>
+<fmt:message bundle="${loc}" key="label.book.age.limit" var="age_limit"/>
+<fmt:message bundle="${loc}" key="label.genre" var="genre"/>
+<fmt:message bundle="${loc}" key="label.author.name" var="author_name"/>
+<fmt:message bundle="${loc}" key="label.publishing.house" var="publishing_house"/>
+<fmt:message bundle="${loc}" key="label.exit" var="exit"/>
 <html>
 <head>
     <title>${title}</title>

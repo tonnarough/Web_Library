@@ -105,6 +105,11 @@
         </c:if>
     </table>
 </form>
+
+<form method="get">
+    <a href="controller?command=go_to_adding_book_page">Add book</a>
+</form>
+
 </body>
 
 </html>

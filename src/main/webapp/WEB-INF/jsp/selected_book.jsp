@@ -20,7 +20,7 @@
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <fmt:message bundle="${loc}" key="label.download" var="download"/>
 <fmt:message bundle="${loc}" key="label.description" var="description"/>
-<fmt:message bundle="${loc}" key="label.update.exit" var="exit"/>
+<fmt:message bundle="${loc}" key="label.exit" var="exit"/>
 <html>
 <head>
     <title>${title}</title>
