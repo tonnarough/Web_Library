@@ -1,5 +1,10 @@
 package by.epam.trainig.controller.command;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 
 public interface CommandRequest {
@@ -8,7 +13,11 @@ public interface CommandRequest {
 
     String getParameter(String name);
 
+    Collection<Part> getParts() throws ServletException, IOException;
+
     String getRequestURL();
+
+    ServletContext getServletContext();
 
     Object getAttribute(String name);
 

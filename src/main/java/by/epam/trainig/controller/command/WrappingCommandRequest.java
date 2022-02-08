@@ -2,13 +2,19 @@ package by.epam.trainig.controller.command;
 
 import by.epam.trainig.controller.command.CommandRequest;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.util.Collection;
 import java.util.Optional;
 
 public class WrappingCommandRequest implements CommandRequest {
 
     private final HttpServletRequest request;
+    private ServletContext servletContext;
 
     public WrappingCommandRequest(HttpServletRequest request) {
         this.request = request;
@@ -29,8 +35,18 @@ public class WrappingCommandRequest implements CommandRequest {
     }
 
     @Override
+    public Collection<Part> getParts() throws ServletException, IOException {
+        return request.getParts();
+    }
+
+    @Override
     public String getRequestURL() {
         return String.valueOf(request.getRequestURL());
+    }
+
+    @Override
+    public ServletContext getServletContext() {
+        return request.getServletContext();
     }
 
     @Override
