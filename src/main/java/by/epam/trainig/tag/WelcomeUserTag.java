@@ -19,6 +19,7 @@ public class WelcomeUserTag extends TagSupport {
 
     private static final String PARAGRAPH_TAGS = "<p>%s, %s</p>";
     private static final String USER_SESSION_PARAM_NAME = "user";
+    private static final String USER_ID = "id";
 
     private String text;
 
@@ -44,17 +45,21 @@ public class WelcomeUserTag extends TagSupport {
                 .map(session -> (User) session.getAttribute(USER_SESSION_PARAM_NAME))
                 .map(User::getId).get();
 
-        return UserService.getInstance().findByUserId(userId)
-                .map(UserDetail::getFirstName);
+        return UserService.getInstance().findBy(USER_ID, userId)
+                .map(user -> user.getUserDetail().getFirstName());
 
 
     }
 
     private void printTextToOut(String text) {
+
         final JspWriter out = pageContext.getOut();
         try {
+
             out.write(text);
+
         } catch (IOException e) {
+
             LOGGER.error("error occurred writing text to jsp. text: {}, tagId: {}", text, id);
             LOGGER.error(e);
         }
