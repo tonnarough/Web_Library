@@ -21,6 +21,8 @@
 <fmt:message bundle="${loc}" key="label.page.previous" var="previous"/>
 <fmt:message bundle="${loc}" key="label.button.delete" var="delete"/>
 <fmt:message bundle="${loc}" key="label.button.update" var="update"/>
+<fmt:message bundle="${loc}" key="label.button.profile" var="profile"/>
+<fmt:message bundle="${loc}" key="label.button.add.book" var="add_book"/>
 <html>
 <head>
     <title>${title}</title>
@@ -45,6 +47,10 @@
     <input type="hidden" name="command" value="search_book">
     <input type="text" name="search" placeholder="${search}">
     <input class="button" type="submit" value="${search}"><br>
+</form>
+
+<form>
+    <a href="controller?command=go_to_user_profile_page">${profile}</a>
 </form>
 
 <form>
@@ -106,8 +112,8 @@
     </table>
 </form>
 
-<form method="get">
-    <a href="controller?command=go_to_adding_book_page">Add book</a>
+<form>
+    <a href="controller?command=go_to_adding_book_page">${add_book}</a>
 </form>
 
 </body>
@@ -144,19 +150,19 @@
         width: 365px;
     }
 
-    /*form.ru [type="submit"], form.en [type="submit"] {*/
-    /*    text-decoration: none;*/
-    /*    outline: none;*/
-    /*    border: none;*/
-    /*    background-color: lightblue;*/
-    /*    position: relative;*/
-    /*    bottom: 25px;*/
-    /*    padding-left: 100px;*/
-    /*}*/
+    form.ru [type="submit"], form.en [type="submit"] {
+        text-decoration: none;
+        outline: none;
+        border: none;
+        background-color: lightblue;
+        position: relative;
+        bottom: 25px;
+        padding-left: 100px;
+    }
 
-    /*#ru:hover, #en:hover {*/
-    /*    opacity: 0.7;*/
-    /*}*/
+    #ru:hover, #en:hover {
+        opacity: 0.7;
+    }
 
     table {
         background-color: lightblue;

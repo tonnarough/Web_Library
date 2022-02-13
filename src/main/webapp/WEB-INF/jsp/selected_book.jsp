@@ -27,12 +27,12 @@
 </head>
 <body>
 
-<form class = "ru" action="controller" method="post">
+<form class="ru" action="controller" method="post">
     <input type="hidden" name="command" value="set_locale"/>
     <input type="hidden" name="local" value="ru_RU"/>
     <input type="submit" value="${ru}">
 </form>
-<form class = "en" action="controller" method="post">
+<form class="en" action="controller" method="post">
     <input type="hidden" name="command" value="set_locale"/>
     <input type="hidden" name="local" value="en_US"/>
     <input type="submit" value="${en}">
@@ -47,27 +47,39 @@
 
 <form>
     <div>${author}:</div>
-    <c:forEach var="author" items="${requestScope.authors}">
-        <c:out value="${author.firstName}"/>
-        <c:out value="${author.lastName}"/>
-        <c:out value="${author.fatherName}"/>
-    </c:forEach>
+    <ul>
+        <c:forEach var="author" items="${requestScope.authors}">
+            <li>
+                <c:out value="${author.firstName}"/>
+                <c:out value="${author.lastName}"/>
+                <c:out value="${author.fatherName}"/>
+            </li>
+        </c:forEach>
+    </ul>
 </form>
 
 <form>
     <div>${genre}:</div>
-    <c:forEach var="genre" items="${requestScope.genres}">
-        <c:out value="${genre.title}"/>
-    </c:forEach>
+    <ul>
+        <c:forEach var="genre" items="${requestScope.genres}">
+            <li>
+                <c:out value="${genre.title}"/>
+            </li>
+        </c:forEach>
+    </ul>
 </form>
 
 <form>
     <div>${publishingHouse}:</div>
-    <c:forEach var="publishingHouse" items="${requestScope.publishingHouses}">
-        <c:out value="${publishingHouse.title}"/>
-        <div>${yearOfPublishing}:</div>
-        <c:out value="${publishingHouse.yearOfPublishing}"/>
-    </c:forEach>
+    <ul>
+        <c:forEach var="publishingHouse" items="${requestScope.publishingHouses}">
+            <li>
+                <c:out value="${publishingHouse.title}"/>
+                <div>${yearOfPublishing}:</div>
+                <c:out value="${publishingHouse.yearOfPublishing}"/>
+            </li>
+        </c:forEach>
+    </ul>
 </form>
 
 <form>
