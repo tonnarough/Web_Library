@@ -1,2 +1,28 @@
-package by.epam.trainig.service;public interface SubscriptionService {
+package by.epam.trainig.service;
+
+import by.epam.trainig.entity.user.Subscription;
+import by.epam.trainig.entity.user.SubscriptionType;
+import by.epam.trainig.entity.user.User;
+import by.epam.trainig.exception.ServiceException;
+import by.epam.trainig.service.impl.SubscriptionServiceImpl;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface SubscriptionService {
+
+    List<SubscriptionType> findAllTypes();
+
+    void create(Subscription entity) throws ServiceException;
+
+    SubscriptionType findByType(String chosenType);
+
+    void update(User user, SubscriptionType subscriptionType) throws ServiceException;
+
+    Optional<Subscription> findByUserId(Integer id);
+
+    static SubscriptionServiceImpl getInstance(){
+        return SubscriptionServiceImpl.INSTANCE;
+    }
+
 }
