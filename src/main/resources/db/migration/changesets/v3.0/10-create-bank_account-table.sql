@@ -1,16 +1,16 @@
 CREATE TABLE bank_account
 (
-    user_id        INT NOT NULL,
-    credit_card_id INT NOT NULL,
+    mtm_user_id        INT NOT NULL,
+    mtm_credit_card_id INT NOT NULL,
 
-    PRIMARY KEY (user_id, credit_card_id),
+    PRIMARY KEY (mtm_user_id, mtm_credit_card_id),
     CONSTRAINT FK_USERS_ID
-        FOREIGN KEY (user_id)
+        FOREIGN KEY (mtm_user_id)
             REFERENCES users (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE,
     CONSTRAINT FK_CREDIT_CARD_ID
-        FOREIGN KEY (credit_card_id)
+        FOREIGN KEY (mtm_credit_card_id)
             REFERENCES credit_cards (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE

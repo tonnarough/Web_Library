@@ -1,4 +1,2 @@
-package by.epam.trainig.entity;
-
-public interface Entity {
+package by.epam.trainig.entity.user;public interface Entity {
 }

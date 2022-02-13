@@ -6,5 +6,5 @@ CREATE TABLE authors
     father_name VARCHAR(20) NULL,
 
     PRIMARY KEY (id),
-    INDEX IX_NAME (first_name, last_name, father_name ASC) VISIBLE
+    UNIQUE INDEX IX_NAME (first_name, last_name, father_name ASC) VISIBLE
 )
