@@ -1,11 +1,11 @@
 package by.epam.trainig.dao.connectionpool;
 
+import by.epam.trainig.context.DatabaseEntityContext;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -23,7 +23,7 @@ public final class ConnectionPool {
     private final Queue<Connection> availableConnections;
     private final Queue<Connection> takenConnections;
 
-    private static final ConnectionPool connectionPool = new ConnectionPool();
+    private static ConnectionPool connectionPool;
 
     private ConnectionPool() {
         this.availableConnections = new LinkedBlockingQueue<>();
@@ -32,6 +32,9 @@ public final class ConnectionPool {
     }
 
     public static ConnectionPool getConnectionPool() {
+        if (connectionPool == null) {
+            connectionPool = new ConnectionPool();
+        }
         return connectionPool;
     }
 

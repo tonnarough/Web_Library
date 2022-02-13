@@ -1,6 +1,5 @@
 package by.epam.trainig.dao.connectionpool;
 
-import java.util.Enumeration;
 import java.util.ResourceBundle;
 
 public final class DataBaseResourceBundle {
