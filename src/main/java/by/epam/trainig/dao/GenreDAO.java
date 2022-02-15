@@ -11,8 +11,6 @@ public interface GenreDAO extends EntityDAO<Genre> {
 
     Optional<Genre> findBy(Object value);
 
-    List<Genre> findAll(int currentPage, int recordsOnPage);
-
     List<String> getGenresBooksColumns();
 
     List<Book> findBooksByGenreId(int genreId);

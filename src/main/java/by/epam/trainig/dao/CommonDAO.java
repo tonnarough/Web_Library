@@ -1,20 +1,13 @@
 package by.epam.trainig.dao;
 
-import by.epam.trainig.annotation.Column;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.dao.connectionpool.ConnectionPool;
 import by.epam.trainig.entity.Entity;
-import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.exception.DAOException;
 import by.epam.trainig.exception.EntityExtractionFailedException;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
-import com.mysql.cj.x.protobuf.MysqlxExpr;
-import jdk.jshell.EvalException;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;

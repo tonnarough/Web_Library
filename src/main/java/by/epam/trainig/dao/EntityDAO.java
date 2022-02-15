@@ -15,6 +15,8 @@ public interface EntityDAO<T extends Entity> {
 
     void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws DAOException;
 
+    List<T> findAll(int currentPage, int recordsOnPage);
+
     List<T> findAll();
 
     void delete(Integer id) throws DAOException;

@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface BookDAO extends EntityDAO<Book> {
 
-    List<Book> findAll(int currentPage, int recordsOnPage);
-
     List<Author> findAuthorsByBookId(int bookId);
 
     List<Genre> findGenresByBookId(int bookId);

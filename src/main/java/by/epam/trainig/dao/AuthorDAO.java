@@ -11,8 +11,6 @@ public interface AuthorDAO extends EntityDAO<Author> {
 
     Optional<Author> findBy(Object[] values);
 
-    List<Author> findAll(int currentPage, int recordsOnPage);
-
     List<String> getAuthorsBooksColumns();
 
     List<Book> findBooksByAuthorId(int authorId);

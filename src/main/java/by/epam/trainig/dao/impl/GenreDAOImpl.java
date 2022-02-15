@@ -3,7 +3,6 @@ package by.epam.trainig.dao.impl;
 import by.epam.trainig.annotation.Table;
 import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.*;
-import by.epam.trainig.entity.book.Author;
 import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.entity.book.Genre;
 import org.apache.logging.log4j.LogManager;

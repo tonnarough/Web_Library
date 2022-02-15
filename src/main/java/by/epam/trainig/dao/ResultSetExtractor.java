@@ -1,6 +1,5 @@
 package by.epam.trainig.dao;
 
-import by.epam.trainig.entity.Entity;
 import by.epam.trainig.exception.EntityExtractionFailedException;
 
 import java.sql.ResultSet;

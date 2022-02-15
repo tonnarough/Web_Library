@@ -11,8 +11,6 @@ public interface PublishingHouseDAO extends EntityDAO<PublishingHouse> {
 
     Optional<PublishingHouse> findBy(Object[] values);
 
-    List<PublishingHouse> findAll(int currentPage, int recordsOnPage);
-
     List<String> getPublishingHousesBooksColumns();
 
     List<Book> findBooksByPublishingHouseId(int publishingHouseId);
