@@ -8,8 +8,6 @@ import java.sql.Connection;
 
 public interface UserDetailDAO extends EntityDAO<UserDetail> {
 
-    boolean create(UserDetail userDetail, Connection connection) throws DAOException;
-
     static UserDetailDAO getInstance() {
         return UserDetailDAOImpl.getInstance();
     }

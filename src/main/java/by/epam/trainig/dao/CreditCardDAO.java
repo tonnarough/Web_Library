@@ -13,8 +13,6 @@ public interface CreditCardDAO extends EntityDAO<CreditCard> {
 
     List<CreditCard> findCreditCardByUserId(int userId, String userTableName, List<String> userColumnName);
 
-    boolean create(CreditCard entity, Connection connection) throws DAOException;
-
     static CreditCardDAO getInstance() {
         return CreditCardDAOImpl.getInstance();
     }

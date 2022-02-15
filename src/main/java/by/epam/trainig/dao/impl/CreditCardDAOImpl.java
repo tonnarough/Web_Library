@@ -5,16 +5,13 @@ import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.CommonDAO;
 import by.epam.trainig.dao.CreditCardDAO;
 import by.epam.trainig.entity.user.CreditCard;
-import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public final class CreditCardDAOImpl extends CommonDAO<CreditCard> implements CreditCardDAO {
 
@@ -22,18 +19,23 @@ public final class CreditCardDAOImpl extends CommonDAO<CreditCard> implements Cr
 
     private static final String TABLE_MANY_TO_MANY = "bank_account";
 
-    private final Class<CreditCard> entityClass = CreditCard.class;
-    private final Table tableCreditCardName = entityClass.getAnnotation(Table.class);
-    private final List<String> creditCardColumns = DatabaseEntityContext.getDatabaseEntityContext()
+    private static final Class<CreditCard> entityClass = CreditCard.class;
+    private static final Table tableCreditCardName = entityClass.getAnnotation(Table.class);
+    private static final List<String> columnCreditCardNames = DatabaseEntityContext.getDatabaseEntityContext()
             .getTableColumn(tableCreditCardName.name());
-    private final List<String> creditCardUserColumns = DatabaseEntityContext.getDatabaseEntityContext()
+    private final List<String> creditCardsUsersColumns = DatabaseEntityContext.getDatabaseEntityContext()
             .getManyToManyColumn(tableCreditCardName.name());
 
     private CreditCardDAOImpl() {
+        super(logger, columnCreditCardNames, tableCreditCardName);
+    }
+
+    public static CreditCardDAO getInstance() {
+        return CreditCardDAOImpl.Holder.INSTANCE;
     }
 
     public List<String> getCreditCardUserColumns() {
-        return creditCardUserColumns;
+        return creditCardsUsersColumns;
     }
 
     @Override
@@ -41,112 +43,7 @@ public final class CreditCardDAOImpl extends CommonDAO<CreditCard> implements Cr
 
         return executeStatementForEntities(
                 findByManyToManyQuery(tableCreditCardName.name(), userTableName, TABLE_MANY_TO_MANY,
-                        creditCardColumns.get(0), creditCardUserColumns.get(0), userColumns.get(0), userId),
-                this::extractResultCatchingException,
-                null);
-
-    }
-
-    public static CreditCardDAO getInstance() {
-        return CreditCardDAOImpl.Holder.INSTANCE;
-    }
-
-    @Override
-    public boolean update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                updateQuery(tableCreditCardName.name(), updColumn, updValue, whereColumn, whereValue),
-                null);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while updating");
-            throw new DAOException("Sql exception occurred while updating");
-
-        }
-
-    }
-
-    @Override
-    public List<CreditCard> findAll() {
-
-        return executeStatementForEntities(
-                findAllQuery(tableCreditCardName.name()),
-                this::extractResultCatchingException,
-                null);
-
-    }
-
-    @Override
-    public boolean delete(CreditCard entity) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                deleteQuery(tableCreditCardName.name(), creditCardColumns.get(0), entity.getId()),
-                null);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while deleting");
-            throw new DAOException("Sql exception occurred while deleting");
-
-        }
-
-    }
-
-    @Override
-    public boolean create(CreditCard entity) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                createQuery(creditCardColumns, tableCreditCardName.name()),
-                statement -> fillEntity(statement, entity));
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while creating");
-            throw new DAOException("Sql exception occurred while creating");
-
-        }
-
-    }
-
-    @Override
-    public boolean create(CreditCard entity, Connection connection) throws DAOException {
-
-        final int result = executePreparedUpdateWithTransaction(
-                createQuery(creditCardColumns, tableCreditCardName.name()),
-                statement -> fillEntity(statement, entity),
-                connection);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while creating");
-            throw new DAOException("Sql exception occurred while creating");
-
-        }
-
-    }
-
-    @Override
-    public Optional<CreditCard> findBy(String columnName, Object value) {
-
-        return executeStatementForSpecificEntity(
-                findByQuery(tableCreditCardName.name(), columnName, value),
+                        columnCreditCardNames.get(0), creditCardsUsersColumns.get(0), userColumns.get(0), userId),
                 this::extractResultCatchingException,
                 null);
 
@@ -156,12 +53,12 @@ public final class CreditCardDAOImpl extends CommonDAO<CreditCard> implements Cr
     protected CreditCard extractResult(ResultSet rs) throws SQLException {
 
         return new CreditCard(
-        rs.getInt(creditCardColumns.get(0)),
-        rs.getString(creditCardColumns.get(1)),
-        rs.getString(creditCardColumns.get(2)),
-        rs.getDate(creditCardColumns.get(3)),
-        rs.getInt(creditCardColumns.get(4)),
-        rs.getBigDecimal(creditCardColumns.get(5))
+        rs.getInt(columnCreditCardNames.get(0)),
+        rs.getString(columnCreditCardNames.get(1)),
+        rs.getString(columnCreditCardNames.get(2)),
+        rs.getDate(columnCreditCardNames.get(3)),
+        rs.getInt(columnCreditCardNames.get(4)),
+        rs.getBigDecimal(columnCreditCardNames.get(5))
         );
 
     }

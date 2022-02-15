@@ -5,27 +5,25 @@ import by.epam.trainig.context.DatabaseEntityContext;
 import by.epam.trainig.dao.CommonDAO;
 import by.epam.trainig.dao.UserDetailDAO;
 import by.epam.trainig.entity.user.UserDetail;
-import by.epam.trainig.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public final class UserDetailDAOImpl extends CommonDAO<UserDetail> implements UserDetailDAO {
 
     private static final Logger logger = LogManager.getLogger(UserDAOImpl.class);
 
-    private final Class<UserDetail> userDetailClass = UserDetail.class;
-    private final Table tableUserDetail = userDetailClass.getAnnotation(Table.class);
-    private final List<String> userDetailColumnNames = DatabaseEntityContext
-            .getDatabaseEntityContext().getTableColumn(tableUserDetail.name());
+    private static final Class<UserDetail> userDetailClass = UserDetail.class;
+    private static final Table tableUserDetailName = userDetailClass.getAnnotation(Table.class);
+    private static final List<String> columnUserDetailNames = DatabaseEntityContext
+            .getDatabaseEntityContext().getTableColumn(tableUserDetailName.name());
 
     private UserDetailDAOImpl() {
+        super(logger , columnUserDetailNames, tableUserDetailName);
     }
 
     public static UserDetailDAO getInstance() {
@@ -33,117 +31,16 @@ public final class UserDetailDAOImpl extends CommonDAO<UserDetail> implements Us
     }
 
     @Override
-    public boolean update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                updateQuery(tableUserDetail.name(), updColumn, updValue, whereColumn, whereValue),
-                null);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while updating");
-            throw new DAOException("Sql exception occurred while updating");
-
-        }
-
-    }
-
-    @Override
-    public List<UserDetail> findAll() {
-
-        return executeStatementForEntities(
-                findAllQuery(tableUserDetail.name()),
-                this::extractResultCatchingException,
-                null);
-
-    }
-
-    @Override
-    public boolean delete(UserDetail entity) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                deleteQuery(tableUserDetail.name(), userDetailColumnNames.get(0), entity.getId()),
-                null);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while deleting");
-            throw new DAOException("Sql exception occurred while deleting");
-
-        }
-
-    }
-
-    @Override
-    public boolean create(UserDetail entity) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                createQuery(userDetailColumnNames, tableUserDetail.name()),
-                statement -> fillEntity(statement, entity));
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while creating");
-            throw new DAOException("Sql exception occurred while creating");
-
-        }
-
-    }
-
-    @Override
-    public Optional<UserDetail> findBy(String columnName, Object value) {
-
-        return executeStatementForSpecificEntity(
-                findByQuery(tableUserDetail.name(), columnName, value),
-                this::extractResultCatchingException,
-                null);
-
-    }
-
-    @Override
-    public boolean create(UserDetail userDetail, Connection connection) throws DAOException {
-
-        final int result = executePreparedUpdateWithTransaction(
-                createQuery(userDetailColumnNames, tableUserDetail.name()),
-                statement -> fillEntity(statement, userDetail),
-                connection);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while creating");
-            throw new DAOException("Sql exception occurred while creating");
-
-        }
-
-    }
-
-    @Override
     protected UserDetail extractResult(ResultSet rs) throws SQLException {
 
         return new UserDetail(
-                rs.getInt(userDetailColumnNames.get(0)),
-                rs.getString(userDetailColumnNames.get(1)),
-                rs.getString(userDetailColumnNames.get(2)),
-                rs.getString(userDetailColumnNames.get(3)),
-                rs.getString(userDetailColumnNames.get(4)),
-                rs.getString(userDetailColumnNames.get(5)),
-                rs.getDate(userDetailColumnNames.get(6))
+                rs.getInt(columnUserDetailNames.get(0)),
+                rs.getString(columnUserDetailNames.get(1)),
+                rs.getString(columnUserDetailNames.get(2)),
+                rs.getString(columnUserDetailNames.get(3)),
+                rs.getString(columnUserDetailNames.get(4)),
+                rs.getString(columnUserDetailNames.get(5)),
+                rs.getDate(columnUserDetailNames.get(6))
         );
     }
 

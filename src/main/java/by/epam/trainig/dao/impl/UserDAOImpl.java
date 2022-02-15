@@ -29,18 +29,19 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
 
     private static final String TABLE_MANY_TO_MANY = "bank_account";
 
-    private final Class<User> entityClass = User.class;
-    private final Table tableName = entityClass.getAnnotation(Table.class);
-    private final List<String> userColumns = DatabaseEntityContext.getDatabaseEntityContext()
-            .getTableColumn(tableName.name());
-    private final List<String> userCreditCardColumns = DatabaseEntityContext.getDatabaseEntityContext()
-            .getManyToManyColumn(tableName.name());
+    private static final Class<User> entityClass = User.class;
+    private static final Table tableUserName = entityClass.getAnnotation(Table.class);
+    private static final List<String> columnUserNames = DatabaseEntityContext.getDatabaseEntityContext()
+            .getTableColumn(tableUserName.name());
+    private final List<String> usersCreditCardsColumns = DatabaseEntityContext.getDatabaseEntityContext()
+            .getManyToManyColumn(tableUserName.name());
 
     private final UserDetailDAO userDetailDAO;
     private final RoleDAO roleDAO;
     private final CreditCardDAO creditCardDAO;
 
     private UserDAOImpl(UserDetailDAO userDetailDAO, RoleDAO roleDAO, CreditCardDAO creditCardDAO) {
+        super(logger, columnUserNames, tableUserName);
         this.userDetailDAO = userDetailDAO;
         this.roleDAO = roleDAO;
         this.creditCardDAO = creditCardDAO;
@@ -51,48 +52,8 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
     }
 
     @Override
-    public boolean update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws DAOException {
+    public void create(User user) throws DAOException {
 
-        final int result = executePreparedUpdate(
-                updateQuery(tableName.name(), updColumn, updValue, whereColumn, whereValue),
-                null);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while updating");
-            throw new DAOException("Sql exception occurred while updating");
-
-        }
-    }
-
-    @Override
-    public boolean create(User user, Connection connection) throws DAOException {
-
-        final int result = executePreparedUpdateWithTransaction(
-                createQuery(userColumns, tableName.name()),
-                statement -> fillEntity(statement, user),
-                connection);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while creating");
-            throw new DAOException("Sql exception occurred while creating");
-
-        }
-    }
-
-    @Override
-    public boolean create(User user) throws DAOException {
-
-        boolean result = false;
         Connection connection = ConnectionPool.getConnectionPool().getConnection();
 
         try {
@@ -101,7 +62,7 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
 
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 
-            result = userDetailDAO.create(user.getUserDetail(), connection);
+            userDetailDAO.create(user.getUserDetail(), connection);
 
             userDetailDAO.findBy(EMAIL, user.getUserDetail().getEmail()).ifPresent(user::setUserDetail);
 
@@ -113,14 +74,13 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
         } catch (SQLException e) {
 
             logger.error("Failed transaction", e);
-            rollback(connection, logger);
+            rollback(connection);
 
         } finally {
 
-            reliaseConnection(connection, logger);
+            reliaseConnection(connection);
 
         }
-        return result;
     }
 
     @Override
@@ -136,15 +96,21 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
 
             creditCardDAO.create(creditCard, connection);
 
-            Optional<CreditCard> creditCardFromDB = creditCardDAO.findBy(CREDIT_CARD_NUMBER, creditCard.getCreditCardNumber());
+            Optional<CreditCard> newCreditCardFromDB = creditCardDAO.findBy(CREDIT_CARD_NUMBER, creditCard.getCreditCardNumber());
 
-            executePreparedUpdate(
-                    createManyToManyTableQuery(userCreditCardColumns.get(0), creditCardDAO.getCreditCardUserColumns().get(0), TABLE_MANY_TO_MANY),
+            if (newCreditCardFromDB.isEmpty()) {
+
+                logger.error("Something went wrong with credit card creating");
+                throw new DAOException("Something went wrong with credit card creating");
+
+            }
+
+            super.create(creditCardDAO.getCreditCardUserColumns().get(0), usersCreditCardsColumns.get(0), TABLE_MANY_TO_MANY,
                     statement -> {
                         statement.setInt(1, user.getId());
-                        statement.setInt(2, creditCardFromDB.get().getId());
-                    }
-            );
+                        statement.setInt(2, newCreditCardFromDB.get().getId());
+                    }, connection);
+
 
             connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             connection.commit();
@@ -152,23 +118,13 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
         } catch (SQLException e) {
 
             logger.error("Failed transaction", e);
-            rollback(connection, logger);
+            rollback(connection);
 
         } finally {
 
-            reliaseConnection(connection, logger);
+            reliaseConnection(connection);
 
         }
-
-    }
-
-    @Override
-    public List<User> findAll() {
-
-        return executeStatementForEntities(
-                findAllQuery(tableName.name()),
-                this::extractResultCatchingException,
-                null);
 
     }
 
@@ -176,7 +132,7 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
     public List<User> findAll(int currentPage, int recordsOnPage) {
 
         List<User> users = executeStatementForEntities(
-                findAllPaginationQuery(tableName.name(), currentPage, recordsOnPage),
+                findAllPaginationQuery(tableUserName.name(), currentPage, recordsOnPage),
                 this::extractResultCatchingException,
                 null);
 
@@ -185,57 +141,20 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
             userDetailDAO.findBy(ID, user.getUserDetail().getId()).ifPresent(user::setUserDetail);
             roleDAO.findBy(ID, user.getRole().getId()).ifPresent(user::setRole);
 
-            for (CreditCard creditCard : creditCardDAO.findCreditCardByUserId(user.getId(), tableName.name(), userCreditCardColumns)) {
-
-                if (creditCard != null) {
-                    user.setCreditCard(creditCard);
-                }
-
-            }
-
         }
         return users;
     }
 
     @Override
-    public boolean delete(User entity) throws DAOException {
-
-        final int result = executePreparedUpdate(
-                deleteQuery(tableName.name(), userColumns.get(0), entity.getId()),
-               null);
-
-        if (result > 0) {
-
-            return true;
-
-        } else {
-
-            logger.error("Sql exception occurred while deleting");
-            throw new DAOException("Sql exception occurred while deleting");
-
-        }
-
-    }
-
-    @Override
     public Optional<User> findBy(String columnName, Object value) {
 
-        Optional<User> user = executeStatementForSpecificEntity(
-                findByQuery(tableName.name(), columnName, value),
-                this::extractResultCatchingException,
-                null);
+        Optional<User> user = super.findBy(columnName, value);
 
         if (user.isPresent()) {
 
             userDetailDAO.findBy(ID, user.get().getUserDetail().getId()).ifPresent(user.get()::setUserDetail);
             roleDAO.findBy(ID, user.get().getRole().getId()).ifPresent(user.get()::setRole);
 
-            for (CreditCard creditCard : creditCardDAO.findCreditCardByUserId(user.get().getId(), tableName.name(), userCreditCardColumns)) {
-
-                if (creditCard != null) {
-                    user.get().setCreditCard(creditCard);
-                }
-            }
         }
 
         return user;
@@ -246,11 +165,11 @@ public final class UserDAOImpl extends CommonDAO<User> implements UserDAO {
     protected User extractResult(ResultSet rs) throws SQLException {
 
         return new User(
-                rs.getInt(userColumns.get(0)),
-                new Role(rs.getInt(userColumns.get(1))),
-                new UserDetail(rs.getInt(userColumns.get(2))),
-                rs.getString(userColumns.get(3)),
-                rs.getString(userColumns.get(4))
+                rs.getInt(columnUserNames.get(0)),
+                new Role(rs.getInt(columnUserNames.get(1))),
+                new UserDetail(rs.getInt(columnUserNames.get(2))),
+                rs.getString(columnUserNames.get(3)),
+                rs.getString(columnUserNames.get(4))
         );
     }
 
