@@ -3,38 +3,27 @@ package by.epam.trainig.service.impl;
 import by.epam.trainig.dao.AuthorDAO;
 import by.epam.trainig.entity.book.Author;
 import by.epam.trainig.entity.book.Book;
-import by.epam.trainig.exception.DAOException;
-import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.AuthorService;
+import by.epam.trainig.service.CommonService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Optional;
 
-public enum AuthorServiceImpl implements AuthorService {
-    INSTANCE(AuthorDAO.getInstance());
+public final class AuthorServiceImpl extends CommonService<Author> implements AuthorService {
 
     private static final Logger logger = LogManager.getLogger(AuthorServiceImpl.class);
 
     private final AuthorDAO authorDAO;
 
     AuthorServiceImpl(AuthorDAO authorDAO) {
+        super(authorDAO, logger);
         this.authorDAO = authorDAO;
     }
 
-    @Override
-    public List<Author> findAll(int currentPage, int recordsPerPage) {
-
-        return authorDAO.findAll(currentPage, recordsPerPage);
-
-    }
-
-    @Override
-    public Optional<Author> findBy(String columnName, Object value) {
-
-        return authorDAO.findBy(columnName, value);
-
+    public static AuthorService getInstance() {
+        return AuthorServiceImpl.Holder.INSTANCE;
     }
 
     @Override
@@ -51,65 +40,10 @@ public enum AuthorServiceImpl implements AuthorService {
 
     }
 
-    @Override
-    public void delete(Author author) throws ServiceException {
-
-        try {
-
-            authorDAO.delete(author.getId());
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while deleting author", e);
-            throw new ServiceException("Sql exception occurred while deleting author", e);
-        }
-
-    }
-
-    @Override
-    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException {
-
-        try {
-
-            authorDAO.update(updColumn, updValue, whereColumn, whereValue);
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while updating author", e);
-            throw new ServiceException("Sql exception occurred while updating author", e);
-
-        }
-
-    }
-
-    @Override
-    public List<Author> findAllWhere(String column, Object value) {
-
-        return authorDAO.findAllWhere(column, value);
-
-    }
-
-    @Override
-    public void create(Author entity) throws ServiceException {
-
-        try {
-
-            authorDAO.create(entity);
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while creating author", e);
-            throw new ServiceException("Sql exception occurred while creating author", e);
-
-        }
-
-    }
-
-    @Override
-    public int getNumberOfRows() {
-
-        return authorDAO.getCountOfRows();
-
+    private static class Holder {
+        public static final AuthorService INSTANCE = new AuthorServiceImpl(
+                AuthorDAO.getInstance()
+        );
     }
 
 }

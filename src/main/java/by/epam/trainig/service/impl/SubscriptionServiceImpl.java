@@ -7,6 +7,7 @@ import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.exception.DAOException;
 import by.epam.trainig.exception.ServiceException;
+import by.epam.trainig.service.CommonService;
 import by.epam.trainig.service.SubscriptionService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,8 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public enum SubscriptionServiceImpl implements SubscriptionService {
-    INSTANCE(SubscriptionDAO.getInstance(), SubscriptionTypeDAO.getInstance());
+public final class SubscriptionServiceImpl extends CommonService<Subscription> implements SubscriptionService {
 
     private static final String FIND_SUBSCRIPTION_BY_PARAMETER = "user_id";
 
@@ -34,8 +34,13 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
     private final SubscriptionTypeDAO subscriptionTypeDAO;
 
     SubscriptionServiceImpl(SubscriptionDAO subscriptionDAO, SubscriptionTypeDAO subscriptionTypeDAO) {
+        super(subscriptionDAO, logger);
         this.subscriptionDAO = subscriptionDAO;
         this.subscriptionTypeDAO = subscriptionTypeDAO;
+    }
+
+    public static SubscriptionService getInstance() {
+        return SubscriptionServiceImpl.Holder.INSTANCE;
     }
 
     @Override
@@ -95,22 +100,14 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
                         .format(DateTimeFormatter
                                 .ofPattern("yyyy-MM-dd"))));
 
-        try {
+        super.create(entity);
 
-            subscriptionDAO.create(entity);
-
-        } catch (DAOException e) {
-
-            logger.error("Filed subscription creating", e);
-            throw new ServiceException(e);
-
-        }
     }
 
     @Override
     public Optional<Subscription> findByUserId(Integer id) {
 
-        return subscriptionDAO.findBy(FIND_SUBSCRIPTION_BY_PARAMETER, id);
+        return super.findBy(FIND_SUBSCRIPTION_BY_PARAMETER, id);
 
     }
 
@@ -126,62 +123,10 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
 
     }
 
-    @Override
-    public List<Subscription> findAllWhere(String column, Object value) {
-
-        return subscriptionDAO.findAllWhere(column, value);
-
+    private static class Holder {
+        public static final SubscriptionService INSTANCE = new SubscriptionServiceImpl(
+                SubscriptionDAO.getInstance(), SubscriptionTypeDAO.getInstance()
+        );
     }
 
-    @Override
-    public int getNumberOfRows() {
-
-        return subscriptionDAO.getCountOfRows();
-
-    }
-
-    @Override
-    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException {
-
-        try {
-
-            subscriptionDAO.update(updColumn, updValue, whereColumn, whereValue);
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while updating subscription", e);
-            throw new ServiceException("Sql exception occurred while updating subscription", e);
-
-        }
-
-    }
-
-    @Override
-    public void delete(Subscription entity) throws ServiceException {
-
-        try {
-
-            subscriptionDAO.delete(entity.getId());
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while deleting subscription", e);
-            throw new ServiceException("Sql exception occurred while deleting subscription", e);
-        }
-
-    }
-
-    @Override
-    public List<Subscription> findAll(int currentPage, int recordsPerPage) {
-
-        return subscriptionDAO.findAll(currentPage, recordsPerPage);
-
-    }
-
-    @Override
-    public Optional<Subscription> findBy(String columnName, Object value) {
-
-        return subscriptionDAO.findBy(columnName, value);
-
-    }
 }

@@ -15,9 +15,11 @@ public interface EntityService<T extends Entity> {
 
     int getNumberOfRows();
 
+    void updateIfChanged(boolean isSomethingChanged, String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException;
+
     void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException;
 
-    void delete(T entity) throws ServiceException;
+    void delete(Integer id) throws ServiceException;
 
     List<T> findAll(int currentPage, int recordsPerPage);
 

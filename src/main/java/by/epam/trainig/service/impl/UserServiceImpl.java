@@ -1,40 +1,41 @@
 package by.epam.trainig.service.impl;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import by.epam.trainig.dao.CreditCardDAO;
-import by.epam.trainig.dao.UserDAO;
+import by.epam.trainig.dao.*;
 import by.epam.trainig.dao.impl.CreditCardDAOImpl;
 import by.epam.trainig.entity.user.CreditCard;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.exception.DAOException;
 import by.epam.trainig.exception.ServiceException;
+import by.epam.trainig.service.CommonService;
 import by.epam.trainig.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Optional;
 
 import static at.favre.lib.crypto.bcrypt.BCrypt.MIN_COST;
 
-public enum UserServiceImpl implements UserService {
-    INSTANCE(UserDAO.getInstance(), CreditCardDAO.getInstance(), BCrypt.withDefaults(), BCrypt.verifyer());
+public final class UserServiceImpl extends CommonService<User> implements UserService {
 
     private static final Logger logger = LogManager.getLogger(CreditCardDAOImpl.class);
 
     private static final String LOGIN = "login";
 
     private final UserDAO userDAO;
-    private final CreditCardDAO creditCardDAO;
     private final BCrypt.Hasher hasher;
     private final BCrypt.Verifyer verifyer;
 
-    UserServiceImpl(UserDAO userDAO, CreditCardDAO creditCardDAO, BCrypt.Hasher hasher, BCrypt.Verifyer verifyer) {
+    UserServiceImpl(UserDAO userDAO, BCrypt.Hasher hasher, BCrypt.Verifyer verifyer) {
+        super(userDAO, logger);
         this.userDAO = userDAO;
-        this.creditCardDAO = creditCardDAO;
         this.hasher = hasher;
         this.verifyer = verifyer;
+    }
+
+    public static UserService getInstance() {
+        return UserServiceImpl.Holder.INSTANCE;
     }
 
     @Override
@@ -58,75 +59,32 @@ public enum UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findBy(String columnName, Object value) {
+    public void updatePassword(String updColumn, String password, String whereColumn, Object whereValue) throws ServiceException {
 
-            return userDAO.findBy(columnName, value);
+        final char[] rawPassword = password.toCharArray();
 
-    }
-
-    @Override
-    public List<User> findAllWhere(String column, Object value) {
-
-        return userDAO.findAllWhere(column, value);
-
-    }
-
-    @Override
-    public void create(User entity) throws ServiceException {
+        final String newPassword = hasher.hashToString(MIN_COST, rawPassword);
 
         try {
 
-            userDAO.create(entity);
+            userDAO.update(updColumn, password, whereColumn, whereValue);
 
         } catch (DAOException e) {
 
-            logger.error("Sql exception occurred while creating user", e);
-            throw new ServiceException("Sql exception occurred while creating user", e);
+            logger.error("Sql exception occurred while updating password", e);
+            throw new ServiceException("Sql exception occurred while updating password", e);
         }
 
     }
 
     @Override
-    public int getNumberOfRows() {
+    public boolean verifyPassword(String confirmedPassword, String userPassword) {
 
-        return userDAO.getCountOfRows();
+        final byte[] enteredPassword = confirmedPassword.getBytes(StandardCharsets.UTF_8);
 
-    }
+            final byte[] hashedPassword = userPassword.getBytes(StandardCharsets.UTF_8);
 
-    @Override
-    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException {
-
-        try {
-
-            userDAO.update(updColumn, updValue, whereColumn, whereValue);
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while updating user", e);
-            throw new ServiceException("Sql exception occurred while updating user", e);
-        }
-
-    }
-
-    @Override
-    public void delete(User entity) throws ServiceException {
-
-        try {
-
-            userDAO.delete(entity.getId());
-
-        } catch (DAOException e) {
-
-            logger.error("Sql exception occurred while deleting user", e);
-            throw new ServiceException("Sql exception occurred while deleting user", e);
-        }
-
-    }
-
-    @Override
-    public List<User> findAll(int currentPage, int recordOnPage) {
-
-        return userDAO.findAll(currentPage, recordOnPage);
+            return verifyer.verify(enteredPassword, hashedPassword).verified;
 
     }
 
@@ -170,27 +128,10 @@ public enum UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public void updateCreditCard(String updColumn, Object updValue, String whereColumn, String whereValue) throws ServiceException {
-
-        try {
-
-            creditCardDAO.update(updColumn, updValue, whereColumn, whereValue);
-
-        } catch (DAOException e) {
-
-            logger.error("Failed with credit card updating", e);
-            throw new ServiceException(e);
-
-        }
-
-    }
-
-    @Override
-    public Optional<CreditCard> findCreditCardBy(String findByValue, String creditCardNumber) {
-
-        return creditCardDAO.findBy(findByValue, creditCardNumber);
-
+    private static class Holder {
+        public static final UserService INSTANCE = new UserServiceImpl(
+                UserDAO.getInstance(), BCrypt.withDefaults(), BCrypt.verifyer()
+        );
     }
 
 }

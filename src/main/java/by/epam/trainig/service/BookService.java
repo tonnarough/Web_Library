@@ -22,8 +22,8 @@ public interface BookService extends EntityService<Book> {
 
     S3ObjectInputStream downloadBook(String file);
 
-    static BookServiceImpl getInstance(){
-        return BookServiceImpl.INSTANCE;
+    static BookService getInstance(){
+        return BookServiceImpl.getInstance();
     }
 
 }

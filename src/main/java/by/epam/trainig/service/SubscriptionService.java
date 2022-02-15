@@ -19,8 +19,8 @@ public interface SubscriptionService extends EntityService<Subscription> {
 
     Optional<Subscription> findByUserId(Integer id);
 
-    static SubscriptionServiceImpl getInstance(){
-        return SubscriptionServiceImpl.INSTANCE;
+    static SubscriptionService getInstance(){
+        return SubscriptionServiceImpl.getInstance();
     }
 
 }

@@ -11,18 +11,18 @@ public interface UserService extends EntityService<User> {
 
     Optional<User> authenticate(String login, String password);
 
+    void updatePassword(String updColumn, String password, String whereColumn, Object whereValue) throws ServiceException;
+
+    boolean verifyPassword(String confirmedPassword, String userPassword);
+
     void createCreditCard(User user, CreditCard creditCard) throws ServiceException;
-
-    void updateCreditCard(String updColumn, Object updValue, String whereColumn, String whereValue) throws ServiceException;
-
-    Optional<CreditCard> findCreditCardBy(String findByValue, String creditCardNumber);
 
     void registration(User user) throws ServiceException;
 
     boolean isExists(String login);
 
-    static UserServiceImpl getInstance(){
-        return UserServiceImpl.INSTANCE;
+    static UserService getInstance(){
+        return UserServiceImpl.getInstance();
     }
 
 }

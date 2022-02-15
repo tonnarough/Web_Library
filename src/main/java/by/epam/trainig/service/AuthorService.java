@@ -13,8 +13,8 @@ public interface AuthorService extends EntityService<Author> {
 
     List<Book> findBooksByAuthorId(int authorId);
 
-    static AuthorServiceImpl getInstance(){
-        return AuthorServiceImpl.INSTANCE;
+    static AuthorService getInstance(){
+        return AuthorServiceImpl.getInstance();
     }
 
 }

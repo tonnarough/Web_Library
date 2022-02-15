@@ -10,8 +10,8 @@ public interface PublishingHouseService extends EntityService<PublishingHouse> {
 
     List<Book> findBooksByPublishingHouseId(int publishingHouseId);
 
-    static PublishingHouseServiceImpl getInstance(){
-        return PublishingHouseServiceImpl.INSTANCE;
+    static PublishingHouseService getInstance(){
+        return PublishingHouseServiceImpl.getInstance();
     }
 
 }

@@ -10,8 +10,8 @@ public interface GenreService extends EntityService<Genre> {
 
     List<Book> findBooksByGenreId(int genreId);
 
-    static GenreServiceImpl getInstance(){
-        return GenreServiceImpl.INSTANCE;
+    static GenreService getInstance(){
+        return GenreServiceImpl.getInstance();
     }
 
 }
