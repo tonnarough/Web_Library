@@ -406,10 +406,7 @@ public abstract class CommonDAO<T extends Entity> implements EntityDAO<T> {
 
         }
 
-        int a = query.lastIndexOf(AND);
-        int b = query.length() - 4;
-
-        if ( a == b ) {
+        if (query.lastIndexOf(AND) == query.length() - 4) {
 
             query.replace(query.lastIndexOf(AND), query.length(), SPACE);
 
