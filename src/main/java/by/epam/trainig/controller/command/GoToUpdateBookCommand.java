@@ -49,11 +49,6 @@ public enum GoToUpdateBookCommand implements Command {
         request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST) +
                 SECOND_PARAMETER + request.getParameter(BOOK_PARAMETER)));
 
-        String s = urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST) +
-                SECOND_PARAMETER + request.getParameter(BOOK_PARAMETER));
-
-        String sr = request.getParameter(BOOK_PARAMETER);
-
         Optional<Book> book = bookService.findBy(ID, Integer.parseInt(request.getParameter(BOOK_PARAMETER)));
 
         if (book.isEmpty()){
@@ -62,16 +57,10 @@ public enum GoToUpdateBookCommand implements Command {
 
         }
 
-        List<Author> authors = bookService.findAuthorsByBookId(book.get().getId());
-
-        List<Genre> genres = bookService.findGenresByBookId(book.get().getId());
-
-        List<PublishingHouse> publishingHouses = bookService.findPublishingHousesByBookId(book.get().getId());
-
-        request.addAttributeToJsp(BOOK_TO_JSP, book);
-        request.addAttributeToJsp(AUTHORS_TO_JSP, authors);
-        request.addAttributeToJsp(GENRES_TO_JSP, genres);
-        request.addAttributeToJsp(PUBLISHING_HOUSES_TO_JSP, publishingHouses);
+        request.addAttributeToJsp(BOOK_TO_JSP, book.get());
+        request.addAttributeToJsp(AUTHORS_TO_JSP, book.get().getAuthors());
+        request.addAttributeToJsp(GENRES_TO_JSP, book.get().getGenres());
+        request.addAttributeToJsp(PUBLISHING_HOUSES_TO_JSP, book.get().getPublishingHouses());
 
         return requestFactory.createForwardResponse(propertyContext.get(UPDATE_BOOK_PAGE));
 
