@@ -45,32 +45,24 @@ public enum GoToSelectedBookCommand implements Command{
     @Override
     public CommandResponse execute(CommandRequest request) throws IOException, ServletException {
 
-        try {
+        request.addToSession(URL, urlBuilder(request.getRequestURL(),
+                request.getParameter(PARAMETER_FROM_REQUEST) + SECOND_PARAMETER + request.getParameter(BOOKS_PARAMETER)));
 
-            request.addToSession(URL, urlBuilder(request.getRequestURL(),
-                    request.getParameter(PARAMETER_FROM_REQUEST) + SECOND_PARAMETER + request.getParameter(BOOKS_PARAMETER)));
+        final Optional<Book> book = bookService.findBy(ID, Integer.parseInt(request.getParameter(BOOKS_PARAMETER)));
 
-            final Optional<Book> book = bookService.findBy(ID, Integer.parseInt(request.getParameter(BOOKS_PARAMETER)));
+        if(book.isEmpty()){
 
-            List<Author> authors = bookService.findAuthorsByBookId(book.getId());
-
-            List<Genre> genres = bookService.findGenresByBookId(book.getId());
-
-            List<PublishingHouse> publishingHouses = bookService.findPublishingHouseByBookId(book.getId());
-
-            request.addAttributeToJsp(BOOKS_PARAMETER, book);
-            request.addAttributeToJsp(AUTHORS_PARAMETER, authors);
-            request.addAttributeToJsp(GENRES_PARAMETER, genres);
-            request.addAttributeToJsp(PUBLISHING_HOUSES_PARAMETER, publishingHouses);
-
-            return requestFactory.createForwardResponse(propertyContext.get(SELECTED_BOOK));
-
-        } catch (ServiceException e) {
-
-            logger.error("Failed finding of book", e);
+            logger.error("Failed finding of book");
             return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
 
         }
+
+        request.addAttributeToJsp(BOOKS_PARAMETER, book.get());
+        request.addAttributeToJsp(AUTHORS_PARAMETER, book.get().getAuthors());
+        request.addAttributeToJsp(GENRES_PARAMETER, book.get().getGenres());
+        request.addAttributeToJsp(PUBLISHING_HOUSES_PARAMETER, book.get().getPublishingHouses());
+
+        return requestFactory.createForwardResponse(propertyContext.get(SELECTED_BOOK));
 
     }
 }

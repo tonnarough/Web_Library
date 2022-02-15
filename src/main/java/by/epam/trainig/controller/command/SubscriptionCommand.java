@@ -64,9 +64,7 @@ public enum SubscriptionCommand implements Command {
 
         final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
 
-        final SubscriptionType subscriptionType;
-
-        subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
+        final SubscriptionType subscriptionType = subscriptionService.findByType(chosenSubscriptionType);
 
         final User user;
 
@@ -108,7 +106,7 @@ public enum SubscriptionCommand implements Command {
 
         }
 
-        return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
+        return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
     }
 
 

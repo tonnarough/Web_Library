@@ -26,6 +26,7 @@ public enum LoginCommand implements Command {
     private static final String PASSWORD_REQUEST_PARAMETR_NAME = "password";
 
     private static final String USER_SESSION_ATTRIBUTE_NAME = "user";
+    private static final String USER_ROLE_SESSION_ATTRIBUTE_NAME = "role_id";
     private static final String ERROR_LOGIN_PASS_ATTRIBUTE = "errorLoginPassMessage";
     private static final String ERROR_LOGIN_PASS_MESSAGE = "Invalid login or password";
 
@@ -64,11 +65,11 @@ public enum LoginCommand implements Command {
 
         final Optional<Subscription> subscription = subscriptionService.findByUserId(user.get().getId());
 
-        //noinspection OptionalGetWithoutIsPresent
         if (subscription.get().getEndDate().getTime() <= (new Date().getTime()) && user.get().getRole().getId() != 1) {
 
             request.clearSession();
             request.createSession();
+            request.addToSession(USER_SESSION_ATTRIBUTE_NAME, user.get());
             request.addToSession(USER_SESSION_ATTRIBUTE_NAME, user.get());
 
             return requestFactory.createRedirectResponse(propertyContext.get(SUBSCRIPTION_PAGE));
@@ -78,6 +79,7 @@ public enum LoginCommand implements Command {
         request.clearSession();
         request.createSession();
         request.addToSession(USER_SESSION_ATTRIBUTE_NAME, user.get());
+        request.addToSession(USER_ROLE_SESSION_ATTRIBUTE_NAME, user.get().getRole().getId());
 
         return requestFactory.createRedirectResponse(propertyContext.get(MAIN_AUTH_PAGE));
     }
