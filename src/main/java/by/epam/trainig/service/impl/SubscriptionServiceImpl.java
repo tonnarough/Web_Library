@@ -126,4 +126,62 @@ public enum SubscriptionServiceImpl implements SubscriptionService {
 
     }
 
+    @Override
+    public List<Subscription> findAllWhere(String column, Object value) {
+
+        return subscriptionDAO.findAllWhere(column, value);
+
+    }
+
+    @Override
+    public int getNumberOfRows() {
+
+        return subscriptionDAO.getCountOfRows();
+
+    }
+
+    @Override
+    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException {
+
+        try {
+
+            subscriptionDAO.update(updColumn, updValue, whereColumn, whereValue);
+
+        } catch (DAOException e) {
+
+            logger.error("Sql exception occurred while updating subscription", e);
+            throw new ServiceException("Sql exception occurred while updating subscription", e);
+
+        }
+
+    }
+
+    @Override
+    public void delete(Subscription entity) throws ServiceException {
+
+        try {
+
+            subscriptionDAO.delete(entity.getId());
+
+        } catch (DAOException e) {
+
+            logger.error("Sql exception occurred while deleting subscription", e);
+            throw new ServiceException("Sql exception occurred while deleting subscription", e);
+        }
+
+    }
+
+    @Override
+    public List<Subscription> findAll(int currentPage, int recordsPerPage) {
+
+        return subscriptionDAO.findAll(currentPage, recordsPerPage);
+
+    }
+
+    @Override
+    public Optional<Subscription> findBy(String columnName, Object value) {
+
+        return subscriptionDAO.findBy(columnName, value);
+
+    }
 }

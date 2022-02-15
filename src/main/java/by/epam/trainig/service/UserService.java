@@ -5,16 +5,11 @@ import by.epam.trainig.entity.user.User;
 import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.impl.UserServiceImpl;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface UserService {
+public interface UserService extends EntityService<User> {
 
     Optional<User> authenticate(String login, String password);
-
-    Optional<User> findBy(String columnName, Object value);
-
-    List<User> findAllUsers(int currentPage, int recordOnPage);
 
     void createCreditCard(User user, CreditCard creditCard) throws ServiceException;
 

@@ -40,12 +40,6 @@ public enum UserServiceImpl implements UserService {
     @Override
     public Optional<User> authenticate(String login, String password) {
 
-        if (login == null || password == null) {
-
-            return Optional.empty();
-
-        }
-
         final Optional<User> user = userDAO.findBy(LOGIN, login);
         final byte[] enteredPassword = password.getBytes(StandardCharsets.UTF_8);
 
@@ -71,7 +65,66 @@ public enum UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllUsers(int currentPage, int recordOnPage) {
+    public List<User> findAllWhere(String column, Object value) {
+
+        return userDAO.findAllWhere(column, value);
+
+    }
+
+    @Override
+    public void create(User entity) throws ServiceException {
+
+        try {
+
+            userDAO.create(entity);
+
+        } catch (DAOException e) {
+
+            logger.error("Sql exception occurred while creating user", e);
+            throw new ServiceException("Sql exception occurred while creating user", e);
+        }
+
+    }
+
+    @Override
+    public int getNumberOfRows() {
+
+        return userDAO.getCountOfRows();
+
+    }
+
+    @Override
+    public void update(String updColumn, Object updValue, String whereColumn, Object whereValue) throws ServiceException {
+
+        try {
+
+            userDAO.update(updColumn, updValue, whereColumn, whereValue);
+
+        } catch (DAOException e) {
+
+            logger.error("Sql exception occurred while updating user", e);
+            throw new ServiceException("Sql exception occurred while updating user", e);
+        }
+
+    }
+
+    @Override
+    public void delete(User entity) throws ServiceException {
+
+        try {
+
+            userDAO.delete(entity.getId());
+
+        } catch (DAOException e) {
+
+            logger.error("Sql exception occurred while deleting user", e);
+            throw new ServiceException("Sql exception occurred while deleting user", e);
+        }
+
+    }
+
+    @Override
+    public List<User> findAll(int currentPage, int recordOnPage) {
 
         return userDAO.findAll(currentPage, recordOnPage);
 
@@ -110,7 +163,7 @@ public enum UserServiceImpl implements UserService {
             userDAO.create(user, creditCard);
         } catch (DAOException e) {
 
-            logger.error("Failed with creating creditCard");
+            logger.error("Failed with creating creditCard", e);
             throw new ServiceException(e);
 
         }
@@ -126,7 +179,7 @@ public enum UserServiceImpl implements UserService {
 
         } catch (DAOException e) {
 
-            logger.error("Failed with credit card updating");
+            logger.error("Failed with credit card updating", e);
             throw new ServiceException(e);
 
         }

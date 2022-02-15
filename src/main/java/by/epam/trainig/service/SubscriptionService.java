@@ -9,11 +9,9 @@ import by.epam.trainig.service.impl.SubscriptionServiceImpl;
 import java.util.List;
 import java.util.Optional;
 
-public interface SubscriptionService {
+public interface SubscriptionService extends EntityService<Subscription> {
 
     List<SubscriptionType> findAllTypes();
-
-    void create(Subscription entity) throws ServiceException;
 
     SubscriptionType findByType(String chosenType);
 
