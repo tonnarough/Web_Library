@@ -15,5 +15,4 @@ public interface Command {
         return String.format("%s?command=%s", url, parameter);
     }
 
-
 }

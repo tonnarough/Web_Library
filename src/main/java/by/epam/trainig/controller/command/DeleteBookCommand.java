@@ -52,7 +52,7 @@ public enum DeleteBookCommand implements Command {
 
         }
 
-            bookService.delete(book.get());
+            bookService.delete(book.get().getId());
 
         } catch (ServiceException e) {
 

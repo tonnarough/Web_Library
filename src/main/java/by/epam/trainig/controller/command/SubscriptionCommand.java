@@ -8,6 +8,7 @@ import by.epam.trainig.entity.user.SubscriptionType;
 import by.epam.trainig.entity.user.User;
 import by.epam.trainig.exception.ControllerException;
 import by.epam.trainig.exception.ServiceException;
+import by.epam.trainig.service.CreditCardService;
 import by.epam.trainig.service.SubscriptionService;
 import by.epam.trainig.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +19,7 @@ import java.sql.Date;
 import java.util.Optional;
 
 public enum SubscriptionCommand implements Command {
-    INSTANCE(SubscriptionService.getInstance(), UserService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
+    INSTANCE(UserService.getInstance(), CreditCardService.getInstance(), SubscriptionService.getInstance(), PropertyContext.getInstance(), RequestFactory.getInstance());
 
     private static final Logger logger = LogManager.getLogger(SubscriptionCommand.class);
 
@@ -40,13 +41,16 @@ public enum SubscriptionCommand implements Command {
     private static final String ERROR_PAYMENT_PASS_MESSAGE = "Insufficient funds to pay";
 
     private final UserService userService;
+    private final CreditCardService creditCardService;
     private final SubscriptionService subscriptionService;
     private final PropertyContext propertyContext;
     private final RequestFactory requestFactory;
 
-    SubscriptionCommand(SubscriptionService subscriptionService, UserService userService, PropertyContext propertyContext, RequestFactory requestFactory) {
-        this.subscriptionService = subscriptionService;
+
+    SubscriptionCommand(UserService userService, CreditCardService creditCardService, SubscriptionService subscriptionService, PropertyContext propertyContext, RequestFactory requestFactory) {
         this.userService = userService;
+        this.creditCardService = creditCardService;
+        this.subscriptionService = subscriptionService;
         this.propertyContext = propertyContext;
         this.requestFactory = requestFactory;
     }
@@ -60,7 +64,7 @@ public enum SubscriptionCommand implements Command {
         final Date cardExpirationDate = Date.valueOf(request.getParameter(CARD_EXPIRATION_DATE));
         final int cvv = Integer.parseInt(request.getParameter(CVV));
 
-        final Optional<CreditCard> creditCard = userService.findCreditCardBy(CREDIT_CARD_NUMBER, creditCardNumber);
+        final Optional<CreditCard> creditCard = creditCardService.findBy(CREDIT_CARD_NUMBER, creditCardNumber);
 
         final Optional<Object> userFromSession = request.retrieveFromSession(USER_SESSION_ATTRIBUTE_NAME);
 
@@ -145,7 +149,7 @@ public enum SubscriptionCommand implements Command {
 
         try {
 
-            userService.updateCreditCard(BALANCE, creditCard.getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
+            creditCardService.update(BALANCE, creditCard.getBalance().subtract(subscriptionType.getPrice()), CREDIT_CARD_NUMBER, creditCardNumber);
 
         } catch (ServiceException e) {
 

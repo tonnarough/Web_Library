@@ -8,6 +8,7 @@ import by.epam.trainig.entity.book.Author;
 import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.entity.book.Genre;
 import by.epam.trainig.entity.book.PublishingHouse;
+import by.epam.trainig.exception.ControllerException;
 import by.epam.trainig.exception.ServiceException;
 import by.epam.trainig.service.AuthorService;
 import by.epam.trainig.service.BookService;
@@ -73,25 +74,28 @@ public enum UpdateBookCommand implements Command {
 
         final Optional<Book> book = bookService.findBy(ID, Integer.parseInt(request.getParameter(BOOK_TO_JSP)));
 
-        if(book.isEmpty()){
+        if (book.isEmpty()) {
 
             logger.error("Failed finding of book");
             return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
 
         }
 
-        final boolean isChanged = bookUpdates(request, book.get()) | authorUpdates(request, book.get().getAuthors()) |
-                genreUpdates(request, book.get().getGenres()) | publishingHouseUpdate(request, book.get().getPublishingHouses());
+        try {
 
-        if (isChanged){
+            bookUpdates(request, book.get());
+            authorUpdates(request, book.get().getAuthors());
+            genreUpdates(request, book.get().getGenres());
+            publishingHouseUpdate(request, book.get().getPublishingHouses());
 
-            request.addAttributeToJsp(UPDATING_ATTRIBUTE, SUCCESSFUL_UPDATE_MESSAGE);
-
-        }else{
+        } catch (ControllerException e) {
 
             request.addAttributeToJsp(UPDATING_ATTRIBUTE, UPDATE_ERROR_MESSAGE);
-
+            return requestFactory.createRedirectResponse(propertyContext.get(ERROR_PAGE));
         }
+
+
+        request.addAttributeToJsp(UPDATING_ATTRIBUTE, SUCCESSFUL_UPDATE_MESSAGE);
 
         request.addAttributeToJsp(BOOK_PARAMETER, book.get().getId());
 
@@ -99,140 +103,88 @@ public enum UpdateBookCommand implements Command {
 
     }
 
-    private boolean bookUpdates(CommandRequest request, Book book) {
+    private void bookUpdates(CommandRequest request, Book book) throws ControllerException {
 
-        final boolean isBookTitleChanged = request.getParameter(BOOK_TITLE).equals(book.getTitle());
-        final boolean isBookAgeLimitChanged = request.getParameter(BOOK_AGE_LIMIT).equals(book.getAgeLimit());
-        final boolean isBookDescriptionChanged = request.getParameter(BOOK_DESCRIPTION).equals(book.getDescription());
+        final boolean isBookTitleChanged = !request.getParameter(BOOK_TITLE).equals(book.getTitle());
 
-        if (!isBookTitleChanged) {
+        final boolean isBookAgeLimitChanged = !request.getParameter(BOOK_AGE_LIMIT).equals(book.getAgeLimit());
 
-            try {
+        final boolean isBookDescriptionChanged = !request.getParameter(BOOK_DESCRIPTION).equals(book.getDescription());
 
-                bookService.update(BOOK_TITLE, request.getParameter(BOOK_TITLE), ID, book.getId());
+        try {
 
-            } catch (ServiceException e) {
+            bookService.updateIfChanged(isBookTitleChanged, BOOK_TITLE, request.getParameter(BOOK_TITLE), ID, book.getId());
 
-                logger.error("Failed of book title updating");
-                return false;
-            }
+            bookService.updateIfChanged(isBookAgeLimitChanged, BOOK_AGE_LIMIT, request.getParameter(BOOK_AGE_LIMIT), ID, book.getId());
 
+            bookService.updateIfChanged(isBookDescriptionChanged, BOOK_DESCRIPTION, request.getParameter(BOOK_DESCRIPTION), ID, book.getId());
+
+        } catch (ServiceException e) {
+
+            logger.error("Failed of book updating");
+            throw new ControllerException(e);
         }
-        if (!isBookAgeLimitChanged) {
-
-            try {
-
-                bookService.update(BOOK_AGE_LIMIT, request.getParameter(BOOK_AGE_LIMIT), ID, book.getId());
-
-            } catch (ServiceException e) {
-
-                logger.error("Failed of book age limit updating");
-                return false;
-            }
-
-
-        }
-        if (!isBookDescriptionChanged) {
-
-            try {
-
-                bookService.update(BOOK_DESCRIPTION, request.getParameter(BOOK_DESCRIPTION), ID, book.getId());
-
-            } catch (ServiceException e) {
-
-                logger.error("Failed of book description updating");
-                return false;
-            }
-        }
-        return false;
     }
 
-    private boolean authorUpdates(CommandRequest request, List<Author> authors) {
+    private void authorUpdates(CommandRequest request, List<Author> authors) throws ControllerException {
 
         for (Author author : authors) {
 
-            if (!(request.getParameter(author.getId() + AUTHOR_FIRST_NAME).equals(author.getFirstName()))) {
+            final boolean isAuthorFirstNameChanged = !request.getParameter(author.getId() + AUTHOR_FIRST_NAME).equals(author.getFirstName());
 
-                try {
+            final boolean isAuthorLastNameChanged = !request.getParameter(author.getId() + AUTHOR_LAST_NAME).equals(author.getLastName());
 
-                    authorService.update(AUTHOR_FIRST_NAME, request.getParameter(author.getId() + AUTHOR_FIRST_NAME), ID, author.getId());
+            final boolean isAuthorFatherNameChanged = !request.getParameter(author.getId() + AUTHOR_FATHER_NAME).equals(author.getFatherName());
 
-                } catch (ServiceException e) {
+            try {
 
-                    logger.error("Failed of author first_name updating");
-                    return false;
-                }
+                authorService.updateIfChanged(isAuthorFirstNameChanged, AUTHOR_FIRST_NAME, request.getParameter(author.getId() + AUTHOR_FIRST_NAME), ID, author.getId());
 
-            }
-            if (!(request.getParameter(author.getId() + AUTHOR_LAST_NAME).equals(author.getLastName()))) {
+                authorService.updateIfChanged(isAuthorLastNameChanged, AUTHOR_LAST_NAME, request.getParameter(author.getId() + AUTHOR_LAST_NAME), ID, author.getId());
 
-                try {
+                authorService.updateIfChanged(isAuthorFatherNameChanged, AUTHOR_FATHER_NAME, request.getParameter(author.getId() + AUTHOR_FATHER_NAME), ID, author.getId());
 
-                    authorService.update(AUTHOR_LAST_NAME, request.getParameter(author.getId() + AUTHOR_LAST_NAME), ID, author.getId());
+            } catch (ServiceException e) {
 
-                } catch (ServiceException e) {
-
-                    logger.error("Failed of author last_name updating");
-                    return false;
-                }
-
-            }
-            if (!(request.getParameter(author.getId() + AUTHOR_FATHER_NAME).equals(author.getLastName()))) {
-
-                try {
-
-                    authorService.update(AUTHOR_FATHER_NAME, request.getParameter(author.getId() + AUTHOR_FATHER_NAME), ID, author.getId());
-
-                } catch (ServiceException e) {
-
-                    logger.error("Failed of author father_name updating");
-                    return false;
-                }
-
+                logger.error("Failed of author updating");
+                throw new ControllerException(e);
             }
         }
-        return false;
     }
 
-    private boolean genreUpdates(CommandRequest request, List<Genre> genres) {
+    private void genreUpdates(CommandRequest request, List<Genre> genres) throws ControllerException {
 
         for (Genre genre : genres) {
 
-            if (!(request.getParameter(genre.getId() + GENRE_TITLE).equals(genre.getTitle()))) {
+            final boolean isGenreTitleChanged = !request.getParameter(genre.getId() + GENRE_TITLE).equals(genre.getTitle());
 
-                try {
+            try {
 
-                    genreService.update(GENRE_TITLE, request.getParameter(genre.getId() + GENRE_TITLE), ID, genre.getId());
+                genreService.updateIfChanged(isGenreTitleChanged, GENRE_TITLE, request.getParameter(genre.getId() + GENRE_TITLE), ID, genre.getId());
 
-                } catch (ServiceException e) {
+            } catch (ServiceException e) {
 
-                    logger.error("Failed of genre title updating");
-                    return false;
-                }
-
+                logger.error("Failed of author updating");
+                throw new ControllerException(e);
             }
         }
-        return false;
     }
 
-    private boolean publishingHouseUpdate(CommandRequest request, List<PublishingHouse> publishingHouses){
+    private void publishingHouseUpdate(CommandRequest request, List<PublishingHouse> publishingHouses) throws ControllerException {
 
         for (PublishingHouse publishingHouse : publishingHouses) {
 
-            if (!(request.getParameter(publishingHouse.getId() + PUBLISHING_HOUSE_TITLE).equals(publishingHouse.getTitle()))) {
+            final boolean isPublishingHouseChanged = !(request.getParameter(publishingHouse.getId() + PUBLISHING_HOUSE_TITLE).equals(publishingHouse.getTitle()));
 
-                try {
+            try {
 
-                    publishingHouseService.update(PUBLISHING_HOUSE_TITLE, request.getParameter(publishingHouse.getId() + PUBLISHING_HOUSE_TITLE), ID, publishingHouse.getId());
+                publishingHouseService.updateIfChanged(isPublishingHouseChanged, PUBLISHING_HOUSE_TITLE, request.getParameter(publishingHouse.getId() + PUBLISHING_HOUSE_TITLE), ID, publishingHouse.getId());
 
-                } catch (ServiceException e) {
+            } catch (ServiceException e) {
 
-                    logger.error("Failed of publishing house title updating");
-                    return false;
-                }
-
+                logger.error("Failed of author updating");
+                throw new ControllerException(e);
             }
         }
-        return false;
     }
 }
