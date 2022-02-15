@@ -18,7 +18,7 @@
 <fmt:message bundle="${loc}" key="label.button.rus" var="ru"/>
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <link rel="stylesheet" href="style/subscription.css">
-<script defer src="js/validation_subscription.js"></script>
+<%--<script defer src="js/validation_subscription.js"></script>--%>
 
 <html>
 <head>
@@ -68,7 +68,7 @@
                         <input id="date_id" name="date" type="date"><br>
                         <div class="error"></div>
                     </div>
-                    <input id="buy" class="button" type="submit" value="${pay}"><br>
+                    <input class="button" type="submit" value="${pay}"><br>
                 </label>
             </form>
         </div>

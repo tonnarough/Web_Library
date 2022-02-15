@@ -25,7 +25,7 @@
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <fmt:message bundle="${loc}" key="label.registration" var="reg_button"/>
 <link rel="stylesheet" href="style/registration.css">
-<script defer src="js/validation_registration.js"></script>
+<%--<script defer src="js/validation_registration.js"></script>--%>
 
 <html>
 <head>

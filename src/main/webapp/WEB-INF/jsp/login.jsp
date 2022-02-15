@@ -18,7 +18,7 @@
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <fmt:message bundle="${loc}" key="label.button.login" var="log_button"/>
 <link rel="stylesheet" href="style/login.css">
-<script defer src="js/validation_login.js"></script>
+<%--<script defer src="js/validation_login.js"></script>--%>
 
 <html>
 <head>

@@ -66,10 +66,10 @@
                     ${book.picture} <br>
                 <a href="controller?command=go_to_book_detail_page&books=${book.id}">${book.title}</a></br>
 
-                        <c:if test="${sessionScope.user.roleId eq 1}">
-                            <a href="controller?command=delete_book&books=${book.id}">${delete}</a></br>
-                            <a href="controller?command=go_to_update_book_page&books=${book.id}">${update}</a>
-                        </c:if>
+                <c:if test="${sessionScope.role_id eq 1}">
+                    <a href="controller?command=delete_book&books=${book.id}">${delete}</a></br>
+                    <a href="controller?command=go_to_update_book_page&books=${book.id}">${update}</a>
+                </c:if>
             </td>
 
             <c:if test="${loops eq index+3}">
@@ -112,9 +112,11 @@
     </table>
 </form>
 
-<form>
-    <a href="controller?command=go_to_adding_book_page">${add_book}</a>
-</form>
+<c:if test="${sessionScope.role_id eq 1}">
+    <form>
+        <a href="controller?command=go_to_adding_book_page">${add_book}</a>
+    </form>
+</c:if>
 
 </body>
 
