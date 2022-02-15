@@ -33,13 +33,13 @@ const setSuccess = (element) => {
 }
 
 const isValidEmail = email => {
-    const regEx = hello;//TODO email regEx
-    return regEx.test(String(email).toLowerCase());
+    // const regEx = hello;//TODO email regEx
+    // return regEx.test(String(email).toLowerCase());
 }
 
 const isValidPassword = password => {
-    const regEx = hello;//TODO password regEx
-    return regEx.test(String(password).toLowerCase());
+    // const regEx = hello;//TODO password regEx
+    // return regEx.test(String(password).toLowerCase());
 }
 
 const validateInputs = () => {

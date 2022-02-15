@@ -4,6 +4,6 @@
     <title>my app</title>
 </head>
 <body>
-<jstl:redirect url="/controller?command=go_to_subscription_page" />
+<jstl:redirect url="/controller?command=go_to_main_unauth_page" />
 </body>
 </html>
