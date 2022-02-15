@@ -17,67 +17,81 @@
 <fmt:message bundle="${loc}" key="label.name.last" var="last_name"/>
 <fmt:message bundle="${loc}" key="label.name.first" var="first_name"/>
 <fmt:message bundle="${loc}" key="label.name.father" var="father_name"/>
+<fmt:message bundle="${loc}" key="label.button.back" var="back"/>
+<fmt:message bundle="${loc}" key="label.button.update" var="update"/>
 <fmt:message bundle="${loc}" key="label.login" var="login"/>
 <fmt:message bundle="${loc}" key="label.mobile" var="mobile"/>
 <fmt:message bundle="${loc}" key="label.email" var="email"/>
 <fmt:message bundle="${loc}" key="label.birthday" var="birthday"/>
 <fmt:message bundle="${loc}" key="label.exit" var="exit"/>
+<link rel="stylesheet" href="style/update_user_profile.css">
+
 <html>
 <head>
     <title>${title}</title>
 </head>
 <body>
 
-<form class = "ru" action="controller" method="post">
-    <input type="hidden" name="command" value="set_locale"/>
-    <input type="hidden" name="local" value="ru_RU"/>
-    <input type="submit" value="${ru}">
-</form>
-<form class = "en" action="controller" method="post">
-    <input type="hidden" name="command" value="set_locale"/>
-    <input type="hidden" name="local" value="en_US"/>
-    <input type="submit" value="${en}">
-</form>
+<div class="userprofilebox">
+    <form class="ru" action="controller" method="post">
+        <input type="hidden" name="command" value="set_locale"/>
+        <input type="hidden" name="local" value="ru_RU"/>
+        <input type="submit" value="${ru}">
+    </form>
+    <form class="en" action="controller" method="post">
+        <input type="hidden" name="command" value="set_locale"/>
+        <input type="hidden" name="local" value="en_US"/>
+        <input type="submit" value="${en}">
+    </form>
 
-<form>
-    <div>${login}:</div>
-    <c:out value="${requestScope.user.login}"/>
-</form>
-
-<form>
-    <div>${last_name}:</div>
-    <c:out value="${requestScope.userDetail.lastName}"/>
-</form>
-
-<form>
-    <div>${first_name}:</div>
-    <c:out value="${requestScope.userDetail.firstName}"/>
-</form>
-
-<form>
-    <div>${father_name}:</div>
-    <c:out value="${requestScope.userDetail.fatherName}"/>
-</form>
-
-<form>
-    <div>${email}:</div>
-    <c:out value="${requestScope.userDetail.email}"/>
-</form>
-
-<form>
-    <div>${mobile}:</div>
-    <c:out value="${requestScope.userDetail.mobile}"/>
-</form>
-
-<form>
-    <div>${birthday}:</div>
-    <c:out value="${requestScope.userDetail.birthday}"/>
-</form>
-
-<form>
-    <input type="hidden" name="command" value="go_to_main_auth_page">
-    <input class="button" type="submit" value="${exit}">
-</form>
+    <div class="formbox">
+        <form id="form" method="post" action="controller">
+            <label>
+                <input type="hidden" name="command" value="update_book">
+                <input type="hidden" name="book" value="${requestScope.book.id}">
+                <div class="input-control">
+                    <div>${login}:</div>
+                    <input id="login_id" type="text" name="login" value="${requestScope.user.login}">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${last_name}:</div>
+                    <input id="lastName_id" type="text" name="lastName" value="${requestScope.userDetail.lastName}">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${first_name}:</div>
+                    <input id="firstName_id" type="text" name="firstName" value="${requestScope.userDetail.firstName}">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${father_name}:</div>
+                    <input id="fatherName_id" type="text" name="fatherName" value="${requestScope.userDetail.fatherName}">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${email}:</div>
+                    <input id="email_id" type="email" name="email" value="${requestScope.userDetail.email}">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${mobile}:</div>
+                    <input id="mobile_id" type="text" name="mobile" value="${requestScope.userDetail.mobile}">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${birthday}:</div>
+                    <input id="birthday_id" type="date" name="birthday" value="${requestScope.userDetail.birthday}">
+                    <div class="error"></div>
+                </div>
+                <input class="button" type="submit" value="${update}">
+                <p class="link">
+                    <a href="controller?command=go_to_main_auth_page">${back}</a>
+                </p>
+            </label>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

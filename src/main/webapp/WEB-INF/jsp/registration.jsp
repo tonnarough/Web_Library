@@ -33,6 +33,24 @@
 </head>
 <body>
 <div class="registrationbox">
+
+    <style>
+        ::-webkit-scrollbar{
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track{
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgb(23, 42, 48);
+        }
+        ::-webkit-scrollbar-thumb{
+            border-radius: 5px;
+            background-color: #ad431a;
+        }
+        ::-webkit-scrollbar-thumb:hover{
+            background-color: #a43718;
+        }
+    </style>
+
     <h1>${registration}</h1><br>
 
     <form class="ru" action="controller" method="post">
@@ -71,7 +89,7 @@
                     <div class="error"></div>
                 </div>
                 <div class="input-control">
-                    <input id="email_id" type="text" placeholder="${email}" name="email"><br>
+                    <input id="email_id" type="email" placeholder="${email}" name="email"><br>
                     <div class="error"></div>
                 </div>
                 <div class="input-control">
