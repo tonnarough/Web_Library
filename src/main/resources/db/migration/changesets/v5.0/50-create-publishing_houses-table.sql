@@ -5,5 +5,5 @@ CREATE TABLE publishing_houses
     year_of_publishing INT          NOT NULL,
 
     PRIMARY KEY (id),
-    INDEX IX_TITLE (title ASC) VISIBLE
+    UNIQUE INDEX IX_TITLE (title, year_of_publishing ASC) VISIBLE
 )

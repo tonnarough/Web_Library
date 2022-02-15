@@ -1,5 +1,5 @@
 INSERT INTO publishing_houses_books
-    (book_id, publishing_house_id)
+    (mtm_book_id, mtm_publishing_house_id)
 VALUES (1, 1),
        (2, 1),
        (3, 2),

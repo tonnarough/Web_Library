@@ -1,5 +1,5 @@
 INSERT INTO authors_books
-    (book_id, author_id)
+    (mtm_book_id, mtm_author_id)
 VALUES (1, 1),
        (2, 2),
        (3, 3),
