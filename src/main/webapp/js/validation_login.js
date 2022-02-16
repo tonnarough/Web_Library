@@ -28,7 +28,7 @@ const setSuccess = (element) => {
 }
 
 const isValidPassword = password => {
-    const regEx = hello;//TODO password regEx
+    const regEx = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}';
     return regEx.test(String(password).toLowerCase());
 }
 
@@ -37,16 +37,26 @@ const validateInputs = () => {
     const passwordValue = password.value.trim();
 
     if (loginValue === '') {
+
         setError(login, 'Login is required')
+
     } else {
+
         setSuccess(login);
+
     }
+
     if (passwordValue === '') {
+
         setError(password, 'Password is required');
-    } else if (!(isValidPassword(passwordValue) && passwordValue.length > 8)){
-        setError(password, 'TODO');
+
+    } else if (!(isValidPassword(passwordValue))){
+
+        setError(password, 'Password must contain at least 1 uppercase, 1 lowercase letter and 1 digit');
+
     }else {
+
         setSuccess(password);
     }
 
-}
+};

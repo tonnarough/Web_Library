@@ -33,62 +33,127 @@ const setSuccess = (element) => {
 }
 
 const isValidEmail = email => {
-    // const regEx = hello;//TODO email regEx
-    // return regEx.test(String(email).toLowerCase());
+    const regEx = '^\S+@\S+\.\S+';
+    return regEx.test(String(email).toLowerCase());
 }
 
 const isValidPassword = password => {
-    // const regEx = hello;//TODO password regEx
-    // return regEx.test(String(password).toLowerCase());
+    const regEx = '^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}';
+    return regEx.test(String(password).toLowerCase());
+}
+
+const isValidLastName = last_name => {
+    const regEx = '^[a-zA-z]{3,}';
+    return regEx.test(String(last_name).toLowerCase());
+}
+
+const isValidFirstName = first_name => {
+    const regEx = '^[a-zA-z]{3,}';
+    return regEx.test(String(first_name).toLowerCase());
+}
+
+const isValidMobile = mobile => {
+    const regEx = '^\+[0-9]{12}';
+    return regEx.test(String(mobile).toLowerCase());
 }
 
 const validateInputs = () => {
     const loginValue = login.value.trim();
     const passwordValue = password.value.trim();
-    const last_nameValue = last_name.value.trim();
-    const first_nameValue = first_name.value.trim();
+    const lastNameValue = last_name.value.trim();
+    const firstNameValue = first_name.value.trim();
     const emailValue = email.value.trim();
     const mobileValue = mobile.value.trim();
     const dateValue = date.value.trim();
 
     if (loginValue === '') {
+
         setError(login, 'Login is required');
+
     } else {
+
         setSuccess(login);
+
     }
+
     if (passwordValue === '') {
+
         setError(password, 'Password is required');
-    } else if (!(isValidPassword(passwordValue) && passwordValue.length > 8)){
-        setError(password, 'TODO');
+
+    } else if (!(isValidPassword(passwordValue))){
+
+        setError(password, 'Password must contain at least 1 uppercase, 1 lowercase letter and 1 digit');
+
     }else {
+
         setSuccess(password);
+
     }
-    if (last_nameValue === '') {
+
+    if (lastNameValue === '') {
+
         setError(last_name, 'Last name is required');
+
+    } else if (!(isValidLastName(lastNameValue))){
+
+        setError(last_name, 'Invalid value for last name field');
+
     } else {
+
         setSuccess(last_name);
+
     }
-    if (first_nameValue === '') {
+
+    if (firstNameValue === '') {
+
         setError(first_name, 'First name is required');
+
+    } else if (!(isValidFirstName(firstNameValue))){
+
+        setError(first_name, 'Invalid value for first name field');
+
     } else {
+
         setSuccess(first_name);
+
     }
+
     if (emailValue === '') {
+
         setError(email, 'Email is required');
+
     } else if (!isValidEmail(emailValue)) {
+
         setError(email, 'Provide a valid email address');
+
     } else {
+
         setSuccess(email);
+
     }
+
     if (mobileValue === '') {
+
         setError(mobile, 'Mobile is required');
+
+    } else if (!isValidMobile(mobileValue)) {
+
+        setError(mobile, 'Invalid value for mobile field');
+
     } else {
+
         setSuccess(mobile);
+
     }
+
     if (dateValue === '') {
+
         setError(date, 'Date is required');
+
     } else {
+
         setSuccess(date);
+
     }
 
 }

@@ -29,19 +29,19 @@ const setSuccess = (element) => {
     inputControl.classList.remove('error');
 }
 
-const isValidCreditCardNumber = password => {
-    const regEx = hello;//TODO credit_card_number regEx
-    return regEx.test(String(password).toLowerCase());
+const isValidCreditCardNumber = creditCardNumber => {
+    const regEx = '^[0-9]{16}';
+    return regEx.test(String(creditCardNumber).toLowerCase());
 }
 
-const isValidCardholderName = password => {
-    const regEx = hello;//TODO cardholder_name regEx
-    return regEx.test(String(password).toLowerCase());
+const isValidCardholderName = cardholderName => {
+    const regEx = '^\S+\s\S+'
+    return regEx.test(String(cardholderName).toLowerCase());
 }
 
-const isValidCvv = password => {
-    const regEx = hello;//TODO cvv regEx
-    return regEx.test(String(password).toLowerCase());
+const isValidCvv = cvv => {
+    const regEx = '^[0-9]{3}';
+    return regEx.test(String(cvv).toLowerCase());
 }
 
 const validateInputs = () => {
@@ -51,20 +51,47 @@ const validateInputs = () => {
     const dateValue = date.value.trim();
 
     if (creditCardNumberValue === '') {
+
         setError(creditCardNumber, 'Credit card number is required')
+
+    } else if (!(isValidCreditCardNumber(creditCardNumberValue))) {
+
+        setError(bookTitle, 'Invalid value for credit card field');
+
     } else {
+
         setSuccess(creditCardNumber);
+
     }
+
     if (cardholderNameValue === '') {
+
         setError(cardholderName, 'Cardholder name is required');
+
+    } else if (!(isValidCardholderName(cardholderNameValue))) {
+
+        setError(cardholderName, 'Invalid value for cardholder name field');
+
     } else {
+
         setSuccess(cardholderName);
+
     }
+
     if (cvvValue === '') {
+
         setError(cvv, 'CVV is required');
+
+    } else if (!(isValidCvv(cvvValue))) {
+
+        setError(cvv, 'Invalid value for cardholder name field');
+
     } else {
+
         setSuccess(cvv);
+
     }
+
     if (dateValue === '') {
         setError(date, 'Date is required');
     } else {
