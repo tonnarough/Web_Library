@@ -5,70 +5,70 @@ VALUES (1, 'Bullet Train', 'Nanao boards a bullet train from Tokyo to Morioka wi
 Satoshi, innocent at first glance, a boy, an ordinary schoolboy, in fact, a dangerous, evil and cunning psychopath, also pursuing his goal in this composition. He revels in risk and delights in philosophical conversations with other passengers until it is time for him to act. Or until an avenger comes for Satoshi to punish the recklessness of the past.
 
 On the same train are several killers who pursue almost identical goals. Who will survive and is it possible at all when masters of their craft play the same game?',
-        '+16', 540, 'bulletTrain.txt', 'bulletTrainPic.png'),
+        '+16', 540, 'bulletTrain.txt', 'bulletTrainPic.jpg'),
        (2, 'Lady of Froingham', 'In the sultry summer of 1935, on her way to North Yorkshire, Olivia Adamson meets an eccentric old lady. Lady Elspeth Pongleton persuades a new acquaintance to spend a few days in her old estate, where she is going to present the girl as her companion.
 
 Having agreed, Olivia does not even suspect that in Yorkshire she will be delayed for a long time by the investigation of a crime whose roots go back to the distant past. In Madlington, she will have to try on not only the role of a companion, but also a hypocritical intriguer, and a suspect, and a detective. In the investigation, she will be assisted by her twin brother Philip, a young lady, Miss Imogen Price, who dreams of achieving fame in the theater field and, oddly enough, Police Inspector Grooms, who adheres to very progressive views.
 
 What''s behind the Pongleton family''s past? And what are the secrets of the abandoned chapel? The answers to these questions are there, in Madlington.',
-        '+16', 400, 'ladyOfFroingham.txt', 'ladyOfFroinghamPic.png'),
+        '+16', 400, 'ladyOfFroingham.txt', 'ladyOfFroinghamPic.jpg'),
        (3, 'Dune', 'Frank Herberts novel appeared long before the space opera genre became popular among the masses. The book won the Hugo and Nebula awards for outstanding contributions to science fiction. Dune is considered one of the greatest science fiction works of all time and is often cited as the best-selling science fiction novel in history. Later, Herbert wrote a number of sequels, a film adaptation by David Lynch and two mini-series, computer games appeared. And in 2021, Denis Villeneuve''s film of the same name was released on the big screens. The literary universe of Dune was expanded by the writer''s son Brian Herbert and Kevin J. Anderson.
 
 The novel is set in the distant future, in the midst of a sprawling feudal intergalactic empire where planetary fiefdoms are controlled by noble families loyal to the Imperial House of Corrino.
 
 In the center of the story is the young Paul Atreides, heir to Duke Leto Atreides. The family moves to the planet Arrakis, the universe''s only source of melange spices. The author creates a large-scale canvas, which displays complex political, religious, environmental, technological issues. Here the destinies of Paul himself, his family, the natives of Arrakis, the Emperor, powerful guilds and orders are closely intertwined. The great confrontation between the powers that be is leading to global changes that will affect all of humanity.',
-        '+16', 710, 'dune.txt', 'dunePic.png'),
+        '+16', 710, 'dune.txt', 'dunePic.jpg'),
        (4, 'Metro. Trilogy', '"Metro" by Dmitry Glukhovsky was translated into 37 languages ​​of the world and published in two million copies.
 
 World War III wiped humanity off the face of the Earth. The planet is empty. Megacities turned to dust and ashes. Railroads are rusting. Satellites dangle alone in orbit. The radio is silent on all frequencies. Only those who, having heard the alarm sirens, managed to run to the doors of the Moscow metro survived. There, at a depth of tens of meters, at stations and in tunnels, people are trying to wait out the end of the world. There they created a new world instead of the lost huge world. They cling to life with all their might and refuse to give up. They dream of one day returning to the top - when the radiation background from nuclear bombing subsides. And they do not leave hope to find other survivors ...
 
 Here is the most complete collector''s edition of the Metro trilogy. For the first time, "Metro 2033", "Metro 2034", "Metro 2035" and the short story "The Gospel According to Artyom" are released under the same cover. Dmitry Glukhovsky puts an end to the saga that he has been working on for twenty years.',
-        '+18', 1460, 'metroTrilogy.txt', 'metroTrilogyPic.png'),
+        '+18', 1460, 'metroTrilogy.txt', 'metroTrilogyPic.jpg'),
        (5, 'Graph of Monte Cristo',
         'The Count of Monte Cristo is an adventure novel by Alexandre Dumas, a classic of French literature, written in 1844-1845. The writer came up with the name of his hero while traveling in the Mediterranean, when he saw the island of Montecristo and heard the legend of countless treasures buried there. The author only slightly changed the name of the island. A fascinating story of love and fidelity, deceit and betrayal was read for you by the honored actor of Russia Alexei Alekseevich Borzunov.',
-        '+12', 320, 'graphOfMonteCristo.txt', 'graphOfMonteCristoPic.png'),
+        '+12', 320, 'graphOfMonteCristo.txt', 'graphOfMonteCristoPic.jpg'),
        (6, 'Song of Achilles', 'Who among us did not read the myths of ancient Greece at a young age? Who didn''t want to look beyond the rigid limits of the genre, get closer to the ancient world, get to know the gods and heroes, understand their sometimes incomprehensible motives?
 
 Not surprisingly, Madeleine Miller''s debut novel instantly won the hearts of readers. On the pages of the Song of Achilles, one of the most interesting characters of the Iliad, Patroclus, companion of the incomparable Achilles, tells his story. The timid, nondescript prince, having accidentally killed a peer, goes into exile to the court of Peleus, where he finds his best friend and love for life. But how long can two boys resist the whims of cruel gods, the intrigues of warlords and ominous prophecies?',
-        '+18', 350, 'songOfAchilles.txt', 'songOfAchillesPic.png'),
+        '+18', 350, 'songOfAchilles.txt', 'songOfAchillesPic.jpg'),
        (7, '1984',
         'One of the most famous dystopias of the 20th century, the novel 1984 by the English writer George Orwell (1903-1950) was written in 1948 and continues the theme of the “betrayed revolution” revealed in Animal Farm. According to Orwell, there is and cannot be anything worse than total lack of freedom. Totalitarianism destroys all spiritual needs, thoughts, feelings and the mind itself in a person, leaving only constant fear and the only choice - between silence and death, and if the Elder Brother looks at you and declares that “twice two is five”, then so be it. there is.',
-        '+18', 320, '1984.txt', '1984Pic.png'),
+        '+18', 320, '1984.txt', '1984Pic.jpg'),
        (8, '451 degrees Fahrenheit',
         'Fahrenheit 451 is the temperature at which paper ignites and burns. Philosophical dystopia Bradbury draws a hopeless picture of the development of post-industrial society: this is the world of the future, in which all written publications are ruthlessly destroyed by a special detachment of firefighters, and the possession of books is prosecuted by law, interactive television successfully serves to fool everyone, punitive psychiatry decisively deals with rare dissenters, and hunting for incorrigible dissidents comes an electric dog ... A novel that brought world fame to its creator.',
-        '+16', 200, '451DegreesFahrenheit.txt', '451DegreesFahrenheit.png'),
+        '+16', 200, '451DegreesFahrenheit.txt', '451DegreesFahrenheit.jpg'),
        (9, 'Marketing hack. The Science of Why We Buy',
         'In this book, consumer behavior is analyzed using the modern science of decision making. The author talks about why people make purchases, what happens in the mind of the buyer when he makes a decision, and how you can use the latest scientific knowledge in your marketing activities.',
-        '+16', 310, 'marketingHackTheScienceOfWhyWeBuy.txt', 'marketingHackTheScienceOfWhyWeBuyPic.png'),
+        '+16', 310, 'marketingHackTheScienceOfWhyWeBuy.txt', 'marketingHackTheScienceOfWhyWeBuyPic.jpg'),
        (10, 'The Wolf of Wall Street Method: Confessions of the Worlds Best Salesman', 'The world''s best salesman Jordan Belfort reveals his strategy and walks you through the very system that made him and his clients a fortune.
 
 Belfort will teach you how to be a great salesperson, negotiator, dealmaker, entrepreneur, and public speaker. His sales system is so simple and effective that in just a few days it will bring success to anyone who masters it.',
         '+12', 240, 'theWolfOfWallStreetMethodConfessionsOfTheWorldsBestSalesman.txt',
-        'theWolfOfWallStreetMethodConfessionsOfTheWorldsBestSalesmanPic.png'),
+        'theWolfOfWallStreetMethodConfessionsOfTheWorldsBestSalesmanPic.jpg'),
        (11, 'Capital', 'We bring to your attention "Capital" - one of the most famous books in the history of printing, a book that has had a huge impact on the course of world history.
 
 The main work of Karl Marx on political economy contains a detailed analysis of the laws of the capitalist mode of production. Based on the ideas of English economists, Karl Marx developed the labor theory of value and expanded it with the concept of surplus value. The work was written using a dialectical-materialistic approach, including historical processes.',
-        '+12', 240, 'capital.txt', 'capitalPic.png'),
+        '+12', 240, 'capital.txt', 'capitalPic.jpg'),
        (12, 'Statistics', 'Statistics - expressed in numbers, data on the level of production of a unit or organization as a whole compared to the previous point in time. If the production level increases, the statistic increases. If it decreases, the statistic drops.
 
 For any activity that results in the production of a particular ICT, statistics can be formulated. The difficulty in formulating statistics arises only when the product and the ideal picture of activity are not defined. Therefore, it is almost impossible to create a system of statistics in a company if there is no organizing board and if areas of responsibility and products are mixed up. The org board makes it possible to accurately define products and ideal patterns of activity, to separate products from one another in the production stream.',
-        '+12', 100, 'statistics.txt', 'statisticsPic.png'),
+        '+12', 100, 'statistics.txt', 'statisticsPic.jpg'),
        (13, 'The power of the subconscious, or How to change your life in 4 weeks',
         'The sensational book is #1 among self-help books. There is no need to come to terms with reality and constantly adjust, because at any moment we can change our lives. World best-selling author on brain development, professor of neurochemistry and neuroscience, Dr. Joe Dispenza offers a scientific approach to changing lives. His unique program is designed for 4 weeks, during which time she will teach you how to work with your subconscious mind in order to achieve what you want - you just have to decide what exactly you want to change in your life. This smart, insightful, and action-packed book will help you free yourself from your emotional trappings and fill your life with health, happiness, and abundance. Anyone who reads this book and uses Dr. Dispenza''s methodology will not regret the effort expended.',
         '+12', 370, 'thePowerOfTheSubconsciousOrHowToChangeYourLifeIn4Weeks.txt',
-        'thePowerOfTheSubconsciousOrHowToChangeYourLifeIn4WeeksPic.png'),
+        'thePowerOfTheSubconsciousOrHowToChangeYourLifeIn4WeeksPic.jpg'),
        (14, 'The subconscious can do anything!',
         'A book that will change your life! The most famous study on the subconscious mind from renowned writer and personal growth coach John Kehoe! Huge reserves are hidden in the subconscious of each person. And when logic turns out to be powerless, it is the subconscious mind that will help you solve the most difficult everyday problems. John Kehoe spent three years in the woods, away from people, to conduct research on the workings of the human brain. The result is this program that will help you activate the limitless resources of your own brain to change your life for the better once and for all. After listening to the audiobook, you will learn: - how to formulate and visualize your goals; – how the subconscious mind and intuition can help in achieving happiness; – how to strengthen self-esteem and develop creative skills; – how to be happy, no matter the circumstances.',
-        '+12', 100, 'theSubconsciousCanDoAnything.txt', 'theSubconsciousCanDoAnythingPic.png'),
+        '+12', 100, 'theSubconsciousCanDoAnything.txt', 'theSubconsciousCanDoAnythingPic.jpg'),
        (15, 'Alice in Wonderland. Alice in the Wonderland', 'The book includes two of the most famous and popular fairy tales of the English writer and mathematician Lewis Carroll: Alice in Wonderland and Through the Looking-Glass. The unique originality of the Carroll style, the unusual situations that the main character finds herself in, the amazing transformations that happen to her and the funny characters that Alice meets during her travels - all this is Wonderland, the land of amazing questions and even more amazing answers.
 
 Think! Fantasize! Watch your thoughts and words carefully! And you will find yourself in Wonderland, where the familiar becomes amazing.',
-        '+6', 230, 'aliceInWonderlandAliceInTheWonderland.txt', 'aliceInWonderlandAliceInTheWonderlandPic.png'),
+        '+6', 230, 'aliceInWonderlandAliceInTheWonderland.txt', 'aliceInWonderlandAliceInTheWonderlandPic.jpg'),
 
        (16, 'Walking castle', 'The books of the English writer Diana W. Jones are so bright that they just ask to be shown on the screen. Hayao Miyazaki (Spirited Away), the winner of the Golden Lion, the highest award of the Venice Film Festival, made an animated film based on her bestseller "Howl''s Moving Castle", which broke the box office record in Japan.
 
 ... Sophie lives in a fairyland where witches and mermaids, seven-league boots and talking dogs are commonplace. Therefore, when the terrible curse of the insidious Swamp Witch falls on her, Sophie has no choice but to seek help from the mysterious sorcerer Howl, who lives in Moving Castle. However, in order to break free from the spell, Sophie will have to solve many mysteries and live in Howl''s castle for much longer than she expected. And for this you need to make friends with a fiery demon, catch a falling star, eavesdrop on the singing of mermaids, find a mandrake and much, much more.',
-        '+12', 280, 'walkingCastle.txt', 'walkingCastlePic.png'),
+        '+12', 280, 'walkingCastle.txt', 'walkingCastlePic.jpg'),
        (17, 'The Second World War', 'W. Churchill''s six-volume work is a heroic epic of the peoples who opposed the planetary danger, written by an outstanding politician, scrupulous historian and talented writer. This is a chronicle of the day-to-day leadership of the country by a statesman whose contribution to the common cause of the victory of the anti-Hitler coalition is beyond doubt. These are reflections on the past, designed to serve as an edification to posterity.
 
 The first book publishes in an abridged translation from English volumes I and II of memoirs and describes the events from 1919 to December 1940, which led to an unnecessary, according to the author, war that could have been avoided.
@@ -76,7 +76,7 @@ The first book publishes in an abridged translation from English volumes I and I
 The second book publishes the third and fourth volumes of memoirs and describes the events from January 1941 to June 1943: the invasion of Nazi Germany into the Soviet Union, the attack of militarist Japan on the United States, the creation of the anti-Hitler coalition, the transition of the allies from defense to offensive.
 
 The third book publishes the fifth and sixth volumes of memoirs and describes the events from June 1943 to July 1945 - the surrender of Germany''s allies, the Tehran, Yalta and Potsdam conferences, the landing of American, British and Canadian troops in Normandy, the defeat of the Nazi troops in as a result of the historic victories of the Soviet army and allies, the surrender of Germany.',
-        '+12', 3020, 'theSecondWorldWar.txt', 'theSecondWorldWarPic.png'),
+        '+12', 3020, 'theSecondWorldWar.txt', 'theSecondWorldWarPic.jpg'),
        (18, 'Ancient Russia. From Rurik to Batu',
         'The book is dedicated to one of the most discussed and controversial periods of Russian history. Klim Zhukov, a medievalist military historian and historical reenactor, covers the most important events in the formation of the Old Russian state, from the founding of Kievan Rus to the Mongol invasion: the gathering of Russian lands, overcoming princely strife and feudal fragmentation, without forgetting about the descriptions of battles and "action-packed" political intrigues . Who and for what actually "summoned" Rurik? Is it true that the name of the tribe "Rus" came from the Iranian language? Who made Kiev the mother of Russian cities? Who benefits from increasing the size of the Mongol army? Read about these and other historical frauds and omissions in Klim Zhukov''s book "Ancient Russia: from Rurik to Batu".',
         '+16', 210, 'ancientRussiaFromRurikToBatu.txt', 'ancientRussiaFromRurikToBatuPic.png'),
@@ -85,7 +85,7 @@ The third book publishes the fifth and sixth volumes of memoirs and describes th
 Natalia Ivanovna Basovskaya, Doctor of Historical Sciences, will talk about the most significant events through the biographies of the brightest representatives of the era. Paola Volkova, an art critic and recognized artist, will not only draw the "cultural landscape" of the Middle Ages, but also analyze the reasons for its formation and influence on subsequent periods.
 
 The stories of specialists are not enough to feel the era, because only the works written at that time are able to convey all the shades, all the originality of the distant period, which is why the collection includes several original works: The Divine Comedy by Dante Alighieri, the chivalric novel Tristan and Isolde, as well as the most famous treatise of the outstanding theologian and philosopher of the Middle Ages, Thomas Aquinas - "The Sum of Theology".',
-        '+12', 1300, 'middleAgesABigBookOfHistoryArtLiterature.txt', 'middleAgesABigBookOfHistoryArtLiteraturePic.png'),
+        '+12', 1300, 'middleAgesABigBookOfHistoryArtLiterature.txt', 'middleAgesABigBookOfHistoryArtLiteraturePic.jpg'),
        (20, 'Bridge over the abyss. The whole history of art in one book', 'Your attention is presented to the most complete edition of the cycle "Bridge over the Abyss", based on the unique series of lectures by Paola Dmitrievna Volkova. “The title for both the book and the program was not chosen by chance,” said Paola Dmitrievna. “After all, the image of the bridge is the image of world culture, without which we would not have taken place as a civilization.” A brilliant teacher and storyteller, through her books, lectures, and just conversations, she instilled in her students and interlocutors a sense of beauty, trying to reach out to their souls and cleanse them of the accumulated dullness.
 
 One of the most iconic books for any educated person, A Bridge Over the Abyss invites us on a journey through the ages, where we follow her skillful storytelling, join the story, rethink the images we are used to.
@@ -94,16 +94,16 @@ This publication presents the revised cycle "Bridge over the Abyss" in the form 
 
 This publication uses photographic reproductions of public domain artwork, photographs distributed under a Creative Commons license, and images licensed from Shutterstock as illustrated text quotations.',
         '+12', 1320, 'bridgeOverTheAbyssTheWholeHistoryOfArtInOneBook.txt',
-        'bridgeOverTheAbyssTheWholeHistoryOfArtInOneBookPic.png'),
+        'bridgeOverTheAbyssTheWholeHistoryOfArtInOneBookPic.jpg'),
        (21, 'Spring in action', 'The Spring Framework is an essential tool for Java application developers.
 
 The book describes the latest version of Spring 3, which brings powerful new features such as the SpEL expression language, new annotations for working with the IoC container, and support for the REST architecture. The author, Craig Walls, has a special knack for coming up with some very interesting examples that focus on the features and tricks of using Spring that readers will really benefit from.
 
 In the Russian translation, chapters from the 2nd American edition are added, which the author did not include in the 3rd edition of Spring in Action.',
-        '+0', 754, 'springInAction.txt', 'springInActionPic.png'),
+        '+0', 754, 'springInAction.txt', 'springInActionPic.jpg'),
        (22, 'Learning SQL', 'The book by Alan Bewley, an expert on the SQL language, is a great primer for those who don''t know yet but want to learn the language. The book will not only allow you to acquire basic knowledge, but also talk about the most commonly used powerful tools of the SQL language used by experienced programmers.
 
 Many books on SQL suffer from boring basics. Here the author in the style of a living story discusses SQL statements and blocks, various types of conditions, shows how to create queries on multiple tables by joining tables, examines datasets and how they can interact in queries, demonstrates built-in and aggregate functions, shows how and where subqueries are used. Various types of table joins, application of conditional logic, work with transactions, indexes and restrictions are described in detail.
 
 Since the best way to learn SQL is practice, the author creates a mock MySQL database and provides many options for real queries, covering all the theoretical material. With this approach, it is simply impossible not to learn. You can use the code examples in your programs and documentation. The book is intended for database application developers, database administrators, and those who create reports.',
-        '+0', 309, 'learningSQL.txt', 'learningSQLPic.png')
+        '+0', 309, 'learningSQL.txt', 'learningSQLPic.jpg')
