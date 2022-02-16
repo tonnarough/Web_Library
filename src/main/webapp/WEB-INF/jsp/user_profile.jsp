@@ -21,6 +21,9 @@
 <fmt:message bundle="${loc}" key="label.button.update" var="update"/>
 <fmt:message bundle="${loc}" key="label.login" var="login"/>
 <fmt:message bundle="${loc}" key="label.mobile" var="mobile"/>
+<fmt:message bundle="${loc}" key="label.new.password" var="newPassword"/>
+<fmt:message bundle="${loc}" key="label.confirm.new.password" var="confirmNewPassword"/>
+<fmt:message bundle="${loc}" key="label.confirm.old.password" var="confirmOldPassword"/>
 <fmt:message bundle="${loc}" key="label.email" var="email"/>
 <fmt:message bundle="${loc}" key="label.birthday" var="birthday"/>
 <fmt:message bundle="${loc}" key="label.exit" var="exit"/>
@@ -49,11 +52,8 @@
             <label>
                 <input type="hidden" name="command" value="update_book">
                 <input type="hidden" name="book" value="${requestScope.book.id}">
-                <div class="input-control">
                     <div>${login}:</div>
-                    <input id="login_id" type="text" name="login" value="${requestScope.user.login}">
-                    <div class="error"></div>
-                </div>
+                <div>${requestScope.user.login}</div>
                 <div class="input-control">
                     <div>${last_name}:</div>
                     <input id="lastName_id" type="text" name="lastName" value="${requestScope.userDetail.lastName}">
@@ -79,9 +79,21 @@
                     <input id="mobile_id" type="text" name="mobile" value="${requestScope.userDetail.mobile}">
                     <div class="error"></div>
                 </div>
-                <div class="input-control">
                     <div>${birthday}:</div>
-                    <input id="birthday_id" type="date" name="birthday" value="${requestScope.userDetail.birthday}">
+                    <div>${requestScope.userDetail.birthday}</div>
+                <div class="input-control">
+                    <div>${newPassword}:</div>
+                    <input id="new_password_id" type="password" name="newPassword">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${confirmNewPassword}:</div>
+                    <input id="confirm_new_password_id" type="password" name="confirmNewPassword">
+                    <div class="error"></div>
+                </div>
+                <div class="input-control">
+                    <div>${confirmOldPassword}:</div>
+                    <input id="old_password_id" type="password" name="confirmOldPassword">
                     <div class="error"></div>
                 </div>
                 <input class="button" type="submit" value="${update}">
