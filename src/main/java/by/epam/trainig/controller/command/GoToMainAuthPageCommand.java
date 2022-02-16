@@ -4,9 +4,12 @@ import by.epam.trainig.controller.PropertyContext;
 import by.epam.trainig.controller.RequestFactory;
 import by.epam.trainig.entity.book.Book;
 import by.epam.trainig.service.BookService;
+import com.amazonaws.util.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public enum GoToMainAuthPageCommand implements Command {
@@ -15,9 +18,12 @@ public enum GoToMainAuthPageCommand implements Command {
     private static final Logger logger = LogManager.getLogger(GoToMainAuthPageCommand.class);
 
     private static final String MAIN_AUTH_PAGE = "page.main_auth";
+    private static final String ERROR_PAGE = "page.error";
 
     private static final String NUMBER_OF_PAGE = "numberOfPage";
     private static final String CURRENT_PAGE = "currentPage";
+
+    private static final String TEMP = "/temp";
 
     private static final String BOOKS_TO_JSP_PARAMETER = "books";
     private static final String URL = "url";
@@ -48,6 +54,21 @@ public enum GoToMainAuthPageCommand implements Command {
 
         final List<Book> books = bookService.findAll((currentPage - 1) * recordOnPage, recordOnPage);
 
+        for (Book book : books) {
+
+            String path = request.getServletContext().getRealPath(TEMP + File.separator + book.getPicture());
+
+            try {
+
+                uploadFile(bookService.downloadBook(book.getPicture()), path);
+
+            } catch (IOException e) {
+
+                logger.error("An error occurred while updating the file");
+                return requestFactory.createForwardResponse(propertyContext.get(ERROR_PAGE));
+            }
+        }
+
         request.addAttributeToJsp(BOOKS_TO_JSP_PARAMETER, books);
 
         int numberOfRowsInDB = bookService.getNumberOfRows();
@@ -59,9 +80,21 @@ public enum GoToMainAuthPageCommand implements Command {
         request.addAttributeToJsp(NUMBER_OF_PAGE, numberOfPages);
         request.addAttributeToJsp(CURRENT_PAGE, currentPage);
 
-
-
         return requestFactory.createForwardResponse(propertyContext.get(MAIN_AUTH_PAGE));
 
     }
+
+    private void uploadFile(InputStream inputStream, String path) throws IOException {
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+        String s = null;
+        FileOutputStream fileOutputStream = new FileOutputStream(path);
+        while ((s = reader.readLine()) != null){
+            fileOutputStream.write(s.getBytes(StandardCharsets.UTF_8));
+        }
+        reader.close();
+        fileOutputStream.close();
+
+    }
+
 }

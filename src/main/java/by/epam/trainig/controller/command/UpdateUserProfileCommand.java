@@ -19,7 +19,7 @@ public enum UpdateUserProfileCommand implements Command {
 
     private static final Logger logger = LogManager.getLogger(UpdateUserProfileCommand.class);
 
-    private static final String ADDING_BOOK = "go_to_adding_book_page";
+    private static final String ADDING_BOOK = "go_to_user_profile_page";
 
     private static final String ERROR_PAGE = "page.error";
     private static final String URL = "url";
@@ -32,9 +32,9 @@ public enum UpdateUserProfileCommand implements Command {
     private static final String SUCCESSFUL_UPDATE_MESSAGE = "Completed!";
 
     private static final String USER_PARAMETER = "user";
-    private static final String LAST_NAME = "lastName";
-    private static final String FIRST_NAME = "firstName";
-    private static final String FATHER_NAME = "fatherName";
+    private static final String LAST_NAME = "last_name";
+    private static final String FIRST_NAME = "first_name";
+    private static final String FATHER_NAME = "father_name";
     private static final String EMAIL = "email";
     private static final String MOBILE = "mobile";
     private static final String PASSWORD = "password";

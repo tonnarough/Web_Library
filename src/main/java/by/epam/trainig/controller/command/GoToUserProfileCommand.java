@@ -38,8 +38,7 @@ public enum GoToUserProfileCommand implements Command{
     @Override
     public CommandResponse execute(CommandRequest request) throws IOException, ServletException {
 
-        request.addToSession(URL, urlBuilder(request.getRequestURL(),
-                request.getParameter(PARAMETER_FROM_REQUEST)));
+        request.addToSession(URL, urlBuilder(request.getRequestURL(), request.getParameter(PARAMETER_FROM_REQUEST)));
 
         final Optional<Object> userFromSession = request.retrieveFromSession(USER_PARAMETER);
         final User user;
