@@ -23,32 +23,13 @@
 <fmt:message bundle="${loc}" key="label.author.name" var="author_name"/>
 <fmt:message bundle="${loc}" key="label.publishing.house" var="publishing_house"/>
 <link rel="stylesheet" href="style/update_book.css">
+<%--<script defer src="js/validation_update_user.js"></script>--%>
 
 <html>
 <head>
     <title>${title}</title>
 </head>
 <body>
-
-<style>
-    ::-webkit-scrollbar{
-        width: 10px;
-    }
-
-    ::-webkit-scrollbar-track{
-        border-radius: 5px;
-        box-shadow: inset 0 0 10px rgb(23, 42, 48);
-    }
-
-    ::-webkit-scrollbar-thumb{
-        border-radius: 5px;
-        background-color: #ad431a;
-    }
-
-    ::-webkit-scrollbar-thumb:hover{
-        background-color: #a43718;
-    }
-</style>
 
 <div class="updatebox">
 

@@ -28,6 +28,7 @@
 <fmt:message bundle="${loc}" key="label.birthday" var="birthday"/>
 <fmt:message bundle="${loc}" key="label.exit" var="exit"/>
 <link rel="stylesheet" href="style/update_user_profile.css">
+<%--<script defer src="js/validation_update_user.js"></script>--%>
 
 <html>
 <head>
@@ -50,23 +51,21 @@
     <div class="formbox">
         <form id="form" method="post" action="controller">
             <label>
-                <input type="hidden" name="command" value="update_book">
-                <input type="hidden" name="book" value="${requestScope.book.id}">
-                    <div>${login}:</div>
-                <div>${requestScope.user.login}</div>
+                <input type="hidden" name="command" value="update_user">
+                <div>${login}: ${requestScope.user.login}</div></br>
                 <div class="input-control">
                     <div>${last_name}:</div>
-                    <input id="lastName_id" type="text" name="lastName" value="${requestScope.userDetail.lastName}">
+                    <input id="lastName_id" type="text" name="last_name" value="${requestScope.userDetail.lastName}">
                     <div class="error"></div>
                 </div>
                 <div class="input-control">
                     <div>${first_name}:</div>
-                    <input id="firstName_id" type="text" name="firstName" value="${requestScope.userDetail.firstName}">
+                    <input id="firstName_id" type="text" name="first_name" value="${requestScope.userDetail.firstName}">
                     <div class="error"></div>
                 </div>
                 <div class="input-control">
                     <div>${father_name}:</div>
-                    <input id="fatherName_id" type="text" name="fatherName" value="${requestScope.userDetail.fatherName}">
+                    <input id="fatherName_id" type="text" name="father_name" value="${requestScope.userDetail.fatherName}">
                     <div class="error"></div>
                 </div>
                 <div class="input-control">
@@ -79,8 +78,7 @@
                     <input id="mobile_id" type="text" name="mobile" value="${requestScope.userDetail.mobile}">
                     <div class="error"></div>
                 </div>
-                    <div>${birthday}:</div>
-                    <div>${requestScope.userDetail.birthday}</div>
+                    <div>${birthday}: ${requestScope.userDetail.birthday}</div></br>
                 <div class="input-control">
                     <div>${newPassword}:</div>
                     <input id="new_password_id" type="password" name="newPassword">

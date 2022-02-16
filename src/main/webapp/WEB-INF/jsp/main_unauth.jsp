@@ -20,6 +20,7 @@
 <fmt:message bundle="${loc}" key="label.button.rus" var="ru"/>
 <fmt:message bundle="${loc}" key="label.button.eng" var="en"/>
 <link rel="stylesheet" href="style/main_unauth.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <html>
 <head>

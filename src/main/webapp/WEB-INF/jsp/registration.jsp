@@ -33,7 +33,6 @@
 </head>
 <body>
 <div class="registrationbox">
-
     <h1>${registration}</h1><br>
 
     <form class="ru" action="controller" method="post">

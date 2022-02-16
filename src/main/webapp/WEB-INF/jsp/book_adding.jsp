@@ -29,6 +29,7 @@
 <fmt:message bundle="${loc}" key="label.exit" var="exit"/>
 <fmt:message bundle="${loc}" key="label.add" var="add"/>
 <link rel="stylesheet" href="style/adding_book.css">
+<%--<script defer src="js/validation_adding_book.js"></script>--%>
 
 <html>
 <head>
@@ -56,27 +57,27 @@
                     <input type="file" name="book_file">
 
                         <div class="input-control">
-                            <input type="text" name="book_title" placeholder="${book_title}">
+                            <input id="book_title_id" type="text" name="book_title" placeholder="${book_title}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="age_limit" placeholder="${age_limit}">
+                            <input id="age_limit_id" type="text" name="age_limit" placeholder="${age_limit}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="number_of_page" placeholder="${number_of_page}">
+                            <input id="number_of_page_id" type="text" name="number_of_page" placeholder="${number_of_page}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="genre_title" placeholder="${genre}">
+                            <input id="genre_title_id" type="text" name="genre_title" placeholder="${genre}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="author_last_name" placeholder="${last_name}">
+                            <input id="author_last_name_id" type="text" name="author_last_name" placeholder="${last_name}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="author_first_name" placeholder="${first_name}">
+                            <input id="author_first_name_id" type="text" name="author_first_name" placeholder="${first_name}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
@@ -85,17 +86,17 @@
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="publishing_title"
+                            <input id="publishing_title_id" type="text" name="publishing_title"
                                    placeholder="${publishing_house}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="year_of_publishing"
+                            <input id="year_of_publishing_id" type="text" name="year_of_publishing"
                                    placeholder="${publishing_year}">
                             <div class="error"></div>
                         </div>
                         <div class="input-control">
-                            <input type="text" name="description"
+                            <input id="description_id" type="text" name="description"
                                    placeholder="${description}">
                             <div class="error"></div>
                         </div>

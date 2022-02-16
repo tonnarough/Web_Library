@@ -23,163 +23,186 @@
 <fmt:message bundle="${loc}" key="label.button.update" var="update"/>
 <fmt:message bundle="${loc}" key="label.button.profile" var="profile"/>
 <fmt:message bundle="${loc}" key="label.button.add.book" var="add_book"/>
+<fmt:message bundle="${loc}" key="lable.header.home" var="home"/>
+<fmt:message bundle="${loc}" key="lable.header.genres" var="genres"/>
+<fmt:message bundle="${loc}" key="lable.header.authors" var="authors"/>
+<link rel="stylesheet" href="style/main_auth.css">
 <html>
 <head>
     <title>${title}</title>
 </head>
 <body>
-<jwst:welcomeUser text="${welcome}"/>
-<form class="ru" action="controller" method="post">
-    <input type="hidden" name="command" value="set_locale"/>
-    <input type="hidden" name="local" value="ru_RU"/>
-    <input type="submit" value="${ru}">
-</form>
-<form class="en" action="controller" method="post">
-    <input type="hidden" name="command" value="set_locale"/>
-    <input type="hidden" name="local" value="en_US"/>
-    <input type="submit" value="${en}">
-</form>
-<form class="logout">
-    <a href="${pageContext.request.contextPath}/controller?command=logout">${logout}</a>
-</form>
 
-<form class="search">
-    <input type="hidden" name="command" value="search_book">
-    <input type="text" name="search" placeholder="${search}">
-    <input class="button" type="submit" value="${search}"><br>
-</form>
+<header>
+    <ul class="mnu_top">
+        <li><a href="${pageContext.request.contextPath}/controller?command=go_to_main_auth_page">${home}</a></li>
+        <div class="right_header">
+            <li>
+                <div class="search">
+                    <input type="hidden" name="command" value="search_book">
+                    <input type="text" name="search" placeholder="${search}">
+                    <input class="button" type="submit" value="${search}"><br>
+                </div>
+            </li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=go_to_genres_page">${genres}</a></li>
+            <li><a href="${pageContext.request.contextPath}/controller?command=go_to_authors_page">${authors}</a></li>
+            <li>
+                <div class="btns">
+                    <form class="ru" action="controller" method="post">
+                        <input type="hidden" name="command" value="set_locale"/>
+                        <input type="hidden" name="local" value="ru_RU"/>
+                        <input type="submit" value="${ru}">
+                    </form>
+                    <form class="en" action="controller" method="post">
+                        <input type="hidden" name="command" value="set_locale"/>
+                        <input type="hidden" name="local" value="en_US"/>
+                        <input type="submit" value="${en}">
+                    </form>
+                </div>
+            </li>
+            <li>
+                <a href="controller?command=go_to_user_profile_page">${profile}</a>
+            </li>
+            <li>
+                <jwst:welcomeUser text="${welcome}"/>
+            </li>
+            <li>
+                <a href="${pageContext.request.contextPath}/controller?command=logout">${logout}</a>
+            </li>
+        </div>
+    </ul>
+</header>
 
-<form>
-    <a href="controller?command=go_to_user_profile_page">${profile}</a>
-</form>
+<div class="bookbox">
+    <form>
+        <table>
+            <c:forEach var="book" items="${requestScope.books}" varStatus="loop">
 
-<form>
-    <table>
-        <c:forEach var="book" items="${requestScope.books}" varStatus="loop">
-
-            <c:set var="loops" scope="page" value="${loop.getIndex()}"/>
-            <c:if test="${loops eq 0 || loops % 3 eq 0}">
-                <c:set var="index" scope="page" value="${loops}"/>
-                <tr>
-            </c:if>
-            <td>
-                    ${book.picture} <br>
-                <a href="controller?command=go_to_book_detail_page&books=${book.id}">${book.title}</a></br>
-
-                <c:if test="${sessionScope.role_id eq 1}">
-                    <a href="controller?command=delete_book&books=${book.id}">${delete}</a></br>
-                    <a href="controller?command=go_to_update_book_page&books=${book.id}">${update}</a>
+                <c:set var="loops" scope="page" value="${loop.getIndex()}"/>
+                <c:if test="${loops eq 0 || loops % 3 eq 0}">
+                    <c:set var="index" scope="page" value="${loops}"/>
+                    <tr>
                 </c:if>
-            </td>
+                <td>
+                    <img src="/temp/${book.picture}">
+                    <a href="controller?command=go_to_book_detail_page&books=${book.id}">${book.title}</a></br>
 
-            <c:if test="${loops eq index+3}">
+                    <c:if test="${sessionScope.role_id eq 1}">
+                        <a href="controller?command=delete_book&books=${book.id}">${delete}</a></br>
+                        <a href="controller?command=go_to_update_book_page&books=${book.id}">${update}</a>
+                    </c:if>
+                </td>
+
+                <c:if test="${loops eq index+3}">
+                    </tr>
+                </c:if>
+            </c:forEach>
+        </table>
+    </form>
+
+
+    <div class="pagination">
+        <table>
+
+            <c:if test="${requestScope.currentPage ne 1}">
+                <tr>
+                    <a href="controller?command=go_to_main_auth_page&currentPage=${requestScope.currentPage-1}">${previous}</a>
                 </tr>
             </c:if>
-        </c:forEach>
-    </table>
-</form>
-<form>
-    <table>
 
-        <c:if test="${requestScope.currentPage ne 1}">
-            <tr>
-                <a href="controller?command=go_to_main_auth_page&currentPage=${requestScope.currentPage-1}">${previous}</a>
-            </tr>
-        </c:if>
+            <table>
+                <tr>
+                    <c:forEach begin="1" end="${requestScope.numberOfPage}" var="i">
+                        <c:choose>
+                            <c:when test="${requestScope.currentPage eq i}">
+                                <td>${i}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>
+                                    <a href="controller?command=go_to_main_auth_page&currentPage=${i}">${i}</a>
+                                </td>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </tr>
+            </table>
 
-        <table>
-            <tr>
-                <c:forEach begin="1" end="${requestScope.numberOfPage}" var="i">
-                    <c:choose>
-                        <c:when test="${requestScope.currentPage eq i}">
-                            <td>${i}</td>
-                        </c:when>
-                        <c:otherwise>
-                            <td>
-                                <a href="controller?command=go_to_main_auth_page&currentPage=${i}">${i}</a>
-                            </td>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </tr>
+            <c:if test="${requestScope.currentPage ne requestScope.numberOfPages}">
+                <tr>
+                    <a href="controller?command=go_to_main_auth_page&currentPage=${requestScope.currentPage+1}">${next}</a>
+                </tr>
+            </c:if>
         </table>
+    </div>
 
-        <c:if test="${requestScope.currentPage ne requestScope.numberOfPages}">
-            <tr>
-                <a href="controller?command=go_to_main_auth_page&currentPage=${requestScope.currentPage+1}">${next}</a>
-            </tr>
-        </c:if>
-    </table>
-</form>
-
-<c:if test="${sessionScope.role_id eq 1}">
-    <form>
-        <a href="controller?command=go_to_adding_book_page">${add_book}</a>
-    </form>
-</c:if>
-
+    <c:if test="${sessionScope.role_id eq 1}">
+        <form>
+            <a href="controller?command=go_to_adding_book_page">${add_book}</a>
+        </form>
+    </c:if>
+</div>
 </body>
 
 </html>
 
-<style>
-    body {
-        background-color: lightblue;
-    }
+<%--<style>--%>
+<%--    body {--%>
+<%--        background-color: lightblue;--%>
+<%--    }--%>
 
-    p {
-        font-size: 20px;
-        font-weight: 600;
-    }
+<%--    p {--%>
+<%--        font-size: 20px;--%>
+<%--        font-weight: 600;--%>
+<%--    }--%>
 
-    form.logout, p {
-        text-align: right;
-    }
+<%--    form.logout, p {--%>
+<%--        text-align: right;--%>
+<%--    }--%>
 
-    form.logout a {
-        text-decoration: none;
-        border: none;
-        outline: none;
-        color: black;
-        font-weight: 600;
-    }
+<%--    form.logout a {--%>
+<%--        text-decoration: none;--%>
+<%--        border: none;--%>
+<%--        outline: none;--%>
+<%--        color: black;--%>
+<%--        font-weight: 600;--%>
+<%--    }--%>
 
-    form.search {
-        text-align: center;
-    }
+<%--    form.search {--%>
+<%--        text-align: center;--%>
+<%--    }--%>
 
-    form.search [type="text"] {
-        width: 365px;
-    }
+<%--    form.search [type="text"] {--%>
+<%--        width: 365px;--%>
+<%--    }--%>
 
-    form.ru [type="submit"], form.en [type="submit"] {
-        text-decoration: none;
-        outline: none;
-        border: none;
-        background-color: lightblue;
-        position: relative;
-        bottom: 25px;
-        padding-left: 100px;
-    }
+<%--    form.ru [type="submit"], form.en [type="submit"] {--%>
+<%--        text-decoration: none;--%>
+<%--        outline: none;--%>
+<%--        border: none;--%>
+<%--        background-color: lightblue;--%>
+<%--        position: relative;--%>
+<%--        bottom: 25px;--%>
+<%--        padding-left: 100px;--%>
+<%--    }--%>
 
-    #ru:hover, #en:hover {
-        opacity: 0.7;
-    }
+<%--    #ru:hover, #en:hover {--%>
+<%--        opacity: 0.7;--%>
+<%--    }--%>
 
-    table {
-        background-color: lightblue;
+<%--    table {--%>
+<%--        background-color: lightblue;--%>
 
-    }
+<%--    }--%>
 
-    table a {
-        text-decoration: none;
-        outline: none;
-        color: black;
-    }
+<%--    table a {--%>
+<%--        text-decoration: none;--%>
+<%--        outline: none;--%>
+<%--        color: black;--%>
+<%--    }--%>
 
-    td {
-        border-bottom: 2px solid black;
-        border-right: 2px solid black;
-        text-align: center;
-    }
-</style>
+<%--    td {--%>
+<%--        border-bottom: 2px solid black;--%>
+<%--        border-right: 2px solid black;--%>
+<%--        text-align: center;--%>
+<%--    }--%>
+<%--</style>--%>
