@@ -67,7 +67,7 @@ public final class UserServiceImpl extends CommonService<User> implements UserSe
 
         try {
 
-            userDAO.update(updColumn, password, whereColumn, whereValue);
+            userDAO.update(updColumn, newPassword, whereColumn, whereValue);
 
         } catch (DAOException e) {
 

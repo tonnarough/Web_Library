@@ -59,7 +59,7 @@ public abstract class CommonService<T extends Entity> implements EntityService<T
 
             } catch (DAOException e) {
 
-                logger.error("Sql exception occurred while updating entity", e);
+                logger.error("Sql exception occurred while updating entity" + this.entityDAO, e);
                 throw new ServiceException("Sql exception occurred while updating entity", e);
 
             }
